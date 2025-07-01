@@ -6,13 +6,18 @@ These systems aim to demonstrate sound systems design practices through the lens
 
 ---
 
+## Included Modules
+
+* **[Atmospheric Recovery Unit (ARU)](./aru)**  
+  An intake and recycling system designed to recover waste atmosphere and restore it to usable internal mix.
+
 ## Repository Organization
 
 Each module resides in its own top-level folder and includes:
 
 * `ic10/` - Programmable chip scripts
 * `docs/` - Markdown-based deployment and operations guides
-* `docs_ic10` - On-station technical documentation, formatted for integration with IC10 systems
+* `docs_ic10/` - On-station technical documentation, formatted for integration with IC10 systems
 
 Modules without control logic are excluded from this repository but are available on the [Stationeering Systems Substack](https://stationeering.substack.com).
 

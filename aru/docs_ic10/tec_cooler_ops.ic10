@@ -1,0 +1,32 @@
+# THERMAL EXCHANGE COOLER - SYSTEM OPERATIONS
+# MANUAL
+#
+# SYSTEM PURPOSE
+# Flushes the cooling loop when the Thermal Regulator
+# is deactivated to prevent condensation buildup.
+#
+# FUNCTIONAL OVERVIEW
+# * Monitors the Thermal Regulator valve state.
+# * When the regulator is disabled, flushes any
+#   remaining gas from the pipe.
+#
+# HARDWARE INTERFACE
+# Controller Slot (db): IC10 - TEC-C
+# d0: Thermal Regulator (controls access to cooling)
+#
+# PIPE CONNECTIONS
+# Input: TEC-V Output2
+# Output: Unused
+# Output2: TEC-V Output2
+#
+# POWER DOMAIN
+# Runs on ARU-CRT (Red) line. Cooling evacuation
+# remains operational during transformer failure.
+#
+# NOTES
+# * Designed to fail safe: if the controller is offline,
+#   cooling gases may remain trapped, increasing the
+#   risk of condensation and pipe failure.
+# * Logic checks for Thermal Regulator power. If the
+#   valve is unpowered (disabled), evacuation is
+#   immediately triggered to prevent coolant entrapment.
