@@ -1,6 +1,6 @@
-# moon-standard-normal
+# moon-normal-standard
 
-**Modular engineering systems for Stationeers -- Moon, Standard Kit, Normal Difficulty**
+**Modular engineering systems for Stationeers -- Moon, Normal Difficulty, Standard Kit**
 
 These systems aim to demonstrate sound systems design practices through the lens of *Stationeers*, offering modular and efficient infrastructure for Moon-based progression.  Each module is built to balance clarity, reliability, and scalability--engineered to be both practical in-game and illustrative of broader architectural thinking.
 
