@@ -19,7 +19,7 @@ Each module resides in its own top-level folder and includes:
 * `docs/` - Markdown-based deployment and operations guides
 * `docs_ic10/` - On-station technical documentation, formatted for integration with IC10 systems
 
-Modules without control logic are excluded from this repository but are available on the [Stationeering Systems Substack](https://stationeering.substack.com).
+Modules without control logic are excluded from this repository but are available on the [Stationeering Systems Substack](https://stationeering.substack.com/s/moon).
 
 ## Contributing
 
