@@ -1,0 +1,78 @@
+# Readiness Checklist
+#
+# This checklist must be completed before full
+# system integration. It ensures all atmospheric
+# control systems are flashed, wired, labeled, and
+# verified.
+#
+# Failsafe Control
+#
+# 1. Verify no pressure on the TEC line
+# 2. Power on ARU-TEC
+# 3. Power on Failsafe Control
+# 4. Assert ARU-TEC shuts off
+# 5. Power off Failsafe Control
+# 6. Power on ARU-TEC
+#
+# 7. Confirm Volatiles filters installed on TEC-V
+# 8. Power on TEC-V (unflashed)
+# 9. Load gas above 6.3 kPa from the ECL
+# 10. Power on Failsafe Control
+# 11. Assert ARU-TEC remains on
+# 12. Power off Failsafe Control
+# 13. Power off TEC-V
+#
+# TEC-C Cooling Loop
+#
+# 1. Flash the TEC-C controller
+# 2. Power on TEC-C
+# 3. Assert TEC-C is IDLE
+# 4. Power on the Thermal Regulator valve
+# 5. Verify gas in cooling pipe, TEC-C stays IDLE
+# 6. Power off the Thermal Regulator valve
+# 7. Assert:
+#  - TEC-C active while flushing gas
+#  - Cooling pipe is empty after flush
+# TEC-V Filtration Controller
+#
+# 1. Flash the TEC-V controller
+# 2. Power on TEC-V
+# 3. Remove filters
+# 4. Assert TEC-V is IDLE
+#
+# 5. If volatile contamination suspected:
+#  - Open manual release valve
+#  - Confirm pipe is cleared
+#
+# 6. Restore filters
+# 7. Assert:
+#  - TEC-V activates if intake >= 6.3 kPa
+#  - TEC pipe < 48636 kPa
+#
+# 8. If TEC pipe exceeds 51675 kPa:
+#  - Shut down device
+#  - Review controller logic
+#
+# Note: Full verification may take time to confirm
+#
+# Thermal Activation Check
+#
+# 1. Lower TEC temp below 293.15 K
+#  - Assert heating is active
+# 2. Raise TEC temp above 303.15 K
+#  - Assert cooling is active
+# 3. Set temp within range
+#  - Assert no thermal elements are active
+#
+# PGL Filtration Control
+#
+# 1. Flash PGL controller
+# 2. Confirm activation triggers when:
+#  - Temp is within range
+#  - Pressure × volume ≥ 10000 kPa*L
+#  - Gas ratio meets threshold
+# 3. Remove filter during active cycle
+#  - Assert unit returns to IDLE
+# 4. Restore filter
+#
+# Note: Full verification may take time to confirm

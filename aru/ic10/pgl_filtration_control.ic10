@@ -1,0 +1,62 @@
+define IdealGasConstant 8.314
+define MinGasRatio 0.33
+define MaxPressure 48636 # kPa
+define MaxTemperature 303.15 # K
+define MinTemperature 293.15 # K
+define MinPressureVolume 10000 # kPa*L
+
+# Labels
+define CarbonDioxideGasPipe HASH("CarbonDioxideGasPipe")
+define NitrogenGasPipe HASH("NitrogenGasPipe")
+define OxygenGasPipe HASH("OxygenGasPipe")
+
+# Structures
+define Filtration HASH("StructureFiltration")
+
+alias GasPipe r0
+alias GasRatio r1
+alias Activate r2
+
+move sp 0
+main:
+  push LogicType.RatioCarbonDioxideInput
+  push CarbonDioxideGasPipe
+  push LogicType.RatioNitrogenInput
+  push NitrogenGasPipe
+  push LogicType.RatioOxygenInput
+  push OxygenGasPipe
+
+  yield
+loop:
+  beqz sp main
+  pop GasPipe
+  pop GasRatio
+  move Activate 0
+
+  # Check output pressure
+  lbn r15 Filtration GasPipe PressureOutput Average
+  bge r15 MaxPressure done
+
+  # Check filter life
+  lbns r15 Filtration GasPipe 0 Quantity Sum
+  lbns r14 Filtration GasPipe 1 Quantity Sum
+  add r15 r15 r14
+  beqz r15 done
+
+  # Check gas ratio
+  l r15 db GasRatio
+  blt r15 MinGasRatio done
+
+  # Check temperature
+  l r15 db TemperatureInput
+  bge r15 MaxTemperature done
+  blt r15 MinTemperature done
+
+  # Check pressure volume PV = nRT
+  l r14 db TotalMolesInput
+  mul r15 r15 r14
+  mul r15 r15 IdealGasConstant
+  sge Activate r15 MinPressureVolume
+done:
+  sbn Filtration GasPipe Mode Activate
+  j loop

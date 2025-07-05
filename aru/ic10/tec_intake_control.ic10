@@ -1,0 +1,80 @@
+define MaxPressure 48636 # kPa
+define MinPressure 6.3 # kPa
+define MaxTemperature 303.15 # K
+define MinTemperature 293.15 # K
+
+define MinPressureVolume 10000 # kPa
+define CPressure 6000 # kPa
+define CTemperature 435 # K
+define IdealGasConstant 8.314
+
+alias Heater d0
+alias Cooler d1
+
+alias CRatio r0
+div CRatio CPressure CTemperature
+
+alias PipePressure r1
+alias PipeTemperature r2
+alias PipeTotalMoles r3
+alias Activate r4
+
+main:
+  yield
+
+  # Load pipe data
+  l PipePressure db PressureOutput2
+  l PipeTemperature db TemperatureOutput2
+  l PipeTotalMoles db TotalMolesOutput2
+
+  # Reset if pipe is empty
+  brgtz PipePressure 5
+  s db Setting 0
+  s Heater On 0
+  s Cooler On 0
+  j pump
+
+  # Turn on the cooler if the gas is hot
+  sgt r15 PipeTemperature MaxTemperature
+  s Cooler On r15
+
+  # Turn on the heater if the gas is cold
+  slt r15 PipeTemperature MinTemperature
+  s Heater On r15
+
+pump:
+  move Activate 0
+
+  # Idle if there are no input gases
+  l r15 db PressureInput
+  blt r15 MinPressure done
+
+  # Idle if the filter is empty
+  ls r15 db 0 Quantity
+  ls r14 db 1 Quantity
+  add r15 r15 r14
+  beqz r15 done
+
+  # Idle if pressure is high
+  bge PipePressure MaxPressure done
+
+  move Activate 1
+
+  # Activate if pressure * volume is low
+  mul r15 PipeTotalMoles PipeTemperature
+  mul r15 r15 IdealGasConstant
+  blt r15 MinPressureVolume done
+
+  # Activate if the target ratio < condensation ratio
+  l r15 db RatioOxygenOutput2
+  l r14 db RatioNitrogenOutput2
+  add r15 r15 r14
+  l r14 db RatioCarbonDioxideOutput2
+  add r15 r15 r14
+  mul r14 CRatio PipeTemperature
+  div r14 r14 PipePressure
+  bge r15 r14 main
+
+done:
+  s db Mode Activate
+  j main

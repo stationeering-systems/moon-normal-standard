@@ -1,0 +1,10 @@
+alias Cooler d0
+
+main:
+  l r15 Cooler Power
+  l r14 db PressureInput
+  sgtz r14 r14
+  select r15 r15 0 r14
+  s db Mode r15
+  yield
+  j main
