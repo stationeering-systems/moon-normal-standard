@@ -18,7 +18,7 @@ Captures waste gases from base subsystems and delivers them to the Thermal Excha
 * The back-pressure regulator is connected to the ARU-CRT line (Red), allowing pressure venting to continue even during power outages.
 
 ## NOTES
-* The ECL is **logic-agnostic**: it contains not logical or programmable components.
+* The ECL is **logic-agnostic**: it contains no logical or programmable components.
 * All regulation and operational state transitions are handled downstream by the TEC-V controller.
 * Pressure in the ECL may spike briefly if the TEC is actively conditioning gases--this is expected behavior.
   
