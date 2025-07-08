@@ -12,8 +12,8 @@ Flushes the cooling loop when the Thermal Regulator is deactivated to prevent co
 * **d0:** Thermal Regulator (controls access to the cooling loop)
 
 ### PIPE CONNECTIONS
-**Input:** TEC-V Output2
-**Output:** Unused
+**Input:** TEC-V Output2  
+**Output:** Unused  
 **Output2:** TEC-V Output2
 
 ## POWER DOMAIN
