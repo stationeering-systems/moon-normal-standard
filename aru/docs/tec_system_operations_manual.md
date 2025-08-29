@@ -67,7 +67,7 @@ Pumps waste gases from the **Exchange Capture Line** into the **Thermal Exchange
 
 **STEP 2: Check TEC "Output Pipe"**
 
-2.1 Is the output pressure * volume >= 30,000 kPa?
+2.1 Is the output pressure * volume >= 30,000 kPa\*L?
 * IF NO  -  Continue to Step 3
 * IF YES -  System Normal
 
