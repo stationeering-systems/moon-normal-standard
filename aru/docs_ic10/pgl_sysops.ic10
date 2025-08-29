@@ -21,13 +21,13 @@
 #
 # CONFIGURATION PARAMETERS
 # MaxPressure:         48636
-# MaxTemperature:      303.15
+# MaxTemperature:      298.15
 # MinTemperature:      293.15
 # MinPressureVolume:   30000
 # MinRatio:            0.33
-# CarbonDioxideGasPipe: "CarbonDioxideGasPipe"
-# NitrogenGasPipe:      "NitrogenGasPipe"
-# OxygenGasPipe:        "OxygenGasPipe"
+# MainCarbonDioxide:   "MainCarbonDioxide"
+# MainNitrogen:        "MainNitrogen"
+# MainOxygen:          "MainOxygen"
 #
 # DEVICE MAPPING
 # Each gas type must include:
@@ -60,7 +60,7 @@
 #   YES → Replace filters and retest.
 #
 # STEP 4: Check Input Pipe (from TEC)
-# 4.1 Is temperature between 293.15–303.15 K?
+# 4.1 Is temperature between 293.15–298.15 K?
 #   NO  → System Normal.
 #   YES → Continue to 4.2
 #

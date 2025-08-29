@@ -77,7 +77,7 @@ This checklist must be completed before full system integration.  It ensures all
 
 1. Set TEC pipe temperature:
    - Below minimum (293.15 K) → Assert **heating is active**
-   - Above maximum (303.15 K) → Assert **cooling is active**
+   - Above maximum (298.15 K) → Assert **cooling is active**
    - Within target range → Assert **no active heating/cooling**
 
 ---

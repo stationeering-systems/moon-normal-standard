@@ -14,16 +14,16 @@ Pumps and separates gases from the **Thermal Exchange Core** to the **Processed 
 * **Controller Slot (db)**: IC10 - Any PGL unit
 
 ## CONFIGURATION PARAMETERS
-| Variable               | Description                                       | Setting                  |
-| ---------------------- | ------------------------------------------------- | ------------------------ |
-| `MaxPressure`          | Maximum Pipe Pressure (kPa)                       | `48636`                  |
-| `MaxTemperature`       | Maximum Pipe Temperature (K)                      | `303.15`                 |
-| `MinTemperature`       | Minimum Pipe Temperature (K)                      | `293.15`                 |
-| `MinPressureVolume`    | Minimum Pipe Pressure Volume (kPa*L)              | `30000`                  |
-| `MinRatio`             | Minimum Target Gas Pressure Ratio                 | `0.33`                   |
-| `CarbonDioxideGasPipe` | label                                             | `"CarbonDioxideGasPipe"` |
-| `NitrogenGasPipe`      | label                                             | `"NitrogenGasPipe"`      |
-| `OxygenGasPipe`        | label                                             | `"OxygenGasPipe"`        |
+| Variable            | Description                                       | Setting        |
+|---------------------| ------------------------------------------------- |----------------|
+| `MaxPressure`       | Maximum Pipe Pressure (kPa)                       | `48636`        |
+| `MaxTemperature`    | Maximum Pipe Temperature (K)                      | `298.15`       |
+| `MinTemperature`    | Minimum Pipe Temperature (K)                      | `293.15`       |
+| `MinPressureVolume` | Minimum Pipe Pressure Volume (kPa*L)              | `30000`        |
+| `MinRatio`          | Minimum Target Gas Pressure Ratio                 | `0.33`         |
+| `MainCarbonDioxide` | label                                             | `"MainCarbonDioxide"` |
+| `MainNitrogen`      | label                                             | `"MainNitrogen"` |
+| `MainOxygen`        | label                                             | `"MainOxygen"` |
 
 ### DEVICE MAPPING
 Each gas type must include:
@@ -60,7 +60,7 @@ Each gas type must include:
 
 **STEP 4: Check TEC "Input Pipe"**
 
-4.1 Is the input temperature between 293.15 K (20 C) and 303.15 K (30 C)?
+4.1 Is the input temperature between 293.15 K (20 C) and 298.15 K (30 C)?
 * IF NO  - System Normal
 * IF YES - Continue to Step 4.2
 

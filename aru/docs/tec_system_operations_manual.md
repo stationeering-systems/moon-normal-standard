@@ -25,14 +25,14 @@ Pumps waste gases from the **Exchange Capture Line** into the **Thermal Exchange
 * **Output2**: PGL Intake and Cooling Loop
 
 ## CONFIGURATION PARAMETERS
-| Variable            | Description                                       | Setting |
-| ------------------- | ------------------------------------------------- | ------- |
-| `MaxPressure`       | Maximum Pipe Pressure (kPa)                       | `48636` |
-| `MinPressure`       | Minimum Pipe Pressure (kPa)                       | `6.3`   |
-| `MaxTemperature`    | Maximum Pipe Temperature (K)                      | `303.15`|
-| `MinTemperature`    | Minimum Pipe Temperature (K)                      | `293.15`|
-| `MinPressureVolume` | Minimum Pipe Pressure Volume (kPa*L)              | `30000` |
-| `CondensationRatio` | Condensation Purge Gas Ratio (kPa/K)              | `13.79` |
+| Variable            | Description                                       | Setting  |
+| ------------------- | ------------------------------------------------- |----------|
+| `MaxPressure`       | Maximum Pipe Pressure (kPa)                       | `48636`  |
+| `MinPressure`       | Minimum Pipe Pressure (kPa)                       | `6.3`    |
+| `MaxTemperature`    | Maximum Pipe Temperature (K)                      | `298.15` |
+| `MinTemperature`    | Minimum Pipe Temperature (K)                      | `293.15` |
+| `MinPressureVolume` | Minimum Pipe Pressure Volume (kPa*L)              | `30000`  |
+| `CondensationRatio` | Condensation Purge Gas Ratio (kPa/K)              | `13.79`  |
 
 ## FAILSAFE
 * If the TEC pipe's pressure drops to zero, a logic circuit disables the transformer to prevent additional gas loss.  This requires a **manual reset:**

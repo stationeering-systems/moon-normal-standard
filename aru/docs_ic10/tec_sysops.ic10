@@ -35,7 +35,7 @@
 # CONFIGURATION PARAMETERS
 # MaxPressure: 48636 (kPa)
 # MinPressure: 6.3 (kPa)
-# MaxTemperature: 303.15 (K)
+# MaxTemperature: 298.15 (K)
 # MinTemperature: 293.15 (K)
 # MinPressureVolume: 30000 (kPa*L)
 # CondensationRatio: 13.79 (kPa/K)

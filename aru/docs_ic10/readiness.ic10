@@ -59,7 +59,7 @@
 #
 # 1. Lower TEC temp below 293.15 K
 #  - Assert heating is active
-# 2. Raise TEC temp above 303.15 K
+# 2. Raise TEC temp above 298.15 K
 #  - Assert cooling is active
 # 3. Set temp within range
 #  - Assert no thermal elements are active
