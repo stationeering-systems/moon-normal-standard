@@ -1,0 +1,118 @@
+# Configuration
+define SafetyPressure 48636
+define PressureTolerance 3 # kPa
+define MinDisplacement 0.3 # kPa
+define WaitDelay 2 # tick
+# Labels
+define LocalCarbonDioxide HASH("ZoneCarbonDioxide")
+define LocalNitrogen HASH("ZoneNitrogen")
+define LocalOxygen HASH("ZoneOxygen")
+define LocalExhaust HASH("ZoneExhaust")
+# Structures
+define GasSensor HASH("StructureGasSensor")
+define ActiveVent HASH("StructureActiveVent")
+define PipeAnalyzer HASH("StructurePipeAnalysizer")
+define VolumePump HASH("StructureVolumePump")
+# Device Ports
+define DeviceRatioCarbonDioxide 2
+define DeviceRatioNitrogen 3
+define DeviceRatioOxygen 4
+# Inputs
+alias PressureSetting d0
+alias SizeSetting d1
+alias RatioCarbonDioxideSetting d2
+alias RatioNitrogenSetting d3
+alias RatioOxygenSetting d4
+# Variables
+alias GasType r0
+alias RatioType r1
+alias TargetRatio r2
+alias CurrentPressure r3
+alias TargetPressure r4
+alias MinPressure r5
+alias PumpVolume r6
+alias Wait r7
+
+move Wait 0
+sb PipeAnalyzer On 1
+sb PipeAnalyzer Lock 1
+move sp 0
+main:
+  push DeviceRatioCarbonDioxide
+  push LogicType.RatioCarbonDioxide
+  push LocalCarbonDioxide
+  push DeviceRatioNitrogen
+  push LogicType.RatioNitrogen
+  push LocalNitrogen
+  push DeviceRatioOxygen
+  push LogicType.RatioOxygen
+  push LocalOxygen
+load:
+  yield
+  sb ActiveVent On 0
+  sb ActiveVent Open 1
+  # Calculate waste pump volume
+  lbn r15 PipeAnalyzer LocalExhaust Pressure Average
+  lbn r14 PipeAnalyzer LocalExhaust Volume Sum
+  sub r13 r15 SafetyPressure
+  div r13 r13 r15
+  mul PumpVolume r13 r14
+  # Activate waste pump
+  lbn r15 VolumePump LocalExhaust Maximum Sum
+  lbn r14 VolumePump LocalExhaust Maximum Maximum
+  div r13 r15 r14 # number of devices
+  div r13 PumpVolume r13
+  min r13 r13 r14
+  max r13 r13 0 # pump setting
+  sgtz r12 r13 # pump on
+  sbn VolumePump LocalExhaust Setting r13
+  sbn VolumePump LocalExhaust On r12
+  # Load values and settings
+  sub Wait Wait 1
+  bgtz Wait load
+  move Wait 0
+  lb CurrentPressure GasSensor Pressure Average
+  l TargetPressure PressureSetting Setting
+  sub MinPressure TargetPressure PressureTolerance
+body:
+  beqz sp main
+  pop GasType
+  pop RatioType
+  pop r15
+  # Load the ratio
+  bdns dr15 body
+  l TargetRatio dr15 Setting
+  lb r14 GasSensor RatioType Average
+  # Calculate the size of the correction
+  sub r13 TargetRatio r14
+  sub r12 1 TargetRatio
+  div r13 r13 r12
+  mul r13 TargetPressure r13
+  bltz r13 outward # no correction needed
+  push r15
+  push RatioType
+  push GasType
+  add r13 r13 MinDisplacement
+  min r13 r13 PressureTolerance
+  sub TargetPressure TargetPressure r13
+  move MinPressure CurrentPressure
+outward:
+  bgt CurrentPressure TargetPressure inward
+  bgt CurrentPressure MinPressure body
+  j vent
+inward:
+  move GasType LocalExhaust
+vent:
+  l r15 SizeSetting Setting
+  lbn r14 ActiveVent GasType Open Sum
+  sub r13 TargetPressure CurrentPressure
+  mul r15 r15 r13
+  mul r14 r14 r14
+  div r15 r15 r14
+  slez r14 r15
+  add r13 r15 CurrentPressure
+  sbn ActiveVent GasType Mode r14
+  sbn ActiveVent GasType PressureExternal r13
+  sbn ActiveVent GasType On 1
+  move Wait WaitDelay
+  j load

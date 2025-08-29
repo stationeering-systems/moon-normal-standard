@@ -10,6 +10,8 @@ These systems aim to demonstrate sound systems design practices through the lens
 
 * **[Atmospheric Recovery Unit (ARU)](./aru)**  
   An intake and recycling system designed to recover waste atmosphere and restore it to usable internal mix.
+* **[Life Support (LS)](./life_support)**  
+  Atmospheric control systems for zone regulation.
 
 ## Repository Organization
 
