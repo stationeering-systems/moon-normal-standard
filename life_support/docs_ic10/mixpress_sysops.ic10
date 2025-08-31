@@ -1,0 +1,106 @@
+# MIXTURE-PRESSURE CONTROL - OPERATIONS MANUAL
+#
+# SYSTEM PURPOSE
+# Regulates zone pressure and atmospheric mixture
+# while maintaining safe exhaust pipe pressures.
+#
+# FUNCTIONAL OVERVIEW
+# * Activates ventilation systems to maintain
+#   correct atmospheric pressures and gas ratios.
+# * Monitors waste pipe pressure to ensure safe
+#   levels and activates pumps as needed.
+# * Inward vents take precedence over outward
+#   vents when zone pressure exceeds target.
+#
+# HARDWARE INTERFACE
+# * d0: Pressure kPa
+# * d1: Zone Size GU
+# * d2: Ratio Carbon Dioxide decimal
+# * d3: Ratio Nitrogen decimal
+# * d4: Ratio Oxygen decimal
+#
+# CONFIGURATION PARAMETERS
+# SafetyPressure:       48636
+# PressureTolerance:    3
+# MinDisplacement:      0.3
+# Delay:                2
+# Precision:            0.001
+# LocalCarbonDioxide:   "ZoneCarbonDioxide"
+# LocalNitrogen:        "ZoneNitrogen"
+# LocalOxygen:          "ZoneOxygen"
+# LocalExhaust:         "ZoneExhaust"
+#
+# GAS SELECTION BEHAVIOR
+# * Pressure Corrections: Opportunistic
+#   selection - first available gas activates.
+# * Composition Corrections: Priority selection
+#   - deficient gas maintains priority until
+#   composition targets are achieved.
+#
+# MAINTENANCE & TROUBLESHOOTING
+#
+# HIGH ZONE PRESSURE
+#
+# STEP 1: Check Power
+# 1.1 Are inward vents powered/pulsing (1-sec)?
+#   NO  → Check controller/network power.
+#   YES → Continue to Step 2.
+#
+# STEP 2: Check Flow Rates
+# 2.1 Are inward vents operating optimally?
+#   NO  → Continue to Step 2.2
+#   YES → Check for circulation/gas leaks.
+#
+# 2.2 Is exhaust pressure above safety limits?
+#   NO  → Further investigation required.
+#   YES → Verify pump activation/throughput.
+#
+# Emergency: Manual vent via airlock valve
+#
+# LOW ZONE PRESSURE
+#
+# STEP 1: Check Power
+# 1.1 Are outward vents powered/pulsing (1-sec)?
+#   NO  → Check controller/network power.
+#   YES → Continue to Step 2.
+#
+# STEP 2: Check Flow Rates
+# 2.1 Are outward vents operating optimally?
+#   NO  → Continue to Step 2.2
+#   YES → Check for circulation/gas leaks.
+#
+# 2.2 Is gas pressure ≥471 kPa in local pipe?
+#   NO  → Continue to Step 3.
+#   YES → Further investigation required.
+#
+# STEP 3: Check Distribution Network
+# 3.1 Is main line pressure ≥471 kPa?
+#   NO  → Refer to PGL System Operations.
+#   YES → Check valve installation/position.
+#
+# LOW GAS COMPOSITION
+#
+# STEP 1: Check Power
+# 1.1 Are target vents powered/pulsing (2-sec)?
+#   NO  → Check controller/network power.
+#   YES → Continue to Step 2.
+#
+# STEP 2: Check Flow Rates
+# 2.1 Are target vents operating optimally?
+#   NO  → Continue to Step 2.2
+#   YES → Check for circulation/gas leaks.
+#
+# 2.2 Is target gas pressure ≥471 kPa?
+#   NO  → Continue to Step 3.
+#   YES → Further investigation required.
+#
+# STEP 3: Check Distribution Network
+# 3.1 Is main line pressure ≥471 kPa?
+#   NO  → Refer to PGL System Operations.
+#   YES → Check valve installation/position.
+#
+# NOTES
+# * Vents pulse activation rather than run
+#   continuously to allow equalization time.
+# * Waste management operates independently
+#   of atmospheric control functions.
