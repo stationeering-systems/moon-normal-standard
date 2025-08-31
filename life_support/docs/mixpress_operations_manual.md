@@ -32,7 +32,8 @@ Regulates zone pressure and atmospheric mixture while maintaining safe exhaust p
 | `SafetyPressure`     | Safety pipe pressure (kPa)                   | `48636`               |
 | `PressureTolerance`  | Pipe pressure deviation (kPa)                | `3`                   |
 | `MinDisplacement`    | Minimum gas displacement (kPa)               | `0.3`                 |
-| `WaitDelay`          | Delay between atmospheric adjustments (tick) | `2`                   |
+| `Delay`              | Delay between atmospheric adjustments (tick) | `2`                   |
+| `Precision`          | Decimal precision for value comparisons      | `0.001`               |
 | `LocalCarbonDioxide` | label                                        | `"ZoneCarbonDioxide"` |
 | `LocalNitrogen`      | label                                        | `"ZoneNitrogen"`      |
 | `LocalOxygen`        | label                                        | `"ZoneOxygen"`        |

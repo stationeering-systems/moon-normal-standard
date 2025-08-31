@@ -2,7 +2,8 @@
 define SafetyPressure 48636
 define PressureTolerance 3 # kPa
 define MinDisplacement 0.3 # kPa
-define WaitDelay 2 # tick
+define Delay 2 # tick
+define Precision 0.001
 # Labels
 define LocalCarbonDioxide HASH("ZoneCarbonDioxide")
 define LocalNitrogen HASH("ZoneNitrogen")
@@ -28,10 +29,11 @@ alias GasType r0
 alias RatioType r1
 alias TargetRatio r2
 alias CurrentPressure r3
-alias TargetPressure r4
-alias MinPressure r5
-alias PumpVolume r6
-alias Wait r7
+alias CurrentPressureTrunc r4
+alias TargetPressure r5
+alias MinPressure r6
+alias PumpVolume r7
+alias Wait r8
 
 move Wait 0
 sb PipeAnalyzer On 1
@@ -51,13 +53,12 @@ load:
   yield
   sb ActiveVent On 0
   sb ActiveVent Open 1
-  # Calculate waste pump volume
+  # Check waste pump
   lbn r15 PipeAnalyzer LocalExhaust Pressure Average
   lbn r14 PipeAnalyzer LocalExhaust Volume Sum
   sub r13 r15 SafetyPressure
   div r13 r13 r15
   mul PumpVolume r13 r14
-  # Activate waste pump
   lbn r15 VolumePump LocalExhaust Maximum Sum
   lbn r14 VolumePump LocalExhaust Maximum Maximum
   div r13 r15 r14 # number of devices
@@ -67,40 +68,41 @@ load:
   sgtz r12 r13 # pump on
   sbn VolumePump LocalExhaust Setting r13
   sbn VolumePump LocalExhaust On r12
-  # Load values and settings
   sub Wait Wait 1
   bgtz Wait load
   move Wait 0
+  # Load values and settings
   lb CurrentPressure GasSensor Pressure Average
   l TargetPressure PressureSetting Setting
   sub MinPressure TargetPressure PressureTolerance
+  div CurrentPressureTrunc CurrentPressure Precision
+  floor CurrentPressureTrunc CurrentPressureTrunc
+  mul CurrentPressureTrunc CurrentPressureTrunc Precision
 body:
   beqz sp main
   pop GasType
   pop RatioType
   pop r15
-  # Load the ratio
   bdns dr15 body
   l TargetRatio dr15 Setting
   lb r14 GasSensor RatioType Average
+  bgt r14 TargetRatio outward
+  push r15
+  push RatioType
+  push GasType
   # Calculate the size of the correction
   sub r13 TargetRatio r14
   sub r12 1 TargetRatio
   div r13 r13 r12
-  mul r13 TargetPressure r13
-  bltz r13 outward # no correction needed
-  push r15
-  push RatioType
-  push GasType
+  mul r13 r13 TargetPressure
   add r13 r13 MinDisplacement
   min r13 r13 PressureTolerance
-  sub TargetPressure TargetPressure r13
-  move MinPressure CurrentPressure
+  sub r13 TargetPressure r13
+  ble CurrentPressureTrunc r13 vent
+  move TargetPressure r13
 outward:
-  bgt CurrentPressure TargetPressure inward
-  bgt CurrentPressure MinPressure body
-  j vent
-inward:
+  blt CurrentPressureTrunc MinPressure vent
+  ble CurrentPressureTrunc TargetPressure body
   move GasType LocalExhaust
 vent:
   l r15 SizeSetting Setting
@@ -114,5 +116,5 @@ vent:
   sbn ActiveVent GasType Mode r14
   sbn ActiveVent GasType PressureExternal r13
   sbn ActiveVent GasType On 1
-  move Wait WaitDelay
+  move Wait Delay
   j load

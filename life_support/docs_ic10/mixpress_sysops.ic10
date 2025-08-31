@@ -23,7 +23,8 @@
 # SafetyPressure:       48636
 # PressureTolerance:    3
 # MinDisplacement:      0.3
-# WaitDelay:            2
+# Delay:                2
+# Precision:            0.001
 # LocalCarbonDioxide:   "ZoneCarbonDioxide"
 # LocalNitrogen:        "ZoneNitrogen"
 # LocalOxygen:          "ZoneOxygen"
