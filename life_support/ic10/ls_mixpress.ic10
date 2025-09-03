@@ -109,7 +109,6 @@ vent:
   lbn r14 ActiveVent GasType Open Sum
   sub r13 TargetPressure CurrentPressure
   mul r15 r15 r13
-  mul r14 r14 r14
   div r15 r15 r14
   slez r14 r15
   add r13 r15 CurrentPressure
