@@ -17,7 +17,7 @@ Flushes the cooling loop when the Thermal Regulator is deactivated to prevent co
 **Output2:** TEC-V Output2
 
 ## POWER DOMAIN
-* Runs on **ARU-CRT (Red)** power, ensuring evacuation remains available during transformer loss.
+* Runs on **TEC-BKP**, ensuring evacuation remains available during transformer loss.
 
 ## NOTES
 * Designed to **fail safe**: if controller is offline, cooling gases may remain trapped, increasing condensation risk.

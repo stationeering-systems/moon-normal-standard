@@ -35,14 +35,14 @@ Pumps waste gases from the **Exchange Capture Line** into the **Thermal Exchange
 | `CondensationRatio` | Condensation Purge Gas Ratio (kPa/K)              | `13.79`  |
 
 ## FAILSAFE
-* If the TEC pipe's pressure drops to zero, a logic circuit disables the transformer to prevent additional gas loss.  This requires a **manual reset:**
+* If the TEC pipe's pressure drops to zero, a logic circuit disables the TEC-FS area power controller to prevent additional gas loss.  This requires a **manual reset:**
 
 ### Failsafe Reset Procedure:
 1. **Confirm** output pressure is `0 kPa`.
 2. **Verify** that the manual release valve is closed.
 3. **Inspect** and replace any damaged pipes from TEC pipe to the filtration system.
 4. **Disable** the logic writer labeled `Failsafe Control`.
-5. **Manually enable** the transformer.
+5. **Manually enable** the area power controller.
 6. **Once pressure stabilizes**, re-enable the `Failsafe Control`.
 
 > If the transformer is **on and receiving power**, but the **filtration unit is not**, it's likely a power distribution issue. Double-check wiring and transformer wattage.
@@ -57,11 +57,11 @@ Pumps waste gases from the **Exchange Capture Line** into the **Thermal Exchange
 * IF NO  - Continue to Step 1.2
 * IF YES - Continue to Step 2
 
-1.2 Is the `ARU-TEC` transformer on?
+1.2 Is the `TEC-FS` power controller on?
 * IF NO  - System failsafe engaged.  Refer to [Failsafe Reset Procedure](#failsafe-reset-procedure).
 * IF YES - Continue to step 1.3
 
-1.3 Is the `ARU-TEC` transformer powered?
+1.3 Is the `TEC` transformer powered?
 * IF NO  - Check ARU system power
 * IF YES - Double check wiring and transformer wattage.
 
@@ -71,7 +71,7 @@ Pumps waste gases from the **Exchange Capture Line** into the **Thermal Exchange
 * IF NO  -  Continue to Step 3
 * IF YES -  System Normal
 
-**STEP 3: Check TEC Filtration Unit**
+**STEP 3: Check TEC-V Filtration Unit**
 
 3.1 Are the filters empty?
 * IF NO  - Continue to Step 4
@@ -87,6 +87,6 @@ Pumps waste gases from the **Exchange Capture Line** into the **Thermal Exchange
 - Operates continuously while exhaust gases are present.
 - Pump activates when the valve is not powered to prevent pipe damage from over-cooling.
     - Pump operates on a backup power system for redundancy.
-- The Failsafe will deactivate the TEC Filtration unit, Cooling Valve and Pipe Heater.
+- The Failsafe will deactivate the TEC-V Filtration unit, Cooling Valve and Pipe Heater.
 
 > For cooling loop control logic see the [TEC Cooler Operations Manual](tec_cooler_operations_manual.md)

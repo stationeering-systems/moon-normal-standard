@@ -19,17 +19,17 @@ This checklist must be completed before full system integration.  It ensures all
 ### Failsafe Control
 
 1. Verify that there is no pressure on the TEC line
-2. Power **on** `ARU-TEC`
+2. Power **on** `TEC-FS`
 3. Power **on** `Failsafe Control`
-4. Assert `ARU-TEC` shuts off
+4. Assert `TEC-FS` shuts off
 5. Power **off** `Failsafe Control`
-6. Power **on** `ARU-TEC`
+6. Power **on** `TEC-FS`
 
 7. Confirm **Volatiles filters** are installed on `TEC-V`
 8. Power **on** `TEC-V` (unflashed)
 9. Load gas (> 6.3 kPa) from the ECL
 10. Power **on** `Failsafe Control`
-11. Assert `ARU-TEC` remains **on**.
+11. Assert `TEC-FS` remains **on**.
 12. Power **off** `Failsafe Control`
 13. Power **off** `TEC-V`
 
