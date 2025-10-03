@@ -20,7 +20,7 @@
 # Output2: TEC-V Output2
 #
 # POWER DOMAIN
-# Runs on ARU-CRT (Red) line. Cooling evacuation
+# Runs on TEC-BKP line. Cooling evacuation
 # remains operational during transformer failure.
 #
 # NOTES

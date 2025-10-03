@@ -15,7 +15,7 @@ Captures waste gases from base subsystems and delivers them to the Thermal Excha
 * **Auxiliary:** Passive drain segment connected to a back-pressure regulator and optional meter.
 
 ## POWER DOMAIN
-* The back-pressure regulator is connected to the ARU-CRT line (Red), allowing pressure venting to continue even during power outages.
+* The back-pressure regulator is connected to both ECL-MAIN and ECL-ALT-BKP area power controllers, allowing pressure venting to continue even during power outages.
 
 ## NOTES
 * The ECL is **logic-agnostic**: it contains no logical or programmable components.

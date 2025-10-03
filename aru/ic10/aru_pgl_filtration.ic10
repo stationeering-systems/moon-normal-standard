@@ -1,4 +1,3 @@
-define IdealGasConstant 8.314
 define MinGasRatio 0.33
 define MaxPressure 48636 # kPa
 define MaxTemperature 298.15 # K
@@ -55,7 +54,7 @@ loop:
   # Check pressure volume PV = nRT
   l r14 db TotalMolesInput
   mul r15 r15 r14
-  mul r15 r15 IdealGasConstant
+  mul r15 r15 rgas
   sge Activate r15 MinPressureVolume
 done:
   sbn Filtration GasPipe Mode Activate

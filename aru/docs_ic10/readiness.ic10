@@ -8,17 +8,17 @@
 # Failsafe Control
 #
 # 1. Verify no pressure on the TEC line
-# 2. Power on ARU-TEC
+# 2. Power on TEC-FS
 # 3. Power on Failsafe Control
-# 4. Assert ARU-TEC shuts off
+# 4. Assert TEC-FS shuts off
 # 5. Power off Failsafe Control
-# 6. Power on ARU-TEC
+# 6. Power on TEC-FS
 #
 # 7. Confirm Volatiles filters installed on TEC-V
 # 8. Power on TEC-V (unflashed)
 # 9. Load gas above 6.3 kPa from the ECL
 # 10. Power on Failsafe Control
-# 11. Assert ARU-TEC remains on
+# 11. Assert TEC-FS remains on
 # 12. Power off Failsafe Control
 # 13. Power off TEC-V
 #
@@ -57,11 +57,11 @@
 #
 # Thermal Activation Check
 #
-# 1. Lower TEC temp below 293.15 K
+# 1. Lower TEC gas temp below 293.15 K
 #  - Assert heating is active
-# 2. Raise TEC temp above 298.15 K
+# 2. Raise TEC gas temp above 298.15 K
 #  - Assert cooling is active
-# 3. Set temp within range
+# 3. Set gas temp within range
 #  - Assert no thermal elements are active
 #
 # PGL Filtration Control

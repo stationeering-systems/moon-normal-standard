@@ -69,7 +69,7 @@ Each gas type must include:
 * IF YES - Continue to Step 4.3
 
 4.3 Is targeted gas ratio >= 0.33?
-* IF NO  - Sytem Normal
+* IF NO  - System Normal
 * IF YES - Further investigation is required
 
 ## NOTES

@@ -24,9 +24,9 @@
 # a back-pressure regulator and optional meter.
 #
 # POWER DOMAIN
-# * The back-pressure regulator is connected to the
-# ARU-CRT line (Red), allowing pressure venting
-# to continue even during power outages.
+# * The back-pressure regulator is connected to
+# ECL-MAIN and ECL-ALT-BKP, allowing pressure
+# venting to continue even during power outages.
 #
 # NOTES
 # * The ECL is logic-agnostic: it contains no logical

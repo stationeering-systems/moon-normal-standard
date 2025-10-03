@@ -6,7 +6,6 @@ define MinTemperature 293.15 # K
 define MinPressureVolume 10000 # kPa
 define CPressure 6000 # kPa
 define CTemperature 435 # K
-define IdealGasConstant 8.314
 
 alias Heater d0
 alias Cooler d1
@@ -62,7 +61,7 @@ pump:
 
   # Activate if pressure * volume is low
   mul r15 PipeTotalMoles PipeTemperature
-  mul r15 r15 IdealGasConstant
+  mul r15 r15 rgas
   blt r15 MinPressureVolume done
 
   # Activate if the target ratio < condensation ratio
