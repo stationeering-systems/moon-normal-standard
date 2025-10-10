@@ -1,7 +1,7 @@
 # MIXTURE-PRESSURE CONTROL - OPERATIONS MANUAL
 #
 # SYSTEM PURPOSE
-# Regulates zone pressure and atmospheric mixture
+# Regulates sector pressure and atmospheric mixture
 # while maintaining safe exhaust pipe pressures.
 #
 # FUNCTIONAL OVERVIEW
@@ -10,7 +10,7 @@
 # * Monitors waste pipe pressure to ensure safe
 #   levels and activates pumps as needed.
 # * Inward vents take precedence over outward
-#   vents when zone pressure exceeds target.
+#   vents when sector pressure exceeds target.
 #
 # HARDWARE INTERFACE
 # * d0: Pressure kPa
@@ -25,10 +25,10 @@
 # MinDisplacement:      0.3
 # Delay:                2
 # Precision:            0.001
-# LocalCarbonDioxide:   "ZoneCarbonDioxide"
-# LocalNitrogen:        "ZoneNitrogen"
-# LocalOxygen:          "ZoneOxygen"
-# LocalExhaust:         "ZoneExhaust"
+# LocalCarbonDioxide:   "SectorCarbonDioxide"
+# LocalNitrogen:        "SectorNitrogen"
+# LocalOxygen:          "SectorOxygen"
+# LocalExhaust:         "SectorExhaust"
 #
 # GAS SELECTION BEHAVIOR
 # * Pressure Corrections: Opportunistic
@@ -81,7 +81,7 @@
 # LOW GAS COMPOSITION
 #
 # STEP 1: Check Power
-# 1.1 Are target vents powered/pulsing (2-sec)?
+# 1.1 Are target vents powered/pulsing (1-sec)?
 #   NO  → Check controller/network power.
 #   YES → Continue to Step 2.
 #

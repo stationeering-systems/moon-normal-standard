@@ -1,7 +1,7 @@
 # MIXTURE-PRESSURE CONTROL - SYSTEM OPERATIONS MANUAL
 
 ## SYSTEM PURPOSE
-Regulates zone pressure and atmospheric mixture while maintaining safe exhaust pipe pressures.
+Regulates sector pressure and atmospheric mixture while maintaining safe exhaust pipe pressures.
 
 ## FUNCTIONAL OVERVIEW
 * Activates ventilation systems to maintain correct atmospheric pressures and gas ratios.
@@ -13,10 +13,10 @@ Regulates zone pressure and atmospheric mixture while maintaining safe exhaust p
 * Prevents pipe burst risk near structurally sensitive areas
 
 ## INWARD VENTILATION
-* Takes precedence over outward ventilation when zone pressure exceeds target or when a correction is required
+* Takes precedence over outward ventilation when sector pressure exceeds target or when a correction is required
 
 ## GAS SELECTION BEHAVIOR
-* **Pressure Corrections:** Opportunistic selection during pressure management cycles.  When zone pressure falls below target, the system cycles through available gas types and activates whichever detects a supply opportunity first.  Selection returns to normal iteration for the next tick, ensuring balanced gas activation over time.
+* **Pressure Corrections:** Opportunistic selection during pressure management cycles.  When sector pressure falls below target, the system cycles through available gas types and activates whichever detects a supply opportunity first.  Selection returns to normal iteration for the next tick, ensuring balanced gas activation over time.
 * **Composition Corrections:** Priority selection when gas ratios fall below target thresholds.  The deficient gas type maintains activation priority until composition targets are achieved.  Once the ratio correction is complete, the system returns to standard operational models.
 
 ## HARDWARE INTERFACE
@@ -27,16 +27,17 @@ Regulates zone pressure and atmospheric mixture while maintaining safe exhaust p
 * **d4:** Ratio Oxygen decimal
 
 ## CONFIGURATION PARAMETERS
-| Variable             | Description                                  | Setting               |
-|----------------------|----------------------------------------------|-----------------------|
-| `SafetyPressure`     | Safety pipe pressure (kPa)                   | `48636`               |
-| `PressureTolerance`  | Pipe pressure deviation (kPa)                | `3`                   |
-| `MinDisplacement`    | Minimum gas displacement (kPa)               | `0.3`                 |
-| `Delay`              | Delay between atmospheric adjustments (tick) | `2`                   |
-| `Precision`          | Decimal precision for value comparisons      | `0.001`               |
-| `LocalCarbonDioxide` | label                                        | `"ZoneCarbonDioxide"` |
-| `LocalNitrogen`      | label                                        | `"ZoneNitrogen"`      |
-| `LocalOxygen`        | label                                        | `"ZoneOxygen"`        |
+| Variable             | Description                                  | Setting                 |
+|----------------------|----------------------------------------------|-------------------------|
+| `SafetyPressure`     | Safety pipe pressure (kPa)                   | `48636`                 |
+| `PressureTolerance`  | Pipe pressure deviation (kPa)                | `3`                     |
+| `MinDisplacement`    | Minimum gas displacement (kPa)               | `0.3`                   |
+| `Delay`              | Delay between atmospheric adjustments (tick) | `2`                     |
+| `Precision`          | Decimal precision for value comparisons      | `0.001`                 |
+| `Local`              | label                                        | `"Sector"`              |
+| `LocalCarbonDioxide` | label                                        | `"SectorCarbonDioxide"` |
+| `LocalNitrogen`      | label                                        | `"SectorNitrogen"`      |
+| `LocalOxygen`        | label                                        | `"SectorOxygen"`        |
 
 ## MAINTENANCE & TROUBLESHOOTING
 

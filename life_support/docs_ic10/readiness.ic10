@@ -29,7 +29,7 @@
 #
 # 1. Inward vents powered/pulsing (1-sec)?
 # 2. Outward vents powered/pulsing (1-sec)?
-# 3. Target vents pulsing (max 2-sec)?
+# 3. Target vents pulsing (max 1-sec)?
 # 4. Verify inward precedence over outward
 #
 # Operational Validation

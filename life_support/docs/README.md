@@ -16,10 +16,10 @@ This checklist must be completed before full system integration.  It ensures all
 ### Mixture-Pressure Control
 
 1. Power on controller
-2. Monitor pressure on primary console
+2. Monitor pressure on `Pressure Display` console
 3. Verify pressure within target thresholds
 
-4. Switch gas ratios on secondary console
+4. Switch gas ratios on `Gas Ratio Display` console
 5. Compare against baseline measurements
 6. Observe gas selection behavior:
    - Pressure: First available activates

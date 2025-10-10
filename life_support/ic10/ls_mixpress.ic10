@@ -5,10 +5,11 @@ define MinDisplacement 0.3 # kPa
 define Delay 2 # tick
 define Precision 0.001
 # Labels
-define LocalCarbonDioxide HASH("ZoneCarbonDioxide")
-define LocalNitrogen HASH("ZoneNitrogen")
-define LocalOxygen HASH("ZoneOxygen")
-define LocalExhaust HASH("ZoneExhaust")
+define Local HASH("Sector")
+define LocalCarbonDioxide HASH("SectorCarbonDioxide")
+define LocalNitrogen HASH("SectorNitrogen")
+define LocalOxygen HASH("SectorOxygen")
+define LocalExhaust HASH("SectorExhaust")
 # Structures
 define GasSensor HASH("StructureGasSensor")
 define ActiveVent HASH("StructureActiveVent")
@@ -72,7 +73,7 @@ load:
   bgtz Wait load
   move Wait 0
   # Load values and settings
-  lb CurrentPressure GasSensor Pressure Average
+  lbn CurrentPressure GasSensor Local Pressure Average
   l TargetPressure PressureSetting Setting
   sub MinPressure TargetPressure PressureTolerance
   div CurrentPressureTrunc CurrentPressure Precision
@@ -85,7 +86,7 @@ body:
   pop r15
   bdns dr15 body
   l TargetRatio dr15 Setting
-  lb r14 GasSensor RatioType Average
+  lbn r14 GasSensor Local RatioType Average
   bgt r14 TargetRatio outward
   push r15
   push RatioType
