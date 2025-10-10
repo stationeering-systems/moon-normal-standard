@@ -8,10 +8,10 @@
 # MixPress Controller Test
 #
 # 1. Power on controller
-# 2. Monitor pressure on primary console
+# 2. Monitor pressure on `Pressure Display` console
 # 3. Verify pressure within target thresholds
 #
-# 4. Switch gas ratios on secondary console
+# 4. Switch gas ratios on `Gas Ratio Display` console
 # 5. Compare against baseline measurements
 # 6. Observe gas selection behavior:
 #  - Pressure: First available activates
@@ -29,7 +29,7 @@
 #
 # 1. Inward vents powered/pulsing (1-sec)?
 # 2. Outward vents powered/pulsing (1-sec)?
-# 3. Target vents pulsing (max 2-sec)?
+# 3. Target vents pulsing (max 1-sec)?
 # 4. Verify inward precedence over outward
 #
 # Operational Validation
