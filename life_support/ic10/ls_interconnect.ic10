@@ -19,7 +19,7 @@ main:
   lbn r14 GasSensor Local Pressure Minimum
   blt r14 r15 error
   l r13 Sensor Pressure
-  bgt r12 r13 ok
+  bgt r13 r15 ok
   s Valve On 1
   j main
 
