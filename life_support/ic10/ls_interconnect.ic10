@@ -30,3 +30,4 @@ error:
 ok:
   s Valve On 0
   s db On 0
+  j main
