@@ -1,0 +1,32 @@
+# Configuration
+define PressureTolerance 5 # kPa
+
+# Labels
+define Local HASH("Sector")
+
+# Structures
+define GasSensor HASH("StructureGasSensor")
+
+# Inputs
+alias PressureSetting d0
+alias Sensor d1
+alias Valve d2
+
+main:
+  yield
+  l r15 PressureSetting Setting
+  sub r15 r15 PressureTolerance
+  lbn r14 GasSensor Local Pressure Minimum
+  blt r14 r15 error
+  l r13 Sensor Pressure
+  bgt r12 r13 ok
+  s Valve On 1
+  j main
+
+error:
+  s Valve On 0
+  j main
+
+ok:
+  s Valve On 0
+  s db On 0

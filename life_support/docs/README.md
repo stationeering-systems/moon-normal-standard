@@ -6,6 +6,7 @@ This directory contains operational documentation for key infrastructure used in
 
 - **[Life Support Readiness Checklist](#readiness-checklist)**
 - **[Mix-Press System Operations Manual](mixpress_operations_manual.md)**
+- **[Interconnect System Operations Manual](interconnect_operations_manual.md)
 
 ## Readiness Checklist
 
@@ -50,8 +51,21 @@ Monitor first few atmospheric cycles:
 
 ### System Integration Check
 
-1. Main/local gas/ line pressure >= 471 kPa?
+1. Main/local gas/ line pressure >= 144 kPa?
 2. No pipe ruptures detected?
 3. Valve positions correct?
+
+### Interconnect Control
+
+1. Briefly open and close the interconnect valve
+   - Monitor target gas sensor to ensure seal
+2. Configure the controller
+3. Power on controller
+4. Verify the interconnect valve is open
+5. Wait for the valve to close
+   - Verify full pressurization
+6. Integrate sensor and ventilation equipment into the data network
+   - Gas Sensor: `"Sector"`
+  - Active Vents: `"SectorExhaust"`, `"SectorCarbonDioxide"`, `"SectorNitrogen"`, `"SectorOxygen"`
 
 > Note: Full verification may take up to 15 minutes to confirm target stabilization.

@@ -41,7 +41,7 @@ Regulates sector pressure and atmospheric mixture while maintaining safe exhaust
 
 ## MAINTENANCE & TROUBLESHOOTING
 
-### Zone atmospheric pressure is high
+### Sector atmospheric pressure is high
 
 **STEP 1: Check power**
 
@@ -66,7 +66,7 @@ _They should be pulsing at 1-second intervals._
 
 **If pressure is dangerously high, manually vent excess pressure through airlock valve**
 
-### Zone atmospheric pressure is low
+### Sector atmospheric pressure is low
 
 **STEP 1: Check power**
 
