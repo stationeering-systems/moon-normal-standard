@@ -57,15 +57,15 @@ Monitor first few atmospheric cycles:
 
 ### Interconnect Control
 
-1. Briefly open and close the interconnect valve
-   - Monitor target gas sensor to ensure seal
-2. Configure the controller
-3. Power on controller
-4. Verify the interconnect valve is open
-5. Wait for the valve to close
+1. Power on controller
+2. Verify the interconnect valve is open
+3. Wait for the valve to close
    - Verify full pressurization
-6. Integrate sensor and ventilation equipment into the data network
+4. Open the boundary wall between compartments
+5. Integrate sensor and ventilation equipment into the data network
    - Gas Sensor: `"Sector"`
-  - Active Vents: `"SectorExhaust"`, `"SectorCarbonDioxide"`, `"SectorNitrogen"`, `"SectorOxygen"`
+   - Active Vents: `"SectorExhaust"`, `"SectorCarbonDioxide"`, `"SectorNitrogen"`, `"SectorOxygen"`
+6. Remove interconnect plumbing
+7. Update the Size Setting dial to include the added compartment volume
 
 > Note: Full verification may take up to 15 minutes to confirm target stabilization.

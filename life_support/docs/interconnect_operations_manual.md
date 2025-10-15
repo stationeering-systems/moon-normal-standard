@@ -10,7 +10,7 @@ Allows for the safe pressurization of new atmospheric compartments.
 
 ## HARDWARE INTERFACE
 * **d0:** Pressure kPa
-* **d1:** Gas Sensor (unpressurized space)
+* **d1:** Gas Sensor (new compartment)
 * **d2:** Digital Valve (interconnect valve)
 
 ## CONFIGURATION PARAMETERS
