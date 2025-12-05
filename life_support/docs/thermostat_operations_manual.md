@@ -9,12 +9,12 @@ The thermostat controller manages cooling capacity through two distinct operatin
 
 **Mode 0 - Thermal tracking mode**
 * Maintains precise temperature control around a setpoint.
-* Modulates pump speed with respect to required cooling capacity.
+* Modulates pump speed with respect to required cooling capacity
 
 **Mode 1 - Thermal pulse mode**
 * Operates as a bang-bang controller with upper and lower temperature thresholds
 * Opens valve when temperature exceeds upper threshold
-* Closes valve and evacuates radiation pipe when the temperature drops below the lower threshold.
+* Closes valve and evacuates radiation pipe when the temperature drops below the lower threshold
 
 ## HARDWARE INTERFACE
 * **d0:** PID Controller
