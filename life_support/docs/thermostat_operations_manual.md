@@ -1,4 +1,4 @@
-# HABITAT COOLER - SYSTEM OPERATIONS MANUAL
+# THERMOSTAT CONTROLLER - SYSTEM OPERATIONS MANUAL
 
 ## SYSTEM PURPOSE
 The thermostat controller manages cooling capacity through two distinct operating modes selectable via manual logic switch.  The controller monitors local temperatures and modulates the cooling system's response based on the active mode selected.
