@@ -6,8 +6,8 @@ This directory contains operational documentation for key infrastructure used in
 
 - **[Life Support Readiness Checklist](#readiness-checklist)**
 - **[Mix-Press System Operations Manual](mixpress_operations_manual.md)**
-- **[Interconnect System Operations Manual](interconnect_operations_manual.md)
-- **[Thermostat System Operations Manual](thermostat_operations_manual.md)
+- **[Interconnect System Operations Manual](interconnect_operations_manual.md)**
+- **[Thermostat System Operations Manual](thermostat_operations_manual.md)**
 
 ## Readiness Checklist
 

@@ -1,14 +1,14 @@
 # Configuration
-define PGainLM -0.0106
-define IGainLM -0.00003
-define DGainLM 0.05
-define MinLM -1
-define MaxLM 1
-define PGainBB 0.2
-define IGainBB 0
-define DGainBB 0
-define MinBB 0
-define MaxBB 1
+define PGainTTM -0.0106
+define IGainTTM -0.00003
+define DGainTTM 0.05
+define MinTTM -1
+define MaxTTM 1
+define PGainTPM 0.2 # Lower bound T-5K
+define IGainTPM 0
+define DGainTPM 0
+define MinTPM 0
+define MaxTPM 1
 
 # Structures
 define VolumePump HASH("StructureTurboVolumePump")
@@ -48,11 +48,11 @@ main:
   beq r15 ModeSetting setpoint
   move ModeSetting r15
   move MaxTemperatureSetting -1
-  select r14 ModeSetting PGainBB PGainLM
-  select r13 ModeSetting IGainBB IGainLM
-  select r12 ModeSetting DGainBB DGainLM
-  select r11 ModeSetting MinBB MinLM
-  select r10 ModeSetting MaxBB MaxLM
+  select r14 ModeSetting PGainTPM PGainTTM
+  select r13 ModeSetting IGainTPM IGainTTM
+  select r12 ModeSetting DGainTPM DGainTTM
+  select r11 ModeSetting MinTPM MinTTM
+  select r10 ModeSetting MaxTPM MaxTTM
   s Pid ProportionalGain r14
   s Pid IntegralGain r13
   s Pid DerivativeGain r12
@@ -69,9 +69,9 @@ setpoint:
   j reset
 
   l r15 Pid Setting
-  bnez ModeSetting bangbang
+  bnez ModeSetting pulse
 
-loadmatch:
+track:
   add FlowRate FlowRate r15
   max FlowRate FlowRate 0
   min FlowRate FlowRate 1
@@ -86,7 +86,7 @@ loadmatch:
   sb DigitalValve On r13
   j main
 
-bangbang:
+pulse:
   brnez r15 2
   sb DigitalValve On 1
   bne r15 1 main
