@@ -1,0 +1,102 @@
+# Configuration
+define PGainTTM -0.0106
+define IGainTTM -0.00003
+define DGainTTM 0.05
+define MinTTM -1
+define MaxTTM 1
+define PGainTPM 0.2 # Lower bound T-5K
+define IGainTPM 0
+define DGainTPM 0
+define MinTPM 0
+define MaxTPM 1
+
+# Structures
+define VolumePump HASH("StructureTurboVolumePump")
+define DigitalValve HASH("StructureDigitalValve")
+
+# Inputs
+alias Pid d0
+alias ThermostatDial d1
+alias ModeSwitch d2
+
+# Variables
+alias ModeSetting r0
+alias MaxTemperatureSetting r1
+alias MaxVolumeSetting r2
+alias FlowRate r3
+
+sb DigitalValve Lock 1
+sb DigitalValve On 0
+sb VolumePump Lock 1
+sb VolumePump Setting 0
+sb VolumePump On 0
+
+move ModeSetting -1
+lb MaxVolumeSetting VolumePump Maximum Maximum
+
+main:
+  yield
+
+  # Drain the radiator pipe if the pid is not powered
+  l r15 Pid Power
+  brnez r15 3
+  move ModeSetting -1
+  j reset
+
+  # Check the run mode
+  l r15 ModeSwitch Setting
+  beq r15 ModeSetting setpoint
+  move ModeSetting r15
+  move MaxTemperatureSetting -1
+  select r14 ModeSetting PGainTPM PGainTTM
+  select r13 ModeSetting IGainTPM IGainTTM
+  select r12 ModeSetting DGainTPM DGainTTM
+  select r11 ModeSetting MinTPM MinTTM
+  select r10 ModeSetting MaxTPM MaxTTM
+  s Pid ProportionalGain r14
+  s Pid IntegralGain r13
+  s Pid DerivativeGain r12
+  s Pid Minimum r11
+  s Pid Maximum r10
+
+setpoint:
+  # Check the temperature setpoint
+  l r15 ThermostatDial Setting
+  breq r15 MaxTemperatureSetting 5
+  move MaxTemperatureSetting r15
+  s Pid Setpoint MaxTemperatureSetting
+  s Pid Reset 1
+  j reset
+
+  l r15 Pid Setting
+  bnez ModeSetting pulse
+
+track:
+  add FlowRate FlowRate r15
+  max FlowRate FlowRate 0
+  min FlowRate FlowRate 1
+  s db Setting FlowRate
+
+  sub r15 1 FlowRate
+  mul r15 r15 MaxVolumeSetting
+  sgtz r14 r15
+  slt r13 r15 MaxVolumeSetting
+  sb VolumePump Setting r15
+  sb VolumePump On r14
+  sb DigitalValve On r13
+  j main
+
+pulse:
+  brnez r15 2
+  sb DigitalValve On 1
+  bne r15 1 main
+
+reset:
+  sb DigitalValve On 0
+  sb VolumePump Setting MaxVolumeSetting
+  sb VolumePump On 1
+  yield
+  sb VolumePump On 0
+  move FlowRate 0
+  s db Setting 0
+  j main

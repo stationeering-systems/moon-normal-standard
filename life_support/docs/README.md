@@ -6,7 +6,8 @@ This directory contains operational documentation for key infrastructure used in
 
 - **[Life Support Readiness Checklist](#readiness-checklist)**
 - **[Mix-Press System Operations Manual](mixpress_operations_manual.md)**
-- **[Interconnect System Operations Manual](interconnect_operations_manual.md)
+- **[Interconnect System Operations Manual](interconnect_operations_manual.md)**
+- **[Thermostat System Operations Manual](thermostat_operations_manual.md)**
 
 ## Readiness Checklist
 
@@ -69,3 +70,37 @@ Monitor first few atmospheric cycles:
 7. Update the Size Setting dial to include the added compartment volume
 
 > Note: Full verification may take up to 15 minutes to confirm target stabilization.
+
+### Thermostat Control
+
+#### Thermal Tracking Mode
+
+1. Power on Controller
+2. Enable Thermal Tracking Mode (Switch = 0)
+3. Verify normalized PID output values \[-1,1\]
+4. Monitor capacity utilization via controller output (or console, if installed)
+5. Assert: 
+   - Valve is **only off** when controller output = 0
+   - Pump is **only off** when controller output = 1
+   - Local sensor temperature does not decrease more than 1 K below target
+
+#### Thermal Pulse Mode
+
+1. Enable Thermal Pulse Mode (Switch = 1)
+2. Verify normalized PID output values \[0,1\]
+3. Assert:
+   - Valve is **off** when temperature is below target minimum
+   - Valve is **on** when temperature is above target max
+   - Valve transitions state once the opposite threshold is breached
+4. Radiator pipe evacuation:
+   - Pump pulses once to evacuate radiation pipe
+   - Radiation pipe is empty
+
+#### Failsafe Control
+
+1. During operation, power **off** the `THERM-LL` power controller
+2. Assert:
+   - Pump pulses on and off
+   - Valve is **off**
+   - Radiation pipe segment is empty
+3. Power **on** the `THERM-LL` power controller
