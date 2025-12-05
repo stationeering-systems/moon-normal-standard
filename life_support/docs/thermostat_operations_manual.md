@@ -1,0 +1,7 @@
+# HABITAT COOLER - SYSTEM OPERATIONS MANUAL
+
+# SYSTEM PURPOSE
+Regulates atmospheric temperature
+
+## FUNCTIONAL OVERVIEW
+* Regulates 

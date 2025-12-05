@@ -4,7 +4,9 @@
 
 This directory contains IC10 code for normal-tier Life Support Systems. It’s designed for modular integration into base infrastructure, providing reliable zone atmospheric control.
 
-For full design rationale, system theory, and detailed guides, visit the [Stationeering Life Support Systems](https://stationeering.substack.com/p/life-support-systems-engineering) series on Substack.
+For full design rationale, system theory, and detailed guides, visit the Stationeering Life Support Systems series on Substack:
+- [Life Support Systems Engineering](https://stationeering.substack.com/p/life-support-systems-engineering)
+- [Radiative Cooling Strategies for Habitat Sustainability](https://stationeering.substack.com/p/radiative-cooling-strategies)
 
 ## Getting Started
 
