@@ -1,0 +1,61 @@
+# Configuration
+define StandardPressure 5182 # kPa
+
+# Labels
+define LocalExhaust HASH("PortableExhaust")
+
+# Structures
+define CanisterStorage HASH("StructureGasTankStorage")
+define VolumePump HASH("StructureVolumePump")
+define PressureRegulator HASH("StructurePressureRegulator")
+
+# Items
+define GasCanister HASH("ItemGasCanisterEmpty")
+define GasCanisterSmart HASH("ItemGasCanisterSmart")
+
+# Variables
+alias PipeNetwork r0
+alias SlotPrefab r1
+alias SlotPressure r2
+
+sb PressureRegulator Lock 1
+sb PressureRegulator On 0
+sb PressureRegulator Setting 0
+sb VolumePump On 0
+
+move sp 0
+main:
+  yield
+  push 5
+  push 4
+  push 3
+  push 2
+  push 1
+  push 0
+
+exhaust:
+  lbn r15 CanisterStorage LocalExhaust Pressure Maximum
+  snez r15 r15
+  lbn r14 VolumePump LocalExhaust Maximum Maximum
+  sbn VolumePump LocalExhaust Setting r14
+  sbn VolumePump LocalExhaust On r15
+
+body:
+  beqz sp main
+  pop r15
+  bdns dr15 body
+  l PipeNetwork dr15 NameHash
+  ls SlotPrefab dr15 0 PrefabHash
+  l SlotPressure dr15 Pressure
+  # Calculate the target pressure (2x for smart cans)
+  move r14 0
+  brne SlotPrefab GasCanister 2
+  move r14 1
+  brne SlotPrefab GasCanisterSmart 2
+  move r14 2
+  mul r14 r14 StandardPressure
+  # Activate the regulator
+  slt r13 SlotPressure r14
+  sbn PressureRegulator PipeNetwork Setting r14
+  sbn PressureRegulator PipeNetwork On r13
+  j body
