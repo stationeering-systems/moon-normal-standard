@@ -4,9 +4,9 @@
 Monitors connected Suit Storages and activates them when a suit is detected that is in need of a top-off.
 
 ## FUNCTIONAL OVERVIEW
-* Activates suit storage unit when connected suit requires battery charging, waste tank evacuation, and/or breathing and propellant top-off.
-* Only activates one suit storage at a time to reduce instantaneous power spikes caused from charging batteries.
-* Monitors exhaust pipe pressure to ensure safe levels and activates pumps as needed.
+* Activates suit storage unit when connected suit requires battery charging, waste tank evacuation, and/or breathing and propellant top-off
+* Only activates one suit storage at a time to reduce instantaneous load spikes caused from charging batteries
+* Monitors exhaust pipe pressure to ensure safe levels and activates pumps as needed
 
 ## WASTE MANAGEMENT
 * Monitors local exhaust line pressure
