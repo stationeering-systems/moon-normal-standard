@@ -38,6 +38,7 @@ Regulates sector pressure and atmospheric mixture while maintaining safe exhaust
 | `LocalCarbonDioxide` | label                                        | `"SectorCarbonDioxide"` |
 | `LocalNitrogen`      | label                                        | `"SectorNitrogen"`      |
 | `LocalOxygen`        | label                                        | `"SectorOxygen"`        |
+| `LocalExhaust`       | label                                        | `"SectorExhaust"`       |
 
 ## MAINTENANCE & TROUBLESHOOTING
 
@@ -99,7 +100,7 @@ _They should be pulsing at 1-second intervals._
 * IF NO - Refer to [PGL System Operations Manual](../../aru/docs/pgl_system_operations_manual.md)
 * If YES - Further investigation required.
 
-### Zone atmospheric composition is below target
+### Sector atmospheric composition is below target
 
 **STEP 1: Check power**
 

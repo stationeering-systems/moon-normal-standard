@@ -14,16 +14,16 @@ Pumps and separates gases from the **Thermal Exchange Core** to the **Processed 
 * **Controller Slot (db)**: IC10 - Any PGL unit
 
 ## CONFIGURATION PARAMETERS
-| Variable            | Description                                       | Setting        |
-|---------------------| ------------------------------------------------- |----------------|
-| `MaxPressure`       | Maximum Pipe Pressure (kPa)                       | `48636`        |
-| `MaxTemperature`    | Maximum Pipe Temperature (K)                      | `298.15`       |
-| `MinTemperature`    | Minimum Pipe Temperature (K)                      | `293.15`       |
-| `MinPressureVolume` | Minimum Pipe Pressure Volume (kPa*L)              | `30000`        |
-| `MinRatio`          | Minimum Target Gas Pressure Ratio                 | `0.33`         |
+| Variable            | Description                                       | Setting               |
+|---------------------| ------------------------------------------------- |-----------------------|
+| `MaxPressure`       | Maximum Pipe Pressure (kPa)                       | `48636`               |
+| `MaxTemperature`    | Maximum Pipe Temperature (K)                      | `300.15`              |
+| `MinTemperature`    | Minimum Pipe Temperature (K)                      | `293.15`              |
+| `MinPressureVolume` | Minimum Pipe Pressure Volume (kPa*L)              | `30000`               |
+| `MinRatio`          | Minimum Target Gas Pressure Ratio                 | `0.33`                |
 | `MainCarbonDioxide` | label                                             | `"MainCarbonDioxide"` |
-| `MainNitrogen`      | label                                             | `"MainNitrogen"` |
-| `MainOxygen`        | label                                             | `"MainOxygen"` |
+| `MainNitrogen`      | label                                             | `"MainNitrogen"`      |
+| `MainOxygen`        | label                                             | `"MainOxygen"`        |
 
 ### DEVICE MAPPING
 Each gas type must include:
