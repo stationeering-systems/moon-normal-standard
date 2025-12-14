@@ -1,0 +1,90 @@
+# Configuration
+define SafetyPressure 48636
+define MaxChargeRatio 0.995
+define SuitSlot 1
+define BackSlot 2
+
+# Labels
+define LocalBreathing HASH("PortableOxygen")
+define LocalPropellant HASH("PortableNitrogen")
+define LocalExhaust HASH("PortableExhaust")
+
+# Structures
+define PipeAnalyzer HASH("StructurePipeAnalysizer")
+define VolumePump HASH("StructureVolumePump")
+define PressureRegulator HASH("StructurePressureRegulator")
+
+# Variables
+alias PumpVolume r0
+alias StorageOn r1
+alias BreathingOn r2
+alias BreathingSetting r3
+alias PropellantOn r4
+alias PropellantSetting r5
+
+sb PipeAnalyzer Lock 1
+sb PipeAnalyzer On 1
+move sp 0
+init:
+  push 5
+  push 4
+  push 3
+  push 2
+  push 1
+  push 0
+  sb PressureRegulator On 0
+main:
+  yield
+  move StorageOn 0
+  move BreathingOn 0
+  move PropellantOn 0
+  lbn BreathingSetting PressureRegulator LocalBreathing Setting Maximum
+  lbn PropellantSetting PressureRegulator LocalPropellant Setting Maximum
+  # Check waste pump
+  lbn r15 PipeAnalyzer LocalExhaust Pressure Average
+  lbn r14 PipeAnalyzer LocalExhaust Volume Sum
+  sub r13 r15 SafetyPressure
+  div r13 r13 r15
+  mul PumpVolume r13 r14
+  lbn r15 VolumePump LocalExhaust Maximum Sum
+  lbn r14 VolumePump LocalExhaust Maximum Maximum
+  div r13 r15 r14 # number of devices
+  div r13 PumpVolume r13
+  min r13 r13 r14
+  max r13 r13 0 # pump setting
+  sgtz r12 r13 # pump on
+  sbn VolumePump LocalExhaust Setting r13
+  sbn VolumePump LocalExhaust On r12
+body:
+  beqz sp init
+  pop r15
+  bdns dr15 body
+suit:
+  ls r14 dr15 SuitSlot Occupied
+  beqz r14 back
+  ls r14 dr15 SuitSlot ChargeRatio
+  brge r14 MaxChargeRatio 2
+  move StorageOn 1
+  ls r14 dr15 SuitSlot PressureWaste
+  breqz r14 2
+  move StorageOn 1
+  ls r14 dr15 SuitSlot PressureAir
+  round r14 r14
+  bge r14 BreathingSetting back
+  move BreathingOn 1
+  move StorageOn 1
+back:
+  ls r14 dr15 BackSlot Occupied
+  beqz r14 update
+  ls r14 dr15 BackSlot Pressure
+  round r14 r14
+  bge r14 PropellantSetting update
+  move PropellantOn 1
+  move StorageOn 1
+update:
+  s dr15 On StorageOn
+  beqz StorageOn body
+  sbn PressureRegulator LocalBreathing On BreathingOn
+  sbn PressureRegulator LocalPropellant On PropellantOn
+  push r15
+  j main
