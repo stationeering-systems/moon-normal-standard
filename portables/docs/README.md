@@ -36,7 +36,7 @@ This checklist must be completed before full system integration.  It ensures all
 ### Port-Can Control
 
 1. Power on controller
-2. Attach smart canister to outward feed:
+2. Attach smart canister to gas supply line:
    - Verify that canister is pressurized to smart fill max
    - Remove canister from feed
    - Verify that pressure regulator is active only when canister is not full
