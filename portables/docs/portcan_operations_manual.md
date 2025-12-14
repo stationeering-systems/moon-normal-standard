@@ -1,7 +1,7 @@
 # PORT-CAN CONTROL - SYSTEM OPERATIONS MANUAL
 
 ## SYSTEM PURPOSE
-Monitors connected Gas Tank Storages and activates them when a canister is detected that is in need of a top-off
+Manages canister fill and evacuation operations across up to six configurable gas lines plus exhaust.
 
 ## FUNCTIONAL OVERVIEW
 * Activates pressure regulator when canister is connected to a gas supply line
