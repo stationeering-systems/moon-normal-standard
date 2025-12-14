@@ -5,7 +5,7 @@
 This directory contains IC10 code for normal-tier Portable Systems.  It's designed for modular integration into base infrastructure, in support of EVA operations or for systems that may not have nor need direct access to major gas supply infrastructure.
 
 For full design rationale, system theory, and detailed guides, visit the Stationeering Systems Substack:
-- [EVA Portability]()
+- [EVA Portability](https://stationeering.substack.com/p/life-support-4-eva-portability)
 
 ## Getting Started
 
