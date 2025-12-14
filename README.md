@@ -12,7 +12,7 @@ These systems aim to demonstrate sound systems design practices through the lens
   An intake and recycling system designed to recover waste atmosphere and restore it to usable internal mix.
 * **[Life Support (LS)](./life_support)**  
   Atmospheric control systems for sector regulation.
-* **[Portables (PORT)](./portables)**
+* **[Portables (PORT)](./portables)**  
   Automated fill, evacuation, and resource management systems for portable storage devices.
 
 ## Repository Organization
