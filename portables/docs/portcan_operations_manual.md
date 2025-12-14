@@ -9,7 +9,7 @@ Manages canister fill and evacuation operations across up to six configurable ga
 * Sets the target pressure based on the canister type (1x standard, 2x smart)
 
 ## ACCIDENTAL CONTAMINATION
-If contamination is detected in the tank storage gas supply lines, first diagnose the source to prevent ongoing contamination. Then, fill canisters from the contaminated line and evacuate them to the exhaust line (ECL) repeatedly until contamination has been purges.  This process wastes gas, but ensures safe operation.
+If contamination is detected in the tank storage gas supply lines, first diagnose the source to prevent ongoing contamination. Then, fill canisters from the contaminated line and evacuate them to the exhaust line (ECL) repeatedly until contamination has been purged.  This process wastes gas, but ensures safe operation.
 
 ## HARDWARE INTERFACE
 * **d0..d5:** Gas Tank Storages
