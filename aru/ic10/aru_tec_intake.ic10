@@ -1,6 +1,6 @@
 define MaxPressure 48636 # kPa
 define MinPressure 6.3 # kPa
-define MaxTemperature 298.15 # K
+define MaxTemperature 295.15 # K
 define MinTemperature 293.15 # K
 
 define MinPressureVolume 10000 # kPa

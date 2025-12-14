@@ -1,6 +1,6 @@
 define MinGasRatio 0.33
 define MaxPressure 48636 # kPa
-define MaxTemperature 298.15 # K
+define MaxTemperature 300.15 # K
 define MinTemperature 293.15 # K
 define MinPressureVolume 10000 # kPa*L
 

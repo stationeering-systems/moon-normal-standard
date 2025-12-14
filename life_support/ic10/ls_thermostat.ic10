@@ -48,6 +48,8 @@ main:
   beq r15 ModeSetting setpoint
   move ModeSetting r15
   move MaxTemperatureSetting -1
+  move FlowRate 0
+  s db Setting 0
   select r14 ModeSetting PGainTPM PGainTTM
   select r13 ModeSetting IGainTPM IGainTTM
   select r12 ModeSetting DGainTPM DGainTTM
@@ -97,6 +99,4 @@ reset:
   sb VolumePump On 1
   yield
   sb VolumePump On 0
-  move FlowRate 0
-  s db Setting 0
   j main

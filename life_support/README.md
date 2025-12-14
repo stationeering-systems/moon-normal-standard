@@ -2,7 +2,7 @@
 
 ## Overview
 
-This directory contains IC10 code for normal-tier Life Support Systems. It’s designed for modular integration into base infrastructure, providing reliable zone atmospheric control.
+This directory contains IC10 code for normal-tier Life Support Systems. It’s designed for modular integration into base infrastructure, providing reliable atmospheric control.
 
 For full design rationale, system theory, and detailed guides, visit the Stationeering Life Support Systems series on Substack:
 - [Life Support Systems Engineering](https://stationeering.substack.com/p/life-support-systems-engineering)
