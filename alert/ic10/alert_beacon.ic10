@@ -1,0 +1,50 @@
+# Inputs
+alias Beacon d0
+alias Sentinel d1
+
+# Variables
+alias Severity r0
+alias Category r1
+alias CategoryOffset r2
+alias PulseColor r3
+alias PulseDuration r4
+
+# Initialize Alert Map
+move sp 0
+push 4   # OK - 0
+push 2   # Maintenance - 1
+push 1   # Warn - 2
+push 0.5 # Critical - 3
+
+move CategoryOffset sp
+push 6  # All Clear - White
+push 10 # Unused - Pink
+push 11 # Unused - Purple
+push 0  # Unused - Blue
+push 2  # Agriculture - Green
+push 5  # Atmospherics - Yellow
+push 3  # Power - Orange
+push 4  # Environment - Red
+
+s Beacon On 0
+main:
+  # Load the severity and category
+  l r15 Sentinel Setting
+  div r15 r15 10000
+  floor r15 r15
+  div Severity r15 10
+  floor Severity Severity
+  mod Category r15 10
+  floor Category Category
+
+  # Load the pulse duration and color
+  get PulseDuration db Severity
+  add r15 Category CategoryOffset
+  get PulseColor db r15
+
+  s Beacon Color PulseColor
+  s Beacon On 1
+  sleep PulseDuration
+  s Beacon On 0
+  sleep PulseDuration
+  j main

@@ -9,6 +9,11 @@ This directory contains operational documentation for key infrastructure used in
 - **[Interconnect System Operations Manual](interconnect_operations_manual.md)**
 - **[Thermostat System Operations Manual](thermostat_operations_manual.md)**
 
+### Probes
+
+- **[(7) Habitat Probe System Operations Manual](../../alert/docs/habitat_probe_operations_manual.md)**
+- **[(5) ARU Probe Operations Manual](../../alert/docs/aru_probe_operations_manual.md)**
+
 ## Readiness Checklist
 
 This checklist must be completed before full system integration.  It ensures all life support control systems are flashed, wired, labeled, and verified.

@@ -1,0 +1,41 @@
+define Error 11
+
+# Inputs
+alias Location d0
+alias Sentinel d1
+
+# Variables
+alias MaxStatus r0
+alias Channel r1
+
+move sp 0
+main:
+  yield
+  push LogicType.Channel1
+  push LogicType.Channel2
+  push LogicType.Channel3
+  push LogicType.Channel4
+  push LogicType.Channel5
+  push LogicType.Channel6
+  push LogicType.Channel7
+  move MaxStatus 0
+
+loop:
+  beqz sp update
+  pop Channel
+  l r15 db:1 Channel
+  bnan r15 loop
+  blt r15 Error loop
+  max MaxStatus MaxStatus r15
+  j loop
+
+update:
+  # Get the sector status
+  l r15 Sentinel Setting
+  s db:1 Channel0 r15
+  # Get the local status
+  l r15 Location Setting
+  mul r14 MaxStatus 10000
+  add r15 r15 r14
+  s db Setting r15
+  j main

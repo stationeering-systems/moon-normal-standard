@@ -1,0 +1,59 @@
+# Severities
+define OK 0
+define Maintenance 10
+define Warn 20
+define Critical 30
+
+# Category
+define Category 7 # ENVIRONMENT
+define Channel LogicType.Channel7
+
+# Configuration
+define MaxThermal 0.5
+define MinTemperature 293.15
+define MaxTemperature 303.15
+define MinPressure 90
+define MaxPressure 101.325
+define MinRatioCarbonDioxide 0.01
+define MinRatioNitrogen 0.76
+define MinRatioOxygen 0.19
+
+# Labels
+define ThermalMeter HASH("ThermalMeter")
+
+# Structures
+define GasSensor HASH("StructureGasSensor")
+define LogicReader HASH("StructureLogicReader")
+
+# Variables
+alias Severity r0
+
+main:
+  yield
+  move Severity Critical
+  lb r15 GasSensor Combustion Maximum
+  bnez r15 update
+  lb r15 GasSensor RatioCarbonDioxide Average
+  ble r15 MinRatioCarbonDioxide update
+  lb r15 GasSensor RatioOxygen Average
+  ble r15 MinRatioOxygen update
+  lb r15 GasSensor RatioNitrogen Average
+  ble r15 MinRatioNitrogen update
+  lb r15 GasSensor Pressure Average
+  ble r15 MinPressure update
+  bge r15 MaxPressure update
+  lb r15 GasSensor Temperature Average
+  bge r15 MaxTemperature update
+  ble r15 MinTemperature update
+  move Severity Warn
+  lbn r15 LogicReader ThermalMeter PrefabHash Minimum
+  brne r15 LogicReader 3
+  lbn r15 LogicReader ThermalMeter Setting Maximum
+  bge r15 MaxThermal update
+  move Severity OK
+
+update:
+  add r15 Severity Category
+  s db Setting r15
+  s db:0 Channel r15
+  j main

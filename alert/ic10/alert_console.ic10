@@ -1,0 +1,124 @@
+define Error 11
+# Modes
+define DefaultMode 0
+define StringMode 10
+define PercentMode 1
+# Strings
+define FIRE $46495245
+# Colors
+define DefaultColor 6 # white
+define VolatilesColor 4 # red
+define PollutantColor 5 # yellow
+define NitrousOxideColor 2 # green
+
+# Configuration
+define HoldDuration 2 # seconds
+
+# Labels
+define Probe HASH("Probe")
+define LocationStatus HASH("LocationStatus")
+
+# Structures
+define GasSensor HASH("StructureGasSensor")
+define LogicDevice HASH("StructureCircuitHousingCompact")
+
+# Inputs
+alias Haven d0
+
+# Variables
+alias DisplayIndex r1
+alias DisplayType r2
+alias DisplayColor r3
+alias DisplayMode r4
+alias DisplaySetting r5
+alias Offset0 r6
+
+# Mappings
+move sp 0
+push HASH("StructureConsoleLED5")
+push HASH("StructureConsoleLED1x2")
+push HASH("StructureConsoleLED1x3")
+move Offset0 sp
+push $574F524C44   # WORLD
+push $53414645     # SAFE
+push $414456495345 # ADVISE
+push $48415A415244 # HAZARD
+push $585452454D45 # XTREME
+move DisplayIndex 0
+
+main:
+  # Sector
+  l r15 db:0 Channel0
+  move DisplayColor   DefaultColor
+  move DisplayMode    StringMode
+  move DisplaySetting 0
+  move r14 0 # iterable
+format:
+  pow r13 10 r14  # decimal place
+  div r12 r15 r13 # convert digit
+  mod r12 r12 10
+  floor r12 r12
+  add r12 r12 48 # ASCII '0'
+  mul r13 r14 8  # shift bits
+  sla r12 r12 r13
+  or DisplaySetting DisplaySetting r12
+  add r14 r14 1
+  bne r14 6 format
+  jal update
+  # Local
+  lbn r15 LogicDevice Probe Setting Maximum
+  brlt r15 Error 5
+  move DisplayColor   DefaultColor
+  move DisplayMode    DefaultMode
+  move DisplaySetting r15
+  jal update
+  # Environment
+  move r15 -1 # WORLD
+  brdns Haven 2
+  l r15 Haven Setting
+  add r15 r15 1
+  add r15 r15 Offset0
+  get r15 db r15
+  move DisplayColor   DefaultColor
+  move DisplayMode    StringMode
+  move DisplaySetting r15
+  jal update
+  # Skip if no gas sensor installed
+  lb r15 GasSensor PrefabHash Minimum
+  bne r15 GasSensor main
+  # Fire
+  lb r15 GasSensor Combustion Maximum
+  breqz r15 5
+  move DisplayColor   DefaultColor
+  move DisplayMode    StringMode
+  move DisplaySetting FIRE
+  jal update
+  # Volatiles
+  lb r15 GasSensor RatioVolatiles Average
+  move DisplayColor   VolatilesColor
+  move DisplayMode    PercentMode
+  move DisplaySetting r15
+  jal update
+  # Pollutant
+  lb r15 GasSensor RatioPollutant Average
+  move DisplayColor   PollutantColor
+  move DisplayMode    PercentMode
+  move DisplaySetting r15
+  jal update
+  # NitrousOxide
+  lb r15 GasSensor RatioNitrousOxide Average
+  move DisplayColor   NitrousOxideColor
+  move DisplayMode    PercentMode
+  move DisplaySetting r15
+  jal update
+  j main
+update:
+  get DisplayType db DisplayIndex
+  sbn DisplayType LocationStatus Setting DisplaySetting
+  sbn DisplayType LocationStatus Mode DisplayMode
+  sbn DisplayType LocationStatus Color DisplayColor
+  add DisplayIndex DisplayIndex 1
+  mod DisplayIndex DisplayIndex Offset0
+  bgtz DisplayIndex update
+  sleep HoldDuration
+  j ra

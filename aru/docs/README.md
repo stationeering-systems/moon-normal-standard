@@ -10,6 +10,10 @@ This directory contains operational documentation for key infrastructure used in
 - **[TEC Cooler Operations Manual](tec_cooler_operations_manual.md)**
 - **[PGL System Operations Manual](pgl_system_operations_manual.md)**
 
+### Probes
+
+- **[(5) ARU Probe Operations Manual](../../alert/docs/aru_probe_operations_manual.md)**
+
 ## Readiness Checklist
 
 This checklist must be completed before full system integration.  It ensures all atmospheric control systems are flashed, wired, labeled, and verified.

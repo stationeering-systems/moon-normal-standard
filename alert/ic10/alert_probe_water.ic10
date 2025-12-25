@@ -1,0 +1,36 @@
+# Severities
+define OK 0
+define Maintenance 10
+define Warn 20
+define Critical 30
+
+# Category
+define Category 5 # ATMOSPHERE
+define Channel LogicType.Channel5
+
+# Configuration
+define MinWater 60 # L
+
+# Structures
+define LiquidPipeAnalyzer HASH("StructureLiquidPipeAnalyzer")
+
+# Variables
+alias Severity r0
+
+sb LiquidPipeAnalyzer On 1
+sb LiquidPipeAnalyzer Lock 1
+main:
+  yield
+  move Severity Critical
+  lb r15 LiquidPipeAnalyzer NetworkFault Maximum
+  bnez r15 update
+  move Severity Warn
+  lb r15 LiquidPipeAnalyzer VolumeOfLiquid Average
+  ble r15 MinWater update
+  move Severity OK
+
+update:
+  add r15 Severity Category
+  s db Setting r15
+  s db:0 Channel r15
+  j update
