@@ -20,4 +20,4 @@ Cycles local status information on LED displays
 | `LocationStatus` | label                             | `"LocationStatus"` |
 
 ## NOTES
-* Refer to [Reading Displays](https://stationeering.substack.com/i/182428013/reading-displays) for additional information
+* Refer to [Vigil Network Reference Guide: Reading Displays](https://stationeering.substack.com/i/182428013/reading-displays) for additional information

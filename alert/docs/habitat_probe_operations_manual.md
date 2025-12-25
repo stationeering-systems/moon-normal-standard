@@ -1,7 +1,7 @@
 # (7) HABITAT PROBE - SYSTEM OPERATIONS MANUAL
 
 ## SYSTEM PURPOSE
-Monitors environmental conditions to ensure proper climate control
+Monitors environmental conditions to ensure proper climate control.
 
 ## FUNCTIONAL OVERVIEW
 * Monitors thermal usage (if available)

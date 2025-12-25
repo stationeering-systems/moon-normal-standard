@@ -30,7 +30,7 @@ This checklist must be completed before full system integration. It ensures that
 _Must have at least one gateway installed_
 1. Power on controllers
 2. Verify that Sentinel output is 0
-3. Verify that Beacon pulses white every 4 seconds
+3. Verify that Beacon pulses white every 8 seconds
 
 ### Gateway Control
 1. Power on controller

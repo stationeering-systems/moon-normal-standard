@@ -23,9 +23,9 @@ Monitors ARU and pipeline conditions to ensure ARU operability
 | Condition                 | Alert            |
 |---------------------------|------------------|
 | Pipe burst                | 35 (CRITICAL)    |
-| (PGL) low pressure        | 35 (CRITICAL)    |
+| (PGL) Low pressure        | 35 (CRITICAL)    |
 | Secondary filter depleted | 25 (WARN)        |
-| (ECL) high pressure       | 25 (WARN)        |
-| (PGL) high pressure       | 25 (WARN)        |
+| (ECL) High pressure       | 25 (WARN)        |
+| (PGL) High pressure       | 25 (WARN)        |
 | Low temperature           | 25 (WARN)        |
 | Primary filter depleted   | 15 (MAINTENANCE) |

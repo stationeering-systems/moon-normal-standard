@@ -31,5 +31,4 @@ Monitors atmospheric conditions to determine PPE requirements for safe entry.
 | ContaminantRatio >= ContaminantSuitMin & ContaminantCount >= ContaminantSuitCount | 2 (HAZARD) |
 | Fire                                                                              | 1 (ADVISE) |
 | ContaminantRatio >= ContaminantSuitMin                                            | 1 (ADVISE) |
-| All other conditions                                                              | 0 (SAFE)   |
 | No gas sensors detected                                                           | -1 (WORLD) |
