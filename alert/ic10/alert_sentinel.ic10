@@ -1,0 +1,23 @@
+define Error 110000
+define HealthcheckOffline 360000
+
+# Labels
+define Gateway HASH("Gateway")
+
+# Structures
+define LogicDevice HASH("StructureCircuitHousing")
+
+main:
+  yield
+  lbn r15 LogicDevice Gateway Setting Maximum
+  # Offline healthcheck
+  lbn r14 LogicDevice Gateway Power Sum
+  lbn r13 LogicDevice Gateway On Sum
+  breq r14 r13 2
+  max r15 r15 HealthcheckOffline
+  # No error
+  brge r15 Error 2
+  move r15 0
+  # Update output
+  s db Setting r15
+  j main

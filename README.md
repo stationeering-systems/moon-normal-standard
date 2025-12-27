@@ -8,6 +8,8 @@ These systems aim to demonstrate sound systems design practices through the lens
 
 ## Included Modules
 
+* **[Alerts (ALERT)](./alert)**
+  Monitoring and notification systems for facility management.
 * **[Atmospheric Recovery Unit (ARU)](./aru)**  
   An intake and recycling system designed to recover waste atmosphere and restore it to usable internal mix.
 * **[Life Support (LS)](./life_support)**  

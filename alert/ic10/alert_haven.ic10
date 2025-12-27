@@ -1,0 +1,72 @@
+# Environments
+define Unknown -1 # WORLD
+define Safe    0  # SAFE
+define Caution 1  # ADVISE
+define Hazard  2  # HAZARD
+define Extreme 3  # XTREME
+
+# Configuration
+define ContaminantSuitMin 0.01
+define ContaminantCountSuitMin 3
+define PressureSuitMax 450 # kPa
+define PressureSuitMin 160 # kPa
+define PressureAirMin 16 # kPa
+define TemperatureSuitMax 393.15 # K
+define TemperatureSuitMin 313.15 # K
+define TemperatureAirMin 273.15 # K
+
+# Structures
+define GasSensor HASH("StructureGasSensor")
+
+# Variables
+alias Condition r0
+alias Fire r1
+alias P r2
+alias T r3
+alias O2 r4
+alias ContaminantRatio r5
+alias ContaminantCount r6
+
+move Condition Unknown
+main:
+  s db Setting Condition
+  yield
+  move Condition Unknown
+  lb r15 GasSensor PrefabHash Minimum
+  bne r15 GasSensor main
+
+  lb Fire GasSensor Combustion Maximum
+  lb P GasSensor Pressure Average
+  lb T GasSensor Temperature Average
+  lb O2 GasSensor RatioOxygen Average
+  mul O2 O2 P
+  move ContaminantRatio 0
+  move ContaminantCount 0
+  lb r15 GasSensor RatioVolatiles Average
+  add ContaminantRatio ContaminantRatio r15
+  add ContaminantCount ContaminantCount r15
+  ceil ContaminantCount ContaminantCount
+  lb r15 GasSensor RatioPollutant Average
+  add ContaminantRatio ContaminantRatio r15
+  add ContaminantCount ContaminantCount r15
+  ceil ContaminantCount ContaminantCount
+  lb r15 GasSensor RatioNitrousOxide Average
+  add ContaminantRatio ContaminantRatio r15
+  add ContaminantCount ContaminantCount r15
+  ceil ContaminantCount ContaminantCount
+
+  move Condition Extreme
+  bge P PressureSuitMax main
+  bge T TemperatureSuitMax main
+  move Condition Hazard
+  bge P PressureSuitMin main
+  ble O2 PressureAirMin main
+  bge T TemperatureSuitMin main
+  ble T TemperatureAirMin main
+  brlt ContaminantRatio ContaminantSuitMin 2
+  bge ContaminantCount ContaminantCountSuitMin main
+  move Condition Caution
+  bnez Fire main
+  bge ContaminantRatio ContaminantSuitMin main
+  move Condition Safe
+  j main

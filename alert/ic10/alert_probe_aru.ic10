@@ -1,0 +1,57 @@
+# Severities
+define OK 0
+define Maintenance 10
+define Warn 20
+define Critical 30
+
+# Category
+define Category 5 # ATMOSPHERE
+define Channel LogicType.Channel5
+
+# Configuration
+define MinTemperature 293.15 # K
+define MinPressure 288 # kPa
+define MaxPressure 38908 # kPa
+
+# Labels
+define FilterSlot1 HASH("FilterSlot1")
+define FilterSlot2 HASH("FilterSlot2")
+define ECL HASH("ECL")
+define TEC HASH("TEC")
+define PGL HASH("PGL")
+
+# Structures
+define PipeAnalyzer HASH("StructurePipeAnalysizer")
+define BatchSlotReader HASH("StructureLogicBatchSlotReader")
+
+# Variables
+alias Severity r0
+
+sb PipeAnalyzer On 1
+sb PipeAnalyzer Lock 1
+main:
+  yield
+  move Severity Critical
+  lb r15 PipeAnalyzer NetworkFault Maximum
+  bnez r15 update
+  lbn r15 PipeAnalyzer PGL Pressure Minimum
+  ble r15 MinPressure update
+  move Severity Warn
+  lbn r15 BatchSlotReader FilterSlot2 Setting Minimum
+  beqz r15 update
+  lbn r15 PipeAnalyzer ECL Pressure Maximum
+  bge r15 MaxPressure update
+  lbn r15 PipeAnalyzer PGL Pressure Maximum
+  bge r15 MaxPressure update
+  lb r15 PipeAnalyzer Temperature Minimum
+  ble r15 MinTemperature update
+  move Severity Maintenance
+  lbn r15 BatchSlotReader FilterSlot1 Setting Minimum
+  beqz r15 update
+  move Severity OK
+
+update:
+  add r15 Severity Category
+  s db Setting r15
+  s db:0 Channel r15
+  j main
