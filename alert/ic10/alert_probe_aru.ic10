@@ -37,7 +37,7 @@ main:
   lbn r15 PipeAnalyzer PGL Pressure Minimum
   ble r15 MinPressure update
   move Severity Warn
-  lbn r15 BatchSlotReader FilterSlot2 Minimum
+  lbn r15 BatchSlotReader FilterSlot2 Setting Minimum
   beqz r15 update
   lbn r15 PipeAnalyzer ECL Pressure Maximum
   bge r15 MaxPressure update
@@ -46,7 +46,7 @@ main:
   lb r15 PipeAnalyzer Temperature Minimum
   ble r15 MinTemperature update
   move Severity Maintenance
-  lbn r15 BatchSlotReader FilterSlot1 Minimum
+  lbn r15 BatchSlotReader FilterSlot1 Setting Minimum
   beqz r15 update
   move Severity OK
 

@@ -5,7 +5,6 @@ Monitors atmospheric conditions to determine PPE requirements for safe entry.
 
 ## FUNCTIONAL OVERVIEW
 * Compares gas sensor readings against specified thresholds
-* If no gas sensors are detected, Haven will output -1
 
 ## CONFIGURATION PARAMETERS
 | Variable                  | Description                                           | Setting  |
@@ -17,7 +16,7 @@ Monitors atmospheric conditions to determine PPE requirements for safe entry.
 | `PressureAirMin`          | Minimum partial air pressure for safe entry           | `16`     |
 | `TemperatureSuitMax`      | Maximum room temperature for supported suit entry K   | `393.15` |
 | `TemperatureSuitMin`      | Minimum room temperature for required suit entry      | `313.15` |
-| `TemperatureAirMin`       | Minimum room temperature for safe entry               | `313.15` |
+| `TemperatureAirMin`       | Minimum room temperature for safe entry               | `273.15` |
 
 ## ENVIRONMENT STATES
 | Condition                                                                         | State      |

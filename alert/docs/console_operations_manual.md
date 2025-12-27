@@ -1,7 +1,7 @@
 # CONSOLE CONTROL - SYSTEM OPERATIONS MANUAL
 
 ## SYSTEM PURPOSE
-Cycles local status information on LED displays
+Cycles local status information on LED displays.
 
 ## FUNCTIONAL OVERVIEW
 * Displays the sector alert status from local Channel0
