@@ -33,4 +33,4 @@ update:
   add r15 Severity Category
   s db Setting r15
   s db:0 Channel r15
-  j update
+  j main
