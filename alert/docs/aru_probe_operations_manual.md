@@ -19,6 +19,15 @@ Monitors ARU and pipeline conditions to ensure ARU operability
 | `TEC`            | label                             | `"TEC"`         |
 | `PGL`            | label                             | `"PGL"`         |
 
+## SENSORS
+| Device            | Label       | Purpose                                            |
+|-------------------|-------------|----------------------------------------------------|
+| Pipe Analyzer     | ECL         | Monitors ECL Pipe conditions                       |
+| Pipe Analyzer     | TEC         | Monitors TEC Pipe conditions                       |
+| Pipe Analyzer     | PGL         | Monitors each PGL Pipe conditions                  |
+| Batch Slot Reader | FilterSlot1 | Monitors Slot 0 Quantity of all filtration devices |
+| Batch Slot Reader | FilterSlot2 | Monitors Slot 1 Quantity of all filtration devices |
+
 ## ALERT STATES
 | Condition                 | Alert            |
 |---------------------------|------------------|

@@ -11,6 +11,11 @@ Monitors water supply
 |------------|---------------------------------|---------|
 | `MinWater` | Minimum required water supply L | `60`    |
 
+## SENSORS
+| Device               | Label        | Purpose                                     |
+|----------------------|--------------|---------------------------------------------|
+| Liquid Pipe Analyzer | <n/a>        | Monitors water pipes                        |
+
 ## ALERT STATES
 | Condition        | Alert         |
 |------------------|---------------|

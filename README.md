@@ -16,6 +16,8 @@ These systems aim to demonstrate sound systems design practices through the lens
   Atmospheric control systems for sector regulation.
 * **[Portables (PORT)](./portables)**  
   Automated fill, evacuation, and resource management systems for portable storage devices.
+* **[Power (POW)](./power)**  
+  Power infrastructure including generation, distribution, and load management.
 
 ## Repository Organization
 

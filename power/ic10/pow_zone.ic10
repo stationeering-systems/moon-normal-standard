@@ -1,0 +1,33 @@
+# Configuration
+define BasePower 10 # W
+
+# Structures
+define AreaPowerControl HASH("StructureAreaPowerControl")
+
+# Variables
+alias Budget r0
+alias Potential r1
+
+move Potential 0
+move sp 0
+main:
+  s db Setting Potential
+  yield
+  push 5
+  push 4
+  push 3
+  push 2
+  push 1
+  push 0
+  lb Budget AreaPowerControl PowerPotential Average
+  lb Potential AreaPowerControl RequiredPower Sum
+  add Potential Potential BasePower
+activate:
+  beqz sp main
+  pop r15
+  bdns dr15 activate
+  l r14 dr15 Setting
+  add Potential Potential r14
+  sle r14 Potential Budget
+  s dr15 On r14
+  j activate

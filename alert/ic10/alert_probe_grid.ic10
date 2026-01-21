@@ -1,0 +1,50 @@
+# Severities
+define OK 0
+define Maintenance 10
+define Warn 20
+define Critical 30
+
+# Category
+define Category 6 # POWER
+define Channel LogicType.Channel6
+
+# Configuration
+define LowCapacity 1.1
+define CriticalCapacity 1
+define HighWattage 80000 # W
+define Alpha 3600 # ticks
+
+# Labels
+define PotentialPowerMeter HASH("PotentialPowerMeter")
+
+# Structures
+define LogicReader HASH("StructureLogicReader")
+define CableAnalyzer HASH("StructureCableAnalysizer")
+
+# Variables
+alias Severity r0
+alias ActualEMA r1
+
+move ActualEMA 0
+main:
+  yield
+  move Severity Critical
+  lbn r15 LogicReader PotentialPowerMeter Setting Minimum
+  blt r15 CriticalCapacity update
+  move Severity Warn
+  blt r15 LowCapacity update
+  lb r15 CableAnalyzer PowerActual Average
+  select ActualEMA ActualEMA ActualEMA r15
+  div r14 1 Alpha
+  sub r13 1 r14
+  mul r14 r14 r15
+  mul r13 r13 ActualEMA
+  add ActualEMA r14 r13
+  bge ActualEMA HighWattage update
+  move Severity OK
+
+update:
+  add r15 Severity Category
+  s db Setting r15
+  s db:0 Channel r15
+  j main
