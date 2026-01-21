@@ -20,6 +20,12 @@ Monitors environmental conditions to ensure proper climate control.
 | `MinRatioOxygen`        | Minimum oxygen ratio            | `0.19`           |
 | `ThermalMeter`          | label                           | `"ThermalMeter"` |
 
+## SENSORS
+| Device       | Label        | Purpose                                         |
+|--------------|--------------|-------------------------------------------------|
+| Gas Sensor   | <n/a>        | Monitors interior conditions                    |
+| Logic Reader | ThermalMeter | Mirrors STS thermostat `Setting` (if installed) |
+
 ## ALERT STATES
 | Condition          | Alert         |
 |--------------------|---------------|

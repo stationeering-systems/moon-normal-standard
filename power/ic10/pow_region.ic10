@@ -1,0 +1,68 @@
+# Configuration
+define Period 600 # seconds
+define Alpha 3600 # ticks
+
+# Structures
+define AreaPowerControl HASH("StructureAreaPowerControl")
+define Battery HASH("StructureBattery")
+define BatteryLarge HASH("StructureBatteryLarge")
+define NetworkJunction HASH("StructureLogicReader")
+
+# Variables
+alias CapacityFactor r0
+alias Budget r1
+
+move CapacityFactor 0
+move sp 0
+main:
+  yield
+  # Get the base power budget
+  lb r15 Battery Charge Sum
+  lb r14 BatteryLarge Charge Sum
+  add r15 r15 r14
+  div Budget r15 Period
+
+  # Calculate actual/requested
+  lb r15 Battery PowerActual Average
+  lb r14 BatteryLarge PowerActual Average
+  select r15 r15 r15 r14 # Actual Power
+  bnan r15 main
+  lb r14 AreaPowerControl RequiredPower Sum # Uncharacterized loads
+  lb r13 NetworkJunction Setting Sum # Requested Power
+  add r13 r13 r14
+  div r15 r15 r13
+
+  # Normalize budget based on capacity factor
+  select CapacityFactor CapacityFactor CapacityFactor r15
+  div r13 1 Alpha
+  sub r12 1 r13
+  mul r13 r13 r15
+  mul r12 r12 CapacityFactor
+  add CapacityFactor r13 r12
+  div Budget Budget CapacityFactor
+
+  # Compute usage ratio
+  div r15 Budget r14
+  s db Setting r15
+
+  # Subtract uncharacterized load
+  sub Budget Budget r14
+
+  push 5
+  push 4
+  push 3
+  push 2
+  push 1
+  push 0
+activate:
+  beqz sp main
+  pop r15
+  bdns dr15 activate
+  l r14 dr15 NameHash
+  l r13 dr15 Maximum
+  lbn r12 NetworkJunction r14 Setting Average
+  min r13 r13 r12 # Clamp to transformer max
+  min r13 r13 Budget # Clamp to budget
+  sub Budget Budget r13 # Update available budget
+  s dr15 Setting r13
+  j activate
