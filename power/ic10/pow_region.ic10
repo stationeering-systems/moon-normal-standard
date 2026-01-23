@@ -27,18 +27,18 @@ main:
   lb r14 BatteryLarge PowerActual Average
   select r15 r15 r15 r14 # Actual Power
   bnan r15 main
-  lb r14 AreaPowerControl RequiredPower Sum # Uncharacterized loads
-  lb r13 NetworkJunction Setting Sum # Requested Power
-  add r13 r13 r14
-  div r15 r15 r13
+  lb r14 NetworkJunction Setting Sum # Requested power
+  lb r13 AreaPowerControl RequiredPower Sum # Uncharacterized loads
+  add r14 r14 r13 # Total requested
 
   # Normalize budget based on capacity factor
+  div r15 r15 r14
   select CapacityFactor CapacityFactor CapacityFactor r15
-  div r13 1 Alpha
-  sub r12 1 r13
-  mul r13 r13 r15
-  mul r12 r12 CapacityFactor
-  add CapacityFactor r13 r12
+  div r12 1 Alpha
+  sub r11 1 r12
+  mul r12 r12 r15
+  mul r11 r11 CapacityFactor
+  add CapacityFactor r12 r11
   div Budget Budget CapacityFactor
 
   # Compute usage ratio
@@ -46,7 +46,8 @@ main:
   s db Setting r15
 
   # Subtract uncharacterized load
-  sub Budget Budget r14
+  sub Budget Budget r13
+  max Budget Budget 0 # Extreme power shortage
 
   push 5
   push 4
