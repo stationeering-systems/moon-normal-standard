@@ -18,6 +18,8 @@ These systems aim to demonstrate sound systems design practices through the lens
   Automated fill, evacuation, and resource management systems for portable storage devices.
 * **[Power (POW)](./power)**  
   Power infrastructure including generation, distribution, and load management.
+* **[Trade (TRADE)](./trade)**  
+  Trade infrastructure including contact tracking and traffic control.
 
 ## Repository Organization
 

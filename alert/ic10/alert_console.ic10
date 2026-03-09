@@ -4,7 +4,7 @@ define DefaultMode 0
 define StringMode 10
 define PercentMode 1
 # Strings
-define FIRE $46495245
+define FIRE STR("FIRE")
 # Colors
 define DefaultColor 6 # white
 define VolatilesColor 4 # red
@@ -39,11 +39,11 @@ push HASH("StructureConsoleLED5")
 push HASH("StructureConsoleLED1x2")
 push HASH("StructureConsoleLED1x3")
 move Offset0 sp
-push $574F524C44   # WORLD
-push $53414645     # SAFE
-push $414456495345 # ADVISE
-push $48415A415244 # HAZARD
-push $585452454D45 # XTREME
+push STR("WORLD")
+push STR("SAFE")
+push STR("ADVISE")
+push STR("HAZARD")
+push STR("XTREME")
 move DisplayIndex 0
 
 main:
