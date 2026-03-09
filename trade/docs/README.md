@@ -20,4 +20,4 @@ This checklist must be completed before full system integration.  It ensures tha
    - Verify the dish's power level is set based on the scan detection threshold
 2. Contact Acquisition
    - Verify the dish's power setting is set to max
-   - Verify that final signal strength 
+   - Verify the locked signal strength is less than 2
