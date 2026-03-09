@@ -6,7 +6,7 @@ Locks onto a contact's position.
 ## FUNCTIONAL OVERVIEW
 * Performs a full-sky scan to isolate the contact id
 * Divides the scan region into nine proximity areas, using a timeout to narrow the search range.
-* Locks the final position by sampling neighboring points and approximating horizontal and vertical coordinates
+* Locks the final position by  neighboring points and approximating horizontal and vertical coordinates
 
 ## HARDWARE INTERFACE
 * **d0:** Dish
@@ -29,7 +29,6 @@ Locks onto a contact's position.
 |------------------------|------------------------------------------------------|----------|
 | `TargetSignalStrength` | Maximum locked Signal Strength                       | `2`      |
 | `AzimuthPeriod`        | Horizontal degrees traveled for full sky scan        | `1620`   |
-| `ElevationRate`        | Vertical offset for every horizontal degree          | `0.0556` |
 | `ScanStepSize`         | Horizontal distance traveled per scan step           | `10`     |
 | `ScanRatio`            | Scan detection power ratio                           | `0.2`    |
 | `RefineRadius`         | Radial distance for refinement proximity detection   | `15.307` |

@@ -1,6 +1,5 @@
 define TargetSignalStrength 2
 define AzimuthPeriod 1620  # 360° * 4.5
-define ElevationRate 0.0556 # 90° / AzimuthPeriod
 define ScanStepSize 10
 define ScanRatio 0.2
 define RefineRadius 15.307
@@ -33,7 +32,8 @@ scan:
   add Position Position ScanStepSize
   mod Position Position AzimuthPeriod
   s Dish Horizontal Position
-  mul r15 Position ElevationRate
+  div r15 90 AzimuthPeriod
+  mul r15 r15 Position
   s Dish Vertical r15
   yield
   l r15 Dish Idle
