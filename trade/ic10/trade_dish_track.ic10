@@ -24,10 +24,10 @@ main:
   l Timeout SignalTimeoutSetting Setting
   l Downtime DowntimeSetting Setting
   move Position 0
+scan:
   div r15 Watts ScanRatio
   select r15 r15 r15 50000
   s Dish Setting r15
-scan:
   s Dish BestContactFilter -1
   add Position Position ScanStepSize
   mod Position Position AzimuthPeriod
@@ -89,9 +89,8 @@ lock:
 halign:
   div r10 r11 r12
   mul r12 r12 -1
-  add r10 r10 r14
-  mul r12 r12 -1
-  s Dish Horizontal r12
+  add r10 r10 r13
+  s Dish Horizontal r10
   bgtz r12 lock
   jal measure
   blt r15 r11 lock
@@ -102,7 +101,7 @@ resolve:
   beqz r15 resolve
   sleep Timeout
   l r15 Dish SignalID
-  bltz r15 main
+  bltz r15 scan
   l r15 Dish SignalStrength
   bltz r15 ra
   ble r15 TargetSignalStrength acquired
@@ -110,7 +109,7 @@ resolve:
 measure:
   yield
   l r15 Dish SignalID
-  bltz r15 main
+  bltz r15 scan
   l r15 Dish SignalStrength
   bltz r15 measure
   ble r15 TargetSignalStrength acquired
