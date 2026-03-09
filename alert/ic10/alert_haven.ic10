@@ -10,6 +10,7 @@ define ContaminantSuitMin 0.01
 define ContaminantCountSuitMin 3
 define PressureSuitMax 450 # kPa
 define PressureSuitMin 160 # kPa
+define PressureRoomMin 50 # kPa
 define PressureAirMin 16 # kPa
 define TemperatureSuitMax 393.15 # K
 define TemperatureSuitMin 313.15 # K
@@ -60,6 +61,7 @@ main:
   bge T TemperatureSuitMax main
   move Condition Hazard
   bge P PressureSuitMin main
+  ble P PressureRoomMin main
   ble O2 PressureAirMin main
   bge T TemperatureSuitMin main
   ble T TemperatureAirMin main
