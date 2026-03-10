@@ -65,7 +65,6 @@ refine:
   add r14 r14 RefineAngle
   j refine
 lock:
-  jal measure
   l r14 Dish Vertical
   l r13 Dish Horizontal
   brge r14 r15 2
@@ -91,8 +90,8 @@ halign:
   mul r12 r12 -1
   add r10 r10 r13
   s Dish Horizontal r10
-  bgtz r12 lock
   jal measure
+  bgtz r12 lock
   blt r15 r11 lock
   j halign
 resolve:

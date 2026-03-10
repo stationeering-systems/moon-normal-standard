@@ -6,7 +6,7 @@ Locks onto a contact's position.
 ## FUNCTIONAL OVERVIEW
 * Performs a full-sky scan to isolate the contact id
 * Divides the scan region into nine proximity areas, using a timeout to narrow the search range.
-* Locks the final position by  neighboring points and approximating horizontal and vertical coordinates
+* Locks the final position by sampling neighboring points and approximating horizontal and vertical coordinates
 
 ## HARDWARE INTERFACE
 * **d0:** Dish
