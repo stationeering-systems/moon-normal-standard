@@ -29,7 +29,7 @@ This checklist must be completed before full system integration.  It ensures all
 5. Power **off** `Failsafe Control`
 6. Power **on** `TEC-FS`
 
-7. Confirm **Volatiles filters** are installed on `TEC-V`
+7. Confirm **Methane filters** are installed on `TEC-V`
 8. Power **on** `TEC-V` (unflashed)
 9. Load gas (> 6.3 kPa) from the ECL
 10. Power **on** `Failsafe Control`
@@ -59,7 +59,7 @@ This checklist must be completed before full system integration.  It ensures all
 3. Remove filters
 4. Assert `TEC-V` is **IDLE**
 
-6. In case of volatiles contamination:
+6. In case of methane contamination:
    - Open **manual release valve**
    - Confirm pipe is cleared
 

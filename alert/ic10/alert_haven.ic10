@@ -43,7 +43,7 @@ main:
   mul O2 O2 P
   move ContaminantRatio 0
   move ContaminantCount 0
-  lb r15 GasSensor RatioVolatiles Average
+  lb r15 GasSensor RatioMethane Average
   add ContaminantRatio ContaminantRatio r15
   add ContaminantCount ContaminantCount r15
   ceil ContaminantCount ContaminantCount

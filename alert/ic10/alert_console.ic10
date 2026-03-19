@@ -7,7 +7,7 @@ define PercentMode 1
 define FIRE STR("FIRE")
 # Colors
 define DefaultColor 6 # white
-define VolatilesColor 4 # red
+define MethaneColor 4 # red
 define PollutantColor 5 # yellow
 define NitrousOxideColor 2 # green
 
@@ -93,9 +93,9 @@ format:
   move DisplayMode    StringMode
   move DisplaySetting FIRE
   jal update
-  # Volatiles
-  lb r15 GasSensor RatioVolatiles Average
-  move DisplayColor   VolatilesColor
+  # Methane
+  lb r15 GasSensor RatioMethane Average
+  move DisplayColor   MethaneColor
   move DisplayMode    PercentMode
   move DisplaySetting r15
   jal update
