@@ -50,8 +50,8 @@ pump:
 
   # Idle if the filter is empty
   ls r15 db 0 Quantity
-  ls r14 db 1 Quantity
-  add r15 r15 r14
+  beqz r15 done
+  ls r15 db 1 Quantity
   beqz r15 done
 
   # Idle if pressure is high
