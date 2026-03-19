@@ -59,7 +59,7 @@ This checklist must be completed before full system integration.  It ensures all
 3. Remove filters
 4. Assert `TEC-V` is **IDLE**
 
-6. In case of methane contamination:
+6. In case of foreign contamination:
    - Open **manual release valve**
    - Confirm pipe is cleared
 
