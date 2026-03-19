@@ -94,22 +94,22 @@ format:
   move DisplaySetting STR("******")
   lb r15 GasSensor RatioHydrazine Average
   breqz r15 2
-  ins DisplaySetting 0 8 STR("Z")
+  ins DisplaySetting STR("Z") 0 8
   lb r15 GasSensor RatioSilanol Average
   breqz r15 2
-  ins DisplaySetting 8 8 STR("S")
+  ins DisplaySetting STR("S") 8 8
   lb r15 GasSensor RatioPollutant Average
   breqz r15 2
-  ins DisplaySetting 16 8 STR("P")
+  ins DisplaySetting STR("P") 16 8
   lb r15 GasSensor RatioNitrousOxide Average
   breqz r15 2
-  ins DisplaySetting 24 8 STR("N")
+  ins DisplaySetting STR("N") 24 8
   lb r15 GasSensor RatioMethane Average
   breqz r15 2
-  ins DisplaySetting 32 8 STR("M")
+  ins DisplaySetting STR("M") 32 8
   lb r15 GasSensor RatioHydrochloricAcid Average
   breqz r15 2
-  ins DisplaySetting 40 8 STR("H")
+  ins DisplaySetting STR("H") 40 8
   move DisplayColor DefaultColor
   move DisplayMode StringMode
   jal update
