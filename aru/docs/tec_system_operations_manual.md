@@ -21,7 +21,7 @@ Pumps waste gases from the **Exchange Capture Line** into the **Thermal Exchange
 
 ### PIPE CONNECTIONS
 * **Input**: Exchange Capture Line
-* **Output**: Volatiles Purge Vent
+* **Output**: Contaminants Purge Vent
 * **Output2**: PGL Intake and Cooling Loop
 
 ## CONFIGURATION PARAMETERS

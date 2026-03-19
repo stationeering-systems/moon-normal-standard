@@ -7,9 +7,6 @@ define PercentMode 1
 define FIRE STR("FIRE")
 # Colors
 define DefaultColor 6 # white
-define VolatilesColor 4 # red
-define PollutantColor 5 # yellow
-define NitrousOxideColor 2 # green
 
 # Configuration
 define HoldDuration 2 # seconds
@@ -93,23 +90,28 @@ format:
   move DisplayMode    StringMode
   move DisplaySetting FIRE
   jal update
-  # Volatiles
-  lb r15 GasSensor RatioVolatiles Average
-  move DisplayColor   VolatilesColor
-  move DisplayMode    PercentMode
-  move DisplaySetting r15
-  jal update
-  # Pollutant
+  # Toxic Contaminants
+  move DisplaySetting STR("******")
+  lb r15 GasSensor RatioHydrazine Average
+  breqz r15 2
+  ins DisplaySetting STR("Z") 0 8
+  lb r15 GasSensor RatioSilanol Average
+  breqz r15 2
+  ins DisplaySetting STR("S") 8 8
   lb r15 GasSensor RatioPollutant Average
-  move DisplayColor   PollutantColor
-  move DisplayMode    PercentMode
-  move DisplaySetting r15
-  jal update
-  # NitrousOxide
+  breqz r15 2
+  ins DisplaySetting STR("P") 16 8
   lb r15 GasSensor RatioNitrousOxide Average
-  move DisplayColor   NitrousOxideColor
-  move DisplayMode    PercentMode
-  move DisplaySetting r15
+  breqz r15 2
+  ins DisplaySetting STR("N") 24 8
+  lb r15 GasSensor RatioMethane Average
+  breqz r15 2
+  ins DisplaySetting STR("M") 32 8
+  lb r15 GasSensor RatioHydrochloricAcid Average
+  breqz r15 2
+  ins DisplaySetting STR("H") 40 8
+  move DisplayColor DefaultColor
+  move DisplayMode StringMode
   jal update
   j main
 update:
