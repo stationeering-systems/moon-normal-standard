@@ -20,21 +20,21 @@ Monitors ARU and pipeline conditions to ensure ARU operability
 | `PGL`            | label                             | `"PGL"`         |
 
 ## SENSORS
-| Device            | Label       | Purpose                                            |
-|-------------------|-------------|----------------------------------------------------|
-| Pipe Analyzer     | ECL         | Monitors ECL Pipe conditions                       |
-| Pipe Analyzer     | TEC         | Monitors TEC Pipe conditions                       |
-| Pipe Analyzer     | PGL         | Monitors each PGL Pipe conditions                  |
-| Batch Slot Reader | FilterSlot1 | Monitors Slot 0 Quantity of all filtration devices |
-| Batch Slot Reader | FilterSlot2 | Monitors Slot 1 Quantity of all filtration devices |
+| Device            | Label       | Purpose                                                   |
+|-------------------|-------------|-----------------------------------------------------------|
+| Pipe Analyzer     | ECL         | Monitors ECL Pipe conditions                              |
+| Pipe Analyzer     | TEC         | Monitors TEC Pipe conditions                              |
+| Pipe Analyzer     | PGL         | Monitors each PGL Pipe conditions                         |
+| Batch Slot Reader | FilterSlot1 | Monitors Warning Slot Quantity of all filtration devices  |
+| Batch Slot Reader | FilterSlot2 | Monitors Critical Slot Quantity of all filtration devices |
 
 ## ALERT STATES
-| Condition                 | Alert            |
-|---------------------------|------------------|
-| Pipe burst                | 35 (CRITICAL)    |
-| (PGL) Low pressure        | 35 (CRITICAL)    |
-| Secondary filter depleted | 25 (WARN)        |
-| (ECL) High pressure       | 25 (WARN)        |
-| (PGL) High pressure       | 25 (WARN)        |
-| Low temperature           | 25 (WARN)        |
-| Primary filter depleted   | 15 (MAINTENANCE) |
+| Condition                | Alert            |
+|--------------------------|------------------|
+| Pipe burst               | 35 (CRITICAL)    |
+| (PGL) Low pressure       | 35 (CRITICAL)    |
+| Critical filter depleted | 25 (WARN)        |
+| (ECL) High pressure      | 25 (WARN)        |
+| (PGL) High pressure      | 25 (WARN)        |
+| Low temperature          | 25 (WARN)        |
+| Warning filter depleted  | 15 (MAINTENANCE) |
