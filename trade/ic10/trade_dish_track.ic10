@@ -29,7 +29,7 @@ scan:
   s Dish BestContactFilter -1
   add Position Position ScanStepSize
   mod Position Position AzimuthPeriod
-  beqz Position scan # Prevent divide by 0
+  beqz Position scan
   s Dish Horizontal Position
   div r15 90 AzimuthPeriod
   mul r15 r15 Position
