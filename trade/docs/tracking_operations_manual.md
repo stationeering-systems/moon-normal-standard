@@ -46,4 +46,4 @@ The refinement phase uses a flat-plane approximation to place nine search positi
 * Contact is never acquired and the dish does not transition to lock
 * Issue is most prominent for contacts detected at high elevations (V > 70°)
 
-**Solution:** Increase the `Proximity Timeout Setting` in 0.5s increments until the contact transitions to the lock stage.  The timeout extends the dwell time at each position, compensating for the additional spherical distance.  Large and Exotic contacts are most susceptible due to their higher `WattsToResolve` value and are pre-configured with a higher baseline timeout of 8.5s.
+**Solution:** Increase the `Proximity Timeout Setting` in 0.5s increments until the contact transitions to the lock stage.  The timeout extends the dwell time at each position, compensating for the additional spherical distance.  Large and Exotic contacts are most susceptible due to their higher `WattsToResolve` value and have a higher suggested baseline timeout of 8.5s.
