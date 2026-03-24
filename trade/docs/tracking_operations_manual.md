@@ -21,8 +21,8 @@ Locks onto a contact's position.
 | Utility | Small  | 0    | 0     | 0       | 300      |
 | Basic   | Small  | 1    | 0     | 0       | 30       |
 | Medium  | Small  | 2    | 20    | 4.5     | 30       |
-| Large   | Medium | 3    | 250   | 8       | 120      |
-| Exotic  | Medium | 4    | 100   | 8       | 1200     |
+| Large   | Medium | 3    | 250   | 8.5     | 120      |
+| Exotic  | Medium | 4    | 100   | 8.5     | 1200     |
 
 ## CONFIGURATION PARAMETERS
 | Variable               | Description                                          | Setting  |
@@ -33,3 +33,17 @@ Locks onto a contact's position.
 | `ScanRatio`            | Scan detection power ratio                           | `0.2`    |
 | `RefineRadius`         | Radial distance for refinement proximity detection   | `15.307` |
 | `RefineAngle`          | Angular step size for refinement proximity detection | `45`     |
+
+# MAINTENANCE & TROUBLESHOOTING
+
+## Dish keeps checking the same positions in a loop
+
+The refinement phase uses a flat-plane approximation to place nine search positions around the detection point.  Near the hemisphere boundary, spherical geometry causes the actual distance between the dish and the contact to be slightly larger than the calculation predicts.  If the contact falls outside the effective coverage of all nine positions, the dish cycles through them repeatedly without resolving.
+
+**Observed behavior:**
+* Dish moves to a position, pauses briefly, then advances to the next
+* Movement traces a circular pattern around the initial detection point
+* Contact is never acquired and the dish does not transition to lock
+* Issue is most prominent for contacts detected at high elevations (V > 70°)
+
+**Solution:** Increase the `Proximity Timeout Setting` in 0.5s increments until the contact transitions to the lock stage.  The timeout extends the dwell time at each position, compensating for the additional spherical distance.  Large and Exotic contacts are most susceptible due to their higher `WattsToResolve` value and are pre-configured with a higher baseline timeout of 8.5s.

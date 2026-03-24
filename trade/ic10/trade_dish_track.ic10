@@ -13,15 +13,13 @@ alias DowntimeSetting d4
 
 alias Contact r0
 alias Watts r1
-alias Timeout r2
-alias Downtime r3
-alias Position r4
+alias Downtime r2
+alias Position r3
 
 main:
   s Dish On 1
   l Contact ContactSetting Setting
   l Watts WattsVisibleSetting Setting
-  l Timeout SignalTimeoutSetting Setting
   l Downtime DowntimeSetting Setting
   move Position 0
 scan:
@@ -31,6 +29,7 @@ scan:
   s Dish BestContactFilter -1
   add Position Position ScanStepSize
   mod Position Position AzimuthPeriod
+  beqz Position scan # Prevent divide by 0
   s Dish Horizontal Position
   div r15 90 AzimuthPeriod
   mul r15 r15 Position
@@ -49,7 +48,7 @@ scan:
   l r13 Dish Vertical
   l r12 Dish Horizontal
 refine:
-  mul r11 deg2rad r14
+  mul r11 r14 deg2rad
   sin r10 r11
   mul r10 r10 RefineRadius
   add r10 r10 r13
@@ -80,6 +79,7 @@ lock:
   div r12 r12 r11
   div r12 r12 -2  # (2s_a^2 - s_b^2) / -2s_a
   add r11 r14 r12
+  max r11 r11 1 # Prevent divide by zero
   s Dish Vertical r11
   jal measure
   mul r12 r11 deg2rad
@@ -98,7 +98,8 @@ resolve:
   yield
   l r15 Dish Idle
   beqz r15 resolve
-  sleep Timeout
+  l r15 SignalTimeoutSetting Setting
+  sleep r15
   l r15 Dish SignalID
   bltz r15 scan
   l r15 Dish SignalStrength
