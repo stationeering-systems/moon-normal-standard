@@ -1,0 +1,53 @@
+# Inputs
+alias Dish d0
+alias ContactSlot d5
+
+# Variables
+alias TrackRegistry r0
+alias Slot r1
+alias ContactDish r2
+alias LastUpdated r3
+
+clr db
+move LastUpdated -1
+main:
+  s db Setting LastUpdated
+  move LastUpdated -1
+  yield
+  l TrackRegistry db:0 Channel0
+  bnan TrackRegistry main
+
+  l Slot ContactSlot Setting
+  get ContactDish TrackRegistry Slot
+  beqz ContactDish main
+
+  l r15 ContactDish Horizontal
+  l r14 ContactDish Vertical
+  l r13 Dish Horizontal
+  l r12 Dish Vertical
+  max r11 r14 r12 # v_max
+  sub r10 r11 67.5
+  max r10 r10 0
+  mul r10 r10 0.36 # 0.36 * max(0, v_max - 67.5)
+  min r11 r11 67.5
+  add r11 r11 22.5 # 22.5 + min(67.5, v_max)
+  sub r9 r14 r12
+  abs r9 r9 # dv
+  add r9 r9 r11
+  add r11 r11 r10
+  div r11 r9 r11
+  log r11 r11
+  mul r11 r11 90
+  add r11 r11 r10
+  sub r10 r15 r13
+  abs r9 r10
+  brle r9 180 3
+  sub r9 360 r9
+  mul r10 r10 -1
+  sub r11 r9 r11
+  max r11 r11 0 # Horizontal offset
+  brgez r10 2
+  mul r11 r11 -1
+  put db Slot r11
+  move LastUpdated Slot
+  j main

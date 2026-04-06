@@ -1,0 +1,40 @@
+# Inputs
+alias Dish d0
+alias LandingPad d1
+alias TerminalIndex d2
+alias TerminalAccepts d3
+alias ContactSlot d5
+
+# Variables
+alias PadRegistry r0
+alias Result r1
+
+move Result $FF
+main:
+  s db Setting Result
+  move Result $FF
+  yield
+  l r15 ContactSlot Setting
+  l r14 TerminalIndex Setting
+  l r13 TerminalAccepts Setting
+
+  # Register the dish
+  l PadRegistry db:0 Channel2
+  brnan PadRegistry main
+  l r12 Dish Setting
+  put PadRegistry r14 r12
+
+  # Verify that this pad is compatible
+  ins Result r15 0 8
+  ins Result r14 8 8
+  sll r15 1 r15
+  and r15 r15 r13
+  beqz r15 main
+
+  # Verify that this pad is available
+  l r15 LandingPad Power
+  beqz r15 main
+  l r15 LandingPad Mode
+  bgt r15 1 main
+  ins Result 1 16 8
+  j main

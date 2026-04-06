@@ -7,6 +7,7 @@ Locks onto a contact's position.
 * Performs a full-sky scan to isolate the contact id
 * Divides the scan region into nine proximity areas, using a timeout to narrow the search range.
 * Locks the final position by sampling neighboring points and approximating horizontal and vertical coordinates
+* Toggles the Setting register after the contact despawns.  This can be used to reset a stopwatch and track contact uptime for automated traffic systems.
 
 ## HARDWARE INTERFACE
 * **d0:** Dish
