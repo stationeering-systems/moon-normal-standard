@@ -17,14 +17,14 @@ push 1   # Warn - 2
 push 0.5 # Critical - 3
 
 move CategoryOffset sp
-push 6  # All Clear - White
-push 10 # Unused - Pink
-push 11 # Unused - Purple
-push 0  # Unused - Blue
-push 2  # Agriculture - Green
-push 5  # Atmospherics - Yellow
-push 3  # Power - Orange
-push 4  # Environment - Red
+push Color.White  # All Clear
+push Color.Pink   # Security
+push Color.Purple # Customs
+push Color.Blue   # Logistics
+push Color.Green  # Agriculture
+push Color.Yellow # Atmospherics
+push Color.Orange # Power
+push Color.Red    # Environment
 
 s Beacon On 0
 main:

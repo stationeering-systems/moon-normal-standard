@@ -24,9 +24,8 @@ main:
 
   # Calculate actual/requested
   lb r15 Battery PowerActual Average
-  lb r14 BatteryLarge PowerActual Average
-  select r15 r15 r15 r14 # Actual Power
-  bnan r15 main
+  brgez r15 2
+  lb r15 BatteryLarge PowerActual Average
   lb r14 NetworkJunction Setting Sum # Requested power
   lb r13 AreaPowerControl RequiredPower Sum # Uncharacterized loads
   add r14 r14 r13 # Total requested
