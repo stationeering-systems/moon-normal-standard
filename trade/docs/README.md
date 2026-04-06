@@ -6,7 +6,7 @@ This directory contains operational documentation for key infrastructure used in
 - **[Trade Systems Readiness Checklist](#readiness-checklist)**
 
 ### Tracking
-- **[Tracking Registry System Operations Manual](tracking_registry_operations_manual.md)**
+- **[Tracking Registry System Operations Manual](./tracking_registry_operations_manual.md)**
 - **[Tracking Control System Operations Manual](./tracking_operations_manual.md)**
 
 ### Pad Clearance
@@ -59,7 +59,7 @@ This checklist must be completed before full system integration.  It ensures tha
    - Verify that infeasible signals display infinity
    - Verify that all other signals display a numerical result
 4. Restore the original programming
-  - Verify the output displays between -1 to 4
+   - Verify the output displays between -1 to 4
 
 ### Dispatch Control
 

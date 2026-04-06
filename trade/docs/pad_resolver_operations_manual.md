@@ -3,7 +3,7 @@
 ## SYSTEM PURPOSE
 Given a slot request, determines whether a contact can land at the assigned pad.
 
-# FUNCTIONAL OVERVIEW
+## FUNCTIONAL OVERVIEW
 * Registers the landing dish reference id
 * Checks landing pad availability
 * Compares contact characteristics to verify if ship can land at the assigned pad
