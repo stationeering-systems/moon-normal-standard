@@ -1,0 +1,121 @@
+# Structures
+define Stopwatch HASH("StopWatch")
+# Inputs
+alias Dish d0
+alias Battery d1
+alias WeatherStation d2
+alias MovementCalculator d3
+alias ContactSlot d5
+# Variables
+alias TrackRegistry r0
+alias ManifestRegistry r1
+alias Slot r2
+alias ContactDish r3
+alias LastUpdated r4
+alias Config r5
+alias MinTTL r6
+alias MinPower r7
+alias ContactTime r8
+alias Variance r9
+alias WeatherTime r10
+# Contact Configuration
+clr db
+# RESERVED: Addresses 0-4
+define ConfigOffset 5
+put db 5 1288492155180 # D = 300,  S = 30,  R = 300
+put db 6 128850984960  # D = 30,   S = 30,  R = 0
+put db 7 128856883230  # D = 30,   S = 120, R = 30
+put db 8 257737359420  # D = 60,   S = 600, R = 60
+put db 9 5154000078000 # D = 1200, S = 600, R = 1200
+
+move LastUpdated -1
+main:
+  s db Setting LastUpdated
+  move LastUpdated -1
+  yield
+  l Slot ContactSlot Setting
+  l TrackRegistry db:0 Channel0
+  bnan TrackRegistry main
+  l ManifestRegistry db:0 Channel1
+  bnan ManifestRegistry main
+
+  # Initialize Configuration
+  get ContactDish ManifestRegistry Slot
+  beqz ContactDish main
+  l r15 ContactDish ContactSlotIndex
+  bne r15 Slot main
+  add r15 ConfigOffset Slot
+  get Config db r15
+  get r15 ContactDish 2 # ContactSignalData
+  beqz r15 main
+  ext MinTTL r15 24 16 # LIFETIME
+  ext r14 Config 32 16 # MIN_DOWNTIME
+  add MinTTL MinTTL r14
+  ext Variance Config 0 16 # DELTA_DOWNTIME
+  sqrt MinPower 20 # 0.5s resolution time
+  ext r14 r15 8 16 # WATTS_TO_RESOLVE
+  mul MinPower MinPower r14
+
+  # Calculate contact time and power
+  get ContactDish TrackRegistry Slot
+  beqz ContactDish main
+  l r15 Battery Charge
+  l r14 ContactDish MinimumWattsToContact
+  blez r14 main
+  ext r13 Config 16 16 # MAX_SECONDS_TO_CONTACT
+  l r12 Dish InterrogationProgress
+  sub r12 1 r12
+  mul r13 r13 r12
+  mul r12 r14 r13 # max joules
+  blt r15 r12 infeasible
+  div ContactTime r12 MinPower
+
+  # Calculate movement time
+  l r15 ContactDish Vertical
+  l r14 Dish Vertical
+  min r13 r14 r15
+  div r13 r13 90
+  add r13 r13 0.25
+  min r13 r13 1
+  div r13 0.36 r13 # H rate
+  sub r12 r14 r15
+  abs r12 r12
+  mul r12 r12 0.36
+  sub MinTTL MinTTL r12
+  l r15 MovementCalculator Setting
+  bne r15 Slot main
+  get r15 MovementCalculator Slot
+  abs r15 r15
+  mul r15 r15 r13
+  sub MinTTL MinTTL r15
+
+  # Current signal age
+  l r15 ContactDish NameHash
+  lbn r15 Stopwatch r15 Time Maximum
+  sub MinTTL MinTTL r15
+
+  # Adjust for weather
+  l r15 WeatherStation NextWeatherHash
+  l WeatherTime WeatherStation NextWeatherEventTime
+  max WeatherTime WeatherTime 0
+  select WeatherTime r15 WeatherTime pinf
+  min MinTTL MinTTL WeatherTime
+
+  # Calculate power ratio
+  div r15 MinPower 50000 # r_base
+  ble ContactTime MinTTL update
+  mul ContactTime ContactTime r15 # t_contact,min
+  div r15 ContactTime MinTTL # r_adjusted
+  ble ContactTime MinTTL update
+  bgt ContactTime WeatherTime infeasible
+  sub ContactTime ContactTime MinTTL
+  bgt ContactTime Variance infeasible
+  div r15 ContactTime Variance
+  add r15 r15 1
+  j update
+infeasible:
+  move r15 pinf
+update:
+  put db Slot r15
+  move LastUpdated Slot
+  j main

@@ -1,5 +1,5 @@
 define TargetSignalStrength 2
-define AzimuthPeriod 1620  # 360° * 4.5
+define AzimuthPeriod 1620  # 360 * 4.5
 define ScanStepSize 10
 define ScanRatio 0.2
 define RefineRadius 15.307
@@ -16,6 +16,7 @@ alias Watts r1
 alias Downtime r2
 alias Position r3
 
+s db Setting 1 # Start the timer
 main:
   s Dish On 1
   l Contact ContactSetting Setting
@@ -34,9 +35,9 @@ scan:
   div r15 90 AzimuthPeriod
   mul r15 r15 Position
   s Dish Vertical r15
-  yield
   l r15 Dish Idle
-  breqz r15 -2
+  breqz r15 -1
+  yield
   l r15 Dish ContactSlotIndex
   bne r15 Contact scan
   l r15 Dish SignalID
@@ -95,9 +96,9 @@ halign:
   blt r15 r11 lock
   j halign
 resolve:
-  yield
   l r15 Dish Idle
-  beqz r15 resolve
+  breqz r15 -1
+  yield
   l r15 SignalTimeoutSetting Setting
   sleep r15
   l r15 Dish SignalID
@@ -115,9 +116,11 @@ measure:
   ble r15 TargetSignalStrength acquired
   j ra
 acquired:
-  yield
   l r15 Dish SignalID
   bgez r15 acquired
+  s db Setting 0
+  yield
+  s db Setting 1 # Reset the timer
   s Dish Setting 0
   s Dish Vertical 0
   s Dish Horizontal 0

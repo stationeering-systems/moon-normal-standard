@@ -1,0 +1,43 @@
+define TrackRegistry LogicType.Channel0
+define TargetSignalStrength 2
+
+alias Utility d0
+alias Basic d1
+alias Medium d2
+alias Large d3
+alias Exotic d4
+alias ContactSlot d5
+
+alias LastUpdated r0
+alias ContactDish r1
+
+clr db
+move LastUpdated -1
+main:
+  s db Setting LastUpdated
+  move LastUpdated -1
+  l r15 db ReferenceId
+  s db:0 TrackRegistry r15
+  yield
+
+  # Registry Stack
+  l r15 Utility ReferenceId
+  put db 0 r15
+  l r15 Basic ReferenceId
+  put db 1 r15
+  l r15 Medium ReferenceId
+  put db 2 r15
+  l r15 Large ReferenceId
+  put db 3 r15
+  l r15 Exotic ReferenceId
+  put db 4 r15
+
+  l LastUpdated ContactSlot Setting
+  get ContactDish db LastUpdated
+  l r15 ContactDish ContactSlotIndex
+  bne r15 LastUpdated main
+  l r15 ContactDish SignalStrength
+  bltz r15 main
+  bgt r15 TargetSignalStrength main
+  ins LastUpdated 1 8 8
+  j main

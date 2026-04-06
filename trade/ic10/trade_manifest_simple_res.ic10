@@ -1,0 +1,88 @@
+define ContactIdHash 0
+define ContactMetaData 1
+define ContactSignalData 2
+
+alias Dish d0
+alias ContactSlot d5
+
+alias Slot r0
+alias Stack r1
+alias Cursor r2
+alias Result r3
+
+clr Dish
+l Stack Dish StackSize
+move Cursor 0
+
+# Contact Data
+move r15 0
+ins r15 TraderInstruction.WriteTraderData 0 8
+ins r15 Cursor 8 8
+add Cursor Cursor 3
+sub Stack Stack 1
+put Dish Stack r15
+
+# Items to sell to the trader (trader buy side)
+# Example: Ice
+move r15 0
+ins r15 TraderInstruction.WriteTraderBuyData 0 8
+ins r15 Cursor 8 8
+ins r15 1 16 8
+add Cursor Cursor 1
+sub Stack Stack 1
+put Dish Stack r15
+move r15 0
+ins r15 TraderInstruction.FilterPrefabHashEquals 0 8
+ins r15 HASH("ItemIce") 8 32
+sub Stack Stack 1
+put Dish Stack r15
+move r15 0
+
+# Items to buy from the trader (trader sell side)
+# Example: Ferns
+move r15 0
+ins r15 TraderInstruction.WriteTraderSellData 0 8
+ins r15 Cursor 8 8
+ins r15 1 16 8
+add Cursor Cursor 1
+sub Stack Stack 1
+put Dish Stack r15
+move r15 0
+ins r15 TraderInstruction.FilterPrefabHashEquals 0 8
+ins r15 HASH("Seedbag_Fern") 8 32
+sub Stack Stack 1
+put Dish Stack r15
+move r15 0
+ins r15 HASH("ItemFern") 8 32
+sub Stack Stack 1
+put Dish Stack r15
+move r15 0
+ins r15 HASH("ItemFilterFern") 8 32
+sub Stack Stack 1
+put Dish Stack r15
+
+move Result $FF
+main:
+  s db Setting Result
+  move Result $FF
+  yield
+  l Slot ContactSlot Setting
+  l r15 Dish ContactSlotIndex
+  ins Result Slot 0 8
+  bne Slot r15 main
+buy:
+  get r15 Dish 3 # BUY
+  ext r14 r15 0 8 # OPCODE
+  bne r14 TraderInstruction.TraderBuyThingData sell
+  ext r14 r15 8 8 # QUANTITY
+  beqz r14 sell
+  ins Result 1 8 8
+  j main
+sell:
+  get r15 Dish 4  # SELL
+  ext r14 r15 0 8 # OPCODE
+  bne r14 TraderInstruction.TraderSellThingData main
+  ext r14 r15 8 8 # QUANTITY
+  beqz r14 main
+  ins Result 1 8 8
+  j main

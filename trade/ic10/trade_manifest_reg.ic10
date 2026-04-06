@@ -1,0 +1,42 @@
+define ManifestRegistry LogicType.Channel1
+
+alias Zenith d0
+alias Large d1
+alias Exotic d2
+alias ContactSlot d5
+
+alias TrackRegistry r0
+alias LastUpdated r1
+alias ContactDish r2
+
+clr db
+move LastUpdated -1
+main:
+  s db Setting LastUpdated
+  move LastUpdated -1
+  l r15 db ReferenceId
+  s db:0 ManifestRegistry r15
+  yield
+
+  # Registry Stack
+  l r15 Zenith ReferenceId
+  put db 0 r15
+  put db 1 r15
+  put db 2 r15
+  l r15 Large ReferenceId
+  put db 3 r15
+  l r15 Exotic ReferenceId
+  put db 4 r15
+
+  # Load the contact dish signal
+  l TrackRegistry db:0 Channel0
+  bnan TrackRegistry main
+  l LastUpdated ContactSlot Setting
+  get ContactDish TrackRegistry LastUpdated
+  beqz ContactDish main
+  l r15 ContactDish ContactSlotIndex
+  bne r15 LastUpdated main
+  l r15 ContactDish SignalID
+  s Zenith BestContactFilter r15
+  ins LastUpdated 1 8 8
+  j main

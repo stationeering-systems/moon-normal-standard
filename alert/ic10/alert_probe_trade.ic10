@@ -1,0 +1,37 @@
+# Severities
+define OK 0
+define Maintenance 10
+define Warn 20
+define Critical 30
+
+# Category
+define Category 2 # CUSTOMS
+define Channel LogicType.Channel2
+
+# Configuration
+define Occupied 2
+
+# Labels
+define LandingPad HASH("LandingPad")
+
+# Structures
+define LogicReader HASH("StructureLogicReader")
+
+# Variables
+alias Severity r0
+
+main:
+  yield
+  move Severity Warn
+  lbn r15 LogicReader LandingPad Setting Minimum
+  bge r15 Occupied update
+  move Severity Maintenance
+  lbn r15 LogicReader LandingPad Setting Maximum
+  bge r15 Occupied update
+  move Severity OK
+
+update:
+  add r15 Severity Category
+  s db Setting r15
+  s db:0 Channel r15
+  j main

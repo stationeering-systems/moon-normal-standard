@@ -1,0 +1,124 @@
+alias TrackRegistry r0
+alias ManifestRegistry r1
+alias PadRegistry r2
+l TrackRegistry db:0 Channel0
+brnan TrackRegistry -1
+l ManifestRegistry db:0 Channel1
+brnan ManifestRegistry -1
+l PadRegistry db:0 Channel2
+brnan PadRegistry -1
+
+define ContactThreshold 1.2
+define MaxContactThreshold 2
+define ManifestResolver HASH("ManifestResolver")
+define PadResolver HASH("PadResolver")
+define IC HASH("StructureCircuitHousing")
+
+alias Dish d0
+alias MovementCalculator d3
+alias PowerCalculator d4
+alias ContactSlot d5
+
+alias Index r3
+alias ContactDish r4
+alias LandingDish r5
+alias BestContactSlot r6
+alias BestContactScore r7
+
+main:
+  s db Setting -1
+  s Dish Activate 0
+  s Dish Setting 0
+  move BestContactSlot -1
+  move BestContactScore 0
+  move Index -1
+  jal loop
+  bltz BestContactSlot main
+  s ContactSlot Setting BestContactSlot
+  get ContactDish TrackRegistry BestContactSlot
+  lbn r15 IC PadResolver Setting Maximum
+  ext r14 r15 0 8 # CONTACT_SLOT
+  brne r14 BestContactSlot -2
+  blt r15 $10000 main # AVAILABLE
+  ext r14 r15 8 8 # PAD_INDEX
+  s db Setting r15
+  get LandingDish PadRegistry r14
+  s LandingDish Activate 0
+  l r15 ContactDish SignalID
+  bltz r15 main
+  s Dish BestContactFilter r15
+  s LandingDish BestContactFilter r15
+lock:
+  l r15 ContactDish ContactSlotIndex
+  bne r15 BestContactSlot main
+  l r15 ContactDish Vertical
+  l r14 ContactDish Horizontal
+  l r13 Dish Vertical
+  l r12 Dish Horizontal
+  ble r15 r13 move
+  l r11 MovementCalculator Setting
+  bne r11 BestContactSlot lock
+  get r11 MovementCalculator BestContactSlot
+  add r11 r11 r12
+  s Dish Horizontal r11
+  l r11 Dish Idle
+  breqz r15 -1
+move:
+  s Dish Vertical r15
+  s LandingDish Vertical r15
+  s Dish Horizontal r14
+  s LandingDish Horizontal r14
+  l r15 Dish Idle
+  breqz r15 -1
+  l r15 LandingDish Idle
+  breqz r15 -1
+interrogate:
+  l r15 Dish ContactSlotIndex
+  bne r15 BestContactSlot main
+  l r15 PowerCalculator Setting
+  bne r15 BestContactSlot interrogate
+  get r15 PowerCalculator BestContactSlot
+  bge r15 MaxContactThreshold main
+  mul r15 r15 50000
+  s Dish Setting r15
+  yield
+  s Dish Activate 1
+  l r15 Dish InterrogationProgress
+  blt r15 1 interrogate
+  yield
+  s LandingDish Activate 1
+  yield
+  j main
+loop:
+  add Index Index 1
+  l r15 ContactSlot Mode
+  bgt Index r15 ra
+  s ContactSlot Setting Index
+check:
+  l r15 TrackRegistry Setting
+  ext r14 r15 0 8 # CONTACT_SLOT
+  bne r14 Index check
+  blt r15 $100 loop # LOCKED
+  get ContactDish ManifestRegistry Index
+  beqz ContactDish check
+  get r15 ContactDish 1 # ContactMetaData
+  beqz r15 check
+  ext r14 r15 16 8 # CONTACT_SLOT
+  bne r14 Index check
+  bge r15 $1000000 loop # CONTACTED
+  lbn r15 IC ManifestResolver Setting Maximum
+  ext r14 r15 0 8 # CONTACT_SLOT
+  bne r14 Index check
+  blt r15 $100 loop # HAS_OPPORTUNITY
+  lbn r15 IC PadResolver Setting Maximum
+  ext r14 r15 0 8  # CONTACT_SLOT
+  bne r14 Index check
+  blt r15 $10000 loop # IS_AVAILABLE
+  l r15 PowerCalculator Setting
+  bne r15 Index check
+  get r15 PowerCalculator Index
+  bgt r15 ContactThreshold loop
+  blt r15 BestContactScore loop
+  move BestContactScore r15
+  move BestContactSlot Index
+  j loop
