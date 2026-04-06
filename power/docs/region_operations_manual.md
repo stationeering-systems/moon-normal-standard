@@ -30,4 +30,8 @@ Each connected transformer requires a matching logic reader with an identical la
 
 1.1 Is the region controller setting > 1?
 * IF NO - Load shedding, system normal
-* IF YES - Verify system settings and connections
+* IF YES - Go to STEP 1.2
+
+1.2 Is the budget usage ratio (IC Setting) changing?
+* IF NO - Verify that at least one battery is connected and powered
+* IF YES - Further investigation is required 

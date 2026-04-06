@@ -5,10 +5,10 @@ This directory contains operational documentation for key infrastructure used in
 ## Available Manuals
 - **[Power Grid Readiness Checklist](#readiness-checklist)**
 - **[Region Control System Operations Manual](./region_operations_manual.md)**
-- **[Zone Control System Operations Manual]()**
+- **[Zone Control System Operations Manual](./zone_operations_manual.md)**
 
 ### Probes
-- **[(6) Grid Probe Operations Manager](../../alert/docs/grid_probe_operations_manual.md)**
+- **[(6) Grid Probe Operations Manual](../../alert/docs/grid_probe_operations_manual.md)**
 
 ## Readiness Checklist
 

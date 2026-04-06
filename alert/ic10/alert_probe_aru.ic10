@@ -9,6 +9,7 @@ define Category 5 # ATMOSPHERE
 define Channel LogicType.Channel5
 
 # Configuration
+define BasePressure 6.3 # kPa
 define MinTemperature 293.15 # K
 define MinPressure 288 # kPa
 define MaxPressure 38908 # kPa
@@ -41,9 +42,14 @@ main:
   beqz r15 update
   lbn r15 PipeAnalyzer ECL Pressure Maximum
   bge r15 MaxPressure update
+  brle r15 BasePressure 3
+  lbn r15 PipeAnalyzer ECL Temperature Minimum
+  ble r15 MinTemperature update
   lbn r15 PipeAnalyzer PGL Pressure Maximum
   bge r15 MaxPressure update
-  lb r15 PipeAnalyzer Temperature Minimum
+  lbn r15 PipeAnalyzer PGL Temperature Minimum
+  ble r15 MinTemperature update
+  lbn r15 PipeAnalyzer TEC Temperature Minimum
   ble r15 MinTemperature update
   move Severity Maintenance
   lbn r15 BatchSlotReader FilterSlot1 Setting Minimum
