@@ -26,7 +26,7 @@ Computes the power ratio used to interrogate contacts and evaluates the risk of 
 * IF NO  - Check power and network connections
 * IF YES - Continue to Step 1.2
 
-1.2 Is the track dish registered
+1.2 Is the track dish registered?
 * IF NO  - Check track registry device settings
 * IF YES - Continue to Step 1.3
 
