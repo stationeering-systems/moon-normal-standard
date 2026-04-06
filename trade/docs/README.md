@@ -19,7 +19,7 @@ This directory contains operational documentation for key infrastructure used in
 ### Dispatch
 - **[Movement Calculator System Operations Manual](./movement_calculator_operations_manual.md)**
 - **[Power Calculator System Operations Manual](./power_calculator_operations_manual.md)**
-- **[Dispatch Control System Operations Manual](./dispatch_control_operations_manual.md)
+- **[Dispatch Control System Operations Manual](./dispatch_control_operations_manual.md)**
 
 ### Probes
 - **[(2) Trade Probe Operations Manual](../../alert/docs/trade_probe_operations_manual.md)**
