@@ -62,7 +62,7 @@ lock:
   add r11 r11 r12
   s Dish Horizontal r11
   l r11 Dish Idle
-  breqz r15 -1
+  breqz r11 -1
 move:
   s Dish Vertical r15
   s LandingDish Vertical r15
