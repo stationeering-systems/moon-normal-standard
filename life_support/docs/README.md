@@ -34,9 +34,10 @@ This checklist must be completed before full system integration.  It ensures all
 
 ### Waste Management Validation
 
-1. Monitor exhaust pressure levels
-2. Assert pumps inactive during normal operation
-3. If exhaust pressure > safety threshold:
+1. Power on controller
+2. Monitor exhaust pressure levels
+3. Assert pumps inactive during normal operation
+4. If exhaust pressure > safety threshold:
    - Verify pump activation
    - Check throughput rates
 
