@@ -7,8 +7,8 @@ define MaxTTM 1
 define PGainTPM 0.2 # Lower bound T-5K
 define IGainTPM 0
 define DGainTPM 0
-define MinTPM 0
-define MaxTPM 1
+define MinTPM -2
+define MaxTPM 2
 
 # Structures
 define VolumePump HASH("StructureTurboVolumePump")
@@ -24,6 +24,7 @@ alias ModeSetting r0
 alias MaxTemperatureSetting r1
 alias MaxVolumeSetting r2
 alias FlowRate r3
+alias IsReset r4
 
 sb DigitalValve Lock 1
 sb DigitalValve On 0
@@ -33,6 +34,7 @@ sb VolumePump On 0
 
 move ModeSetting -1
 lb MaxVolumeSetting VolumePump Maximum Maximum
+move IsReset 0
 
 main:
   yield
@@ -78,6 +80,7 @@ track:
   max FlowRate FlowRate 0
   min FlowRate FlowRate 1
   s db Setting FlowRate
+  beqz FlowRate reset
 
   sub r15 1 FlowRate
   mul r15 r15 MaxVolumeSetting
@@ -86,17 +89,22 @@ track:
   sb VolumePump Setting r15
   sb VolumePump On r14
   sb DigitalValve On r13
+  move IsReset 0
   j main
 
 pulse:
-  brnez r15 2
+  bge r15 1 reset
+  bgtz r15 main
   sb DigitalValve On 1
-  bne r15 1 main
+  move IsReset 0
+  j main
 
 reset:
+  bnez IsReset main
   sb DigitalValve On 0
   sb VolumePump Setting MaxVolumeSetting
   sb VolumePump On 1
   yield
   sb VolumePump On 0
+  move IsReset 1
   j main

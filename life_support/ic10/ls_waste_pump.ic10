@@ -1,0 +1,31 @@
+# Configuration
+define SafetyPressure 48636
+
+# Structures
+define VolumePump HASH("StructureVolumePump")
+
+# Inputs
+alias PipeAnalyzer d0
+
+# Variables
+alias PumpVolume r0
+
+s PipeAnalyzer On 1
+s PipeAnalyzer Lock 1
+main:
+  yield
+  l r15 PipeAnalyzer Pressure
+  l r14 PipeAnalyzer Volume
+  sub r13 r15 SafetyPressure
+  div r13 r13 r15
+  mul PumpVolume r13 r14
+  lb r15 VolumePump Maximum Sum
+  lb r14 VolumePump Maximum Maximum
+  div r13 r15 r14 # number of devices
+  div r13 PumpVolume r13
+  min r13 r13 r14
+  max r13 r13 0 # pump setting
+  sgtz r12 r13 # pump on
+  sb VolumePump Setting r13
+  sb VolumePump On r12
+  j main

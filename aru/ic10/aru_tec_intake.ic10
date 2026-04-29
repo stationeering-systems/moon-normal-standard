@@ -1,6 +1,5 @@
 define MaxPressure 48636 # kPa
-define MinPressure 6.3 # kPa
-define MaxTemperature 295.15 # K
+define MaxTemperature 298.15 # K
 define MinTemperature 293.15 # K
 
 define MinPressureVolume 10000 # kPa
@@ -46,7 +45,7 @@ pump:
 
   # Idle if there are no input gases
   l r15 db PressureInput
-  blt r15 MinPressure done
+  blez r15 done
 
   # Idle if the filter is empty
   ls r15 db 0 Quantity

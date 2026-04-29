@@ -1,16 +1,10 @@
 # MIXTURE-PRESSURE CONTROL - SYSTEM OPERATIONS MANUAL
 
 ## SYSTEM PURPOSE
-Regulates sector pressure and atmospheric mixture while maintaining safe exhaust pipe pressures.
+Regulates sector pressure and atmospheric mixture.
 
 ## FUNCTIONAL OVERVIEW
-* Activates ventilation systems to maintain correct atmospheric pressures and gas ratios.
-* Monitors waste pipe pressure to ensure safe levels and activates pumps as needed.
-
-## WASTE MANAGEMENT
-* Monitors local exhaust line pressure
-* Activates pumps when pressure exceeds safety threshold
-* Prevents pipe burst risk near structurally sensitive areas
+Activates ventilation systems to maintain correct atmospheric pressures and gas ratios.
 
 ## INWARD VENTILATION
 * Takes precedence over outward ventilation when sector pressure exceeds target or when a correction is required
@@ -29,7 +23,6 @@ Regulates sector pressure and atmospheric mixture while maintaining safe exhaust
 ## CONFIGURATION PARAMETERS
 | Variable             | Description                                  | Setting                 |
 |----------------------|----------------------------------------------|-------------------------|
-| `SafetyPressure`     | Safety pipe pressure (kPa)                   | `48636`                 |
 | `PressureTolerance`  | Pipe pressure deviation (kPa)                | `3`                     |
 | `MinDisplacement`    | Minimum gas displacement (kPa)               | `0.3`                   |
 | `Delay`              | Delay between atmospheric adjustments (tick) | `2`                     |
