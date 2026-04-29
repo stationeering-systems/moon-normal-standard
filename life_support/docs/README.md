@@ -57,11 +57,15 @@ Monitor first few atmospheric cycles:
 
 ### System Integration Check
 
+> ⚠️ **Pipe Network Modification:** Before modifying the main bus pipe network, close all local gas network valves.  Disconnecting pipes under pressure can overpressurize local lines.
+
 1. Main/local gas/ line pressure >= 144 kPa?
 2. No pipe ruptures detected?
 3. Valve positions correct?
 
 ### Interconnect Control
+
+> ⚠️ **Thermal Mode Requirement:** If there are thermostats operating in Thermal Tracking Mode, switch to Thermal Pulse Mode before pressurization.  Gas movement during compartment integration can affect PID sampling behavior.  Restore Thermal Tracking Mode after integration is complete and atmospheric conditions have stabilized.
 
 1. Power on controller
 2. Verify the interconnect valve is open
