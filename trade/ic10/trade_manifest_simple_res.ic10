@@ -49,14 +49,16 @@ sub Stack Stack 1
 put Dish Stack r15
 move r15 0
 ins r15 TraderInstruction.FilterPrefabHashEquals 0 8
-ins r15 HASH("Seedbag_Fern") 8 32
+ins r15 HASH("SeedBag_Fern") 8 32
 sub Stack Stack 1
 put Dish Stack r15
 move r15 0
+ins r15 TraderInstruction.FilterPrefabHashEquals 0 8
 ins r15 HASH("ItemFern") 8 32
 sub Stack Stack 1
 put Dish Stack r15
 move r15 0
+ins r15 TraderInstruction.FilterPrefabHashEquals 0 8
 ins r15 HASH("ItemFilterFern") 8 32
 sub Stack Stack 1
 put Dish Stack r15

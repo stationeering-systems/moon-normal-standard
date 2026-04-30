@@ -1,5 +1,5 @@
 # Configuration
-define BasePower 10 # W
+define BasePower 40 # W
 
 # Structures
 define AreaPowerControl HASH("StructureAreaPowerControl")
