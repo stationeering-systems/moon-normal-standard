@@ -63,7 +63,7 @@ main:
   l r14 ContactDish MinimumWattsToContact
   blez r14 main
   ext r13 Config 16 16 # MAX_SECONDS_TO_CONTACT
-  l r12 Dish InterrogationProgress
+  l r12 ContactDish InterrogationProgress
   sub r12 1 r12
   mul r13 r13 r12
   mul r12 r14 r13 # max joules
