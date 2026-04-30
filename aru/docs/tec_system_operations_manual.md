@@ -28,7 +28,6 @@ Pumps waste gases from the **Exchange Capture Line** into the **Thermal Exchange
 | Variable            | Description                          | Setting  |
 |---------------------|--------------------------------------|----------|
 | `MaxPressure`       | Maximum Pipe Pressure (kPa)          | `48636`  |
-| `MinPressure`       | Minimum Pipe Pressure (kPa)          | `6.3`    |
 | `MaxTemperature`    | Maximum Pipe Temperature (K)         | `295.15` |
 | `MinTemperature`    | Minimum Pipe Temperature (K)         | `293.15` |
 | `MinPressureVolume` | Minimum Pipe Pressure Volume (kPa*L) | `30000`  |
