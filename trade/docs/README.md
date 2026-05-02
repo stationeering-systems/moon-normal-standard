@@ -4,6 +4,7 @@ This directory contains operational documentation for key infrastructure used in
 
 ## Available Manuals
 - **[Trade Systems Readiness Checklist](#readiness-checklist)**
+- **[Hangar Airlock System Operations Manual](./hangar_airlock_operations_manual.md)**
 
 ### Tracking
 - **[Tracking Registry System Operations Manual](./tracking_registry_operations_manual.md)**
@@ -67,3 +68,25 @@ This checklist must be completed before full system integration.  It ensures tha
 2. Verify that a contact is selected
 3. Verify the call dish and correct landing dish moves into the target position
 4. Verify that the contact lands
+
+### Hangar Airlock Control
+
+1. Set the Airlock dial to 0
+2. Turn on the `H-AIRLOCK-LL` APC 
+   - Verify that the airlock remains in pressurized state
+3. Set the Airlock dial to 4
+   - Airlock doors close
+   - Gas is fully emptied from the chamber and into the buffer
+   - Exterior doors open
+   - All vents are powered off
+4. Set the Airlock dial to 1
+   - Airlock doors close
+   - Gas is emptied from the buffer and into the chamber; the pressure of the chamber close to 101.325 kPa
+   - Interior doors open
+   - All vents are powered off
+   - The airlock buffer refills to ambient room pressure
+5. Set the Airlock dial to 3
+   - Airlock pressurizes and depressurizes continuously
+   - No performance degradation between cycles
+   - No discernible gas loss detected
+6. Configure the controller so that it read from and writes to the landing pad

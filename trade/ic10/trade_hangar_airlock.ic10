@@ -1,0 +1,93 @@
+define AirlockPressure 101.325 # kPa
+define PressureTolerance 0.01
+define SensorQuiesce 5 # seconds
+
+define Interior HASH("Interior")
+define Exterior HASH("Exterior")
+define HangarDoor HASH("StructureLargeHangerDoor")
+define PoweredVent HASH("StructurePoweredVentLarge")
+define GasSensor HASH("StructureGasSensor")
+
+alias LPMode d0  # 0 = None, 1 = NoContact, 2 = Moving, 3 = Holding, 4 = Landed
+alias Interrupt d1
+alias State r0   # 0 = pressurize, 1 = unpressurize
+
+sb HangarDoor On 1
+sb HangarDoor Mode 1 # Logic Mode
+sb HangarDoor Lock 1 # Lock all doors
+sb PoweredVent On 0
+sb PoweredVent Lock 1
+
+main:
+  yield
+  s db Setting 0
+  l r15 LPMode Setting
+  bleal r15 1 depressurize
+  beqal r15 4 pressurize
+  bne r15 3 main
+  select r14 State pressurize depressurize
+  jal r14
+  yield
+  s db Setting 1
+  yield
+  s db Setting 0
+  j main
+
+pressurize:
+  move State 0
+  lb r15 HangarDoor Idle Minimum
+  breqz r15 -1
+  lbn r15 HangarDoor Exterior Open Maximum
+  brnez r15 3
+  lbn r15 HangarDoor Interior Open Minimum
+  bnez r15 ra
+
+  sb HangarDoor Open 0 # Close all doors
+  lb r15 HangarDoor Idle Minimum
+  breqz r15 -1
+  sb PoweredVent Mode 0 # Outward
+  sb PoweredVent PressureExternal AirlockPressure
+  sb PoweredVent On 1
+
+ploop:
+  yield
+  lb r15 GasSensor Pressure Average
+  brap r15 AirlockPressure PressureTolerance 3
+  l r15 Interrupt Setting
+  beqz r15 ploop
+  sb PoweredVent On 0
+  sbn HangarDoor Interior Open 1
+  lb r15 HangarDoor Idle Minimum
+  breqz r15 -1
+  j ra
+
+depressurize:
+  move State 1
+  lb r15 HangarDoor Idle Minimum
+  breqz r15 -1
+  lbn r15 HangarDoor Interior Open Maximum
+  brnez r15 3
+  lbn r15 HangarDoor Exterior Open Minimum
+  bnez r15 ra
+
+  sb HangarDoor Open 0 # Close all doors
+  lb r15 HangarDoor Idle Minimum
+  breqz r15 -1
+  sb PoweredVent Mode 1 # Inward
+  sb PoweredVent PressureExternal 0
+
+dloop:
+  sb PoweredVent On 1
+  yield
+  lb r15 GasSensor Pressure Maximum
+  breqz r15 3
+  l r15 Interrupt Setting
+  beqz r15 dloop
+  sb PoweredVent On 0
+  sleep SensorQuiesce
+  lb r15 GasSensor Pressure Maximum
+  brgtz r15 dloop
+  sbn HangarDoor Exterior Open 1
+  lb r15 HangarDoor Idle Minimum
+  breqz r15 -1
+  j ra
