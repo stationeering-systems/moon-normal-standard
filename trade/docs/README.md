@@ -89,4 +89,4 @@ This checklist must be completed before full system integration.  It ensures tha
    - Airlock pressurizes and depressurizes continuously
    - No performance degradation between cycles
    - No discernible gas loss detected
-6. Configure the controller so that it read from and writes to the landing pad
+6. Configure the controller so that it reads from and writes to the landing pad
