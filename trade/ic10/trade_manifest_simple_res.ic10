@@ -68,17 +68,23 @@ main:
   s db Setting Result
   move Result $FF
   yield
+
+  # Check the contact slot
   l Slot ContactSlot Setting
-  l r15 Dish ContactSlotIndex
-  ins Result Slot 0 8
-  bne Slot r15 main
+  l Result Dish ContactSlotIndex
+  bne Slot Result main
+  get r15 Dish 1 # ContactMetaData
+  ext r14 r15 16 8 # CONTACT_SLOT_INDEX
+  bne Slot r14 main
+  ins Result 1 8 8
+
 buy:
   get r15 Dish 3 # BUY
   ext r14 r15 0 8 # OPCODE
   bne r14 TraderInstruction.TraderBuyThingData sell
   ext r14 r15 8 8 # QUANTITY
   beqz r14 sell
-  ins Result 1 8 8
+  ins Result 2 8 8
   j main
 sell:
   get r15 Dish 4  # SELL
@@ -86,5 +92,5 @@ sell:
   bne r14 TraderInstruction.TraderSellThingData main
   ext r14 r15 8 8 # QUANTITY
   beqz r14 main
-  ins Result 1 8 8
+  ins Result 2 8 8
   j main

@@ -23,5 +23,5 @@ Each contact type is assigned a bit position. Setting that bit in the Terminal A
 | Position | Field              | Data Type |
 |----------|--------------------|-----------|
 | 0-7      | CONTACT_SLOT_INDEX | INT_8     |
-| 8-15     | TERMINAL_INDEX     | BYTE_8    |
+| 8-15     | TERMINAL_INDEX     | INT_8     |
 | 16-23    | IS_AVAILABLE       | BYTE_8    |

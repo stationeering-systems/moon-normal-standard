@@ -88,12 +88,14 @@ interrogate:
   yield
   s LandingDish Activate 1
   yield
+  s LandingDish Activate 0
   j main
 loop:
   add Index Index 1
   l r15 ContactSlot Mode
   bgt Index r15 ra
   s ContactSlot Setting Index
+  yield
 check:
   l r15 TrackRegistry Setting
   ext r14 r15 0 8 # CONTACT_SLOT
@@ -109,7 +111,8 @@ check:
   lbn r15 IC ManifestResolver Setting Maximum
   ext r14 r15 0 8 # CONTACT_SLOT
   bne r14 Index check
-  blt r15 $100 loop # HAS_OPPORTUNITY
+  blt r15 $100 check # FOUND_CONTACT
+  blt r15 $200 loop # HAS_OPPORTUNITY
   lbn r15 IC PadResolver Setting Maximum
   ext r14 r15 0 8  # CONTACT_SLOT
   bne r14 Index check
