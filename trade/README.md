@@ -5,8 +5,10 @@
 This directory contains IC10 code for normal-tier Trade Systems.  It's designed for modular integration into base infrastructure, in support of trade and contact management.
 
 For full design rationale, system theory, and detailed guides, visit the Stationeering Systems substack:
+- [Lunar Trade Economics](https://stationeering.substack.com/p/lunar-trade-economics)
 - [Signal-Domain Contact Acquisition](https://stationeering.substack.com/p/dish-signal-acquisition)
 - [Automated Terminal Sequencing for Orbital Trade Operations](https://stationeering.substack.com/p/automated-terminal-system)
+- [Demand Signal Aggregation and Supply Forecasting](https://stationeering.substack.com/p/demand-signal-aggregation)
 
 ## Getting Started
 

@@ -5,6 +5,7 @@ This directory contains operational documentation for key infrastructure used in
 ## Available Manuals
 - **[Trade Systems Readiness Checklist](#readiness-checklist)**
 - **[Hangar Airlock System Operations Manual](./hangar_airlock_operations_manual.md)**
+- **[Trade Demand EMA Operations Manual](./trade_demand_ema_operations_manual.md)**
 
 ### Tracking
 - **[Tracking Registry System Operations Manual](./tracking_registry_operations_manual.md)**
