@@ -1,0 +1,76 @@
+define MethaneRatio 0.68
+define OxygenRatio 0.32
+define PollutantMaxRatio 0.03
+
+# Labels
+define FuelPipe HASH("FuelPipe")
+define VolatilesPipe HASH("VolatilesPipe")
+define MethanePipe HASH("MethanePipe")
+define OxygenPipe HASH("OxygenPipe")
+
+# Structures
+define PipeAnalyzer HASH("StructurePipeAnalysizer")
+
+alias EMA d0
+alias VolatilesOrder d1
+alias OxygenOrder d2
+alias PollutantOrder d3
+
+sb PipeAnalyzer On 1
+sb PipeAnalyzer Lock 1
+
+# Initialize amounts to purchase
+s VolatilesOrder Setting 0
+s OxygenOrder Setting 0
+s PollutantOrder Setting 0
+main:
+  yield
+
+  # Volatiles to purchase
+  l r15 EMA Setting
+  mul r15 r15 100 # Convert to moles
+  # Subtract available fuel
+  lbn r14 PipeAnalyzer FuelPipe TotalMoles Sum
+  sub r15 r15 r14
+  # Subtract processed methane
+  mul r15 r15 MethaneRatio
+  lbn r14 PipeAnalyzer MethanePipe TotalMoles Sum
+  sub r15 r15 r14
+  div r15 r15 MethaneRatio
+  # Subtract unprocessed volatiles
+  lbn r14 PipeAnalyzer VolatilesPipe TotalMoles Sum
+  lbn r13 PipeAnalyzer VolatilesPipe RatioPollutant Sum
+  sub r13 1 r13
+  mul r14 r14 r13
+  sub r15 r15 r14
+  div r15 r15 100 # Convert to units
+  ceil r15 r15
+  max r15 r15 0 # Amount to buy
+  s VolatilesOrder Setting r15
+
+  # Oxygen to purchase
+  l r15 EMA Setting
+  mul r15 r15 100 # Convert to moles
+  mul r15 r15 OxygenRatio
+  # Subtract Oxygen
+  lbn r14 PipeAnalyzer OxygenPipe TotalMoles Sum
+  sub r15 r15 r14
+  div r15 r15 100 # Convert to units
+  ceil r15 r15
+  max r15 r15 0 # Amount to buy
+  s OxygenOrder Setting r15
+
+  # Pollutant to purchase
+  lbn r15 PipeAnalyzer VolatilesPipe TotalMoles Sum
+  lbn r14 PipeAnalyzer VolatilesPipe RatioPollutant Sum
+  add r13 1 PollutantMaxRatio
+  div r13 PollutantMaxRatio r13
+  sub r12 r13 r14
+  sub r11 1 r13
+  div r13 r12 r11
+  mul r13 r13 r15
+  div r13 r13 100 # Convert to units
+  ceil r13 r13
+  max r13 r13 0 # Amount to buy
+  s PollutantOrder Setting r13
+  j main

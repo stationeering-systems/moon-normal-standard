@@ -20,6 +20,8 @@ These systems aim to demonstrate sound systems design practices through the lens
   Power infrastructure including generation, distribution, and load management.
 * **[Trade (TRADE)](./trade)**  
   Trade infrastructure including contact tracking and traffic control.
+* **[Fuel (FUEL)](./fuel)**  
+  Purchasing and production of fuel pipelines.
 
 ## Repository Organization
 

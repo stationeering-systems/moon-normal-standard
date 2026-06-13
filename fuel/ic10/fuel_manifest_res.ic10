@@ -1,0 +1,66 @@
+define BuyLineItemSize 7
+
+alias Dish d0
+alias ContactSlot d5
+
+alias BuyLineItemStart r0
+alias Slot r1
+alias Stack r2
+alias Cursor r3
+alias Result r4
+alias Index r5
+
+clr Dish
+l Stack Dish StackSize
+move Cursor 0
+
+# Contact Data
+move r15 TraderInstruction.WriteTraderData
+ins r15 Cursor 8 8
+add Cursor Cursor 3
+sub Stack Stack 1
+put Dish Stack r15
+
+# Fuel
+move BuyLineItemStart Cursor
+move r15 TraderInstruction.WriteTraderBuyData
+ins r15 Cursor 8 8
+ins r15 BuyLineItemSize 16 8
+add Cursor Cursor BuyLineItemSize
+sub Stack Stack 1
+put Dish Stack r15
+move r15 TraderInstruction.FilterGasContains
+ins r15 GasType.Fuel 8 32
+sub Stack Stack 1
+put Dish Stack r15
+
+move Result $FF
+main:
+  s db Setting Result
+  move Result $FF
+  yield
+
+  # Check the contact slot
+  l Slot ContactSlot Setting
+  l Result Dish ContactSlotIndex
+  bne Slot Result main
+  get r15 Dish 1 # ContactMetaData
+  ext r14 r15 16 8 # CONTACT_SLOT_INDEX
+  bne Slot r14 main
+  ins Result 1 8 8
+
+  move Index 0
+demand:
+  bgt Index BuyLineItemSize main
+  add r15 BuyLineItemStart Index # position
+  add Index Index 1
+  get r14 Dish r15
+  bltz r14 main
+  ext r13 r14 0 8 # OP_CODE
+  bne r13 TraderInstruction.TraderBuyGasData demand
+  ext r13 r14 16 32 # GAS_TYPES_BITFLAG
+  bne r13 GasType.Fuel demand
+  ext r13 r14 8 8 # QUANTITY
+  blez r13 main
+  ins Result 2 8 8
+  j main

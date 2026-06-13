@@ -1,0 +1,58 @@
+define BuyLineItemSize 7
+
+alias Dish d0
+alias Reader d1
+
+alias BuyLineItemStart r0
+alias Stack r1
+alias Cursor r2
+alias Quantity r3
+alias Slot r4
+alias MinDeparture r5
+alias Variance r6
+alias Index r7
+
+clr Dish
+l Stack Dish StackSize
+move Cursor 0
+
+# Contact Data
+move r15 TraderInstruction.WriteTraderData
+ins r15 Cursor 8 8
+add Cursor Cursor 3
+sub Stack Stack 1
+put Dish Stack r15
+
+# Fuel
+move BuyLineItemStart Cursor
+move r15 TraderInstruction.WriteTraderBuyData
+ins r15 Cursor 8 8
+ins r15 BuyLineItemSize 16 8
+add Cursor Cursor BuyLineItemSize
+sub Stack Stack 1
+put Dish Stack r15
+move r15 TraderInstruction.FilterGasContains
+ins r15 GasType.Fuel 8 32
+sub Stack Stack 1
+put Dish Stack r15
+
+move Quantity 0
+main:
+  s db Setting Quantity
+  move Quantity 0
+  l r15 Dish Activate
+  s Reader On r15
+  yield
+  move Index 0
+demand:
+  bgt Index BuyLineItemSize main
+  add r15 BuyLineItemStart Index # position
+  add Index Index 1
+  get r14 Dish r15
+  bltz r14 main
+  ext r13 r14 0 8 # OP_CODE
+  bne r13 TraderInstruction.TraderBuyGasData demand
+  ext r13 r14 16 32 # GAS_TYPES_BITFLAG
+  bne r13 GasType.Fuel demand
+  ext Quantity r14 8 8
+  j main

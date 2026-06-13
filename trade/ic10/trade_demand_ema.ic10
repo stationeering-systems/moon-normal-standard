@@ -1,0 +1,42 @@
+define WindowDuration 1200 # seconds
+define WindowAlpha 0.125
+
+alias EMA db
+alias Stopwatch d0
+# alias Quantities d1..d5
+
+alias Accumulator r0
+
+s Stopwatch On 0
+move Accumulator 0
+move sp 0
+main:
+  push 5
+  push 4
+  push 3
+  push 2
+  push 1
+  yield
+
+  s Stopwatch On 1
+  l r15 Stopwatch Time
+  blt r15 WindowDuration accumulate
+  mul r15 Accumulator WindowAlpha
+  l r14 EMA Setting
+  sub r13 1 WindowAlpha
+  mul r14 r14 r13
+  add r15 r15 r14
+  s EMA Setting r15
+  move Accumulator 0
+  s Stopwatch On 0
+accumulate:
+  beqz sp main
+  pop r15
+  bdns dr15 accumulate
+
+  l r14 dr15 Power
+  beqz r14 accumulate
+  # Load demand
+  l r14 dr15 Setting
+  add Accumulator Accumulator r14
+  j accumulate
