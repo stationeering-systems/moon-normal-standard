@@ -1,3 +1,4 @@
+define GasTrader HASH("GasTrader")
 define BuyLineItemSize 7
 
 alias Dish d0
@@ -38,6 +39,7 @@ move Result $FF
 main:
   s db Setting Result
   move Result $FF
+  move Index 0
   yield
 
   # Check the contact slot
@@ -49,7 +51,12 @@ main:
   bne Slot r14 main
   ins Result 1 8 8
 
-  move Index 0
+  # Check for gas trader
+  l r15 Dish ContactTypeId
+  bne r15 GasTrader demand
+  ins Result 2 8 8
+  j main
+
 demand:
   bgt Index BuyLineItemSize main
   add r15 BuyLineItemStart Index # position
