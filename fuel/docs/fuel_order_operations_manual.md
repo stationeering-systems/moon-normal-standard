@@ -15,15 +15,16 @@ Compares EMA demand with current inventory to determine the purchase amounts of 
 * **d3:** Pollutant (Logic Memory)
 
 ## CONFIGURATION PARAMETERS
-| Variable            | Description                                   | Setting           |
-|---------------------|-----------------------------------------------|-------------------|
-| `MethaneRatio`      | Ratio of mixture from methane storage         | `0.68`            |
-| `OxygenRatio`       | Ratio of mixture from oxygen storage          | `0.32`            |
-| `PollutantMaxRatio` | Maximum pollutant content of the fuel mixture | `0.03`            |
-| `FuelPipe`          | (label)                                       | `"FuelPipe"`      |
-| `VolatilesPipe`     | (label)                                       | `"VolatilesPipe"` |
-| `MethanePipe`       | (label)                                       | `"MethanePipe"`   |
-| `OxygenPipe`        | (label)                                       | `"OxygenPipe"`    |
+| Variable                | Description                                        | Setting           |
+|-------------------------|----------------------------------------------------|-------------------|
+| `MethaneRatio`          | Ratio of mixture from methane storage              | `0.68`            |
+| `OxygenRatio`           | Ratio of mixture from oxygen storage               | `0.32`            |
+| `PollutantMaxRatio`     | Maximum pollutant content of the fuel mixture      | `0.03`            |
+| `PollutantContentLimit` | Maximum pollutant content of the volatiles mixture | `0.74`            |
+| `FuelPipe`              | (label)                                            | `"FuelPipe"`      |
+| `VolatilesPipe`         | (label)                                            | `"VolatilesPipe"` |
+| `MethanePipe`           | (label)                                            | `"MethanePipe"`   |
+| `OxygenPipe`            | (label)                                            | `"OxygenPipe"`    |
 
 ## PURCHASE FORMULAS
 Each formula derives the net purchase quantity for a commodity from the current demand signal and inventory state.  Results are converted into trader request units (1 unit = 100 moles), rounded up, and floored at zero.
