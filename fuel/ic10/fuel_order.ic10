@@ -1,6 +1,7 @@
 define MethaneRatio 0.68
 define OxygenRatio 0.32
 define PollutantMaxRatio 0.03
+define PollutantContentLimit 0.74
 
 # Labels
 define FuelPipe HASH("FuelPipe")
@@ -71,6 +72,14 @@ main:
   mul r13 r13 r15
   div r13 r13 100 # Convert to units
   ceil r13 r13
+  # Ensure amount doesn't exceed content limit
+  mul r12 r15 r14
+  mul r11 r13 100
+  add r12 r12 r11
+  add r11 r15 r11
+  div r12 r12 r11
+  sgt r12 r12 PollutantContentLimit
+  sub r13 r13 r12
   max r13 r13 0 # Amount to buy
   s PollutantOrder Setting r13
   j main

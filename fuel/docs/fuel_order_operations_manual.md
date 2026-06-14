@@ -58,13 +58,17 @@ result = ceil(target_moles / 100), min 0
 
 ### POLLUTANT
 Derives the pollutant needed to bring the unprocessed volatiles tank to the target blend ratio.  Unlike Volatiles and Oxygen, this formula is purely inventory-driven and does not consume the EMA directly.  
-The target blend ratio is expressed as an internal mixture fraction rather than the nominal 3% external ratio.  Adding pollutant changes the total mixture volume, so the target must account for pollutant's own contribution to that volume:
+The target blend ratio is expressed as an internal mixture fraction rather than the nominal 3% external ratio.  Adding pollutant changes the total mixture volume, so the target must account for pollutant's own contribution to that volume, while still providing a usable mixture:
 
 ```
 target_ratio = PollutantMaxRatio / (1 + PollutantMaxRatio) # ~0.0291
 ratio_gap = target_ratio - VolatilesPipe_ratioPollutant
 target_moles = (ratio_gap / (1 - target_ratio)) * VolatilesPipe_moles
-result = ceil(target_moles / 100), min 0
+result = ceil(target_moles / 100)
+result_ratio = (VoltatilesPipe_ratioPollutant * VolatilesPipe_moles + result * 100) / (VolatilesPipe_moles + result * 100)
+if result_ratio > PollutantContentLimit:
+  result--
+result = result, min 0
 ```
 
 **Inventory sources:**  
