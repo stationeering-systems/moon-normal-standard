@@ -1,0 +1,99 @@
+define DrainTemperature 295 # K
+define TargetTemperature 342 # K
+define DewOffset -1579.775 # kPa
+define DewFactor 17.425 # kPa/K
+define Period 55 # tick
+
+define MethaneFuelRatio 0.65
+define PollutantFuelRatio 0.03
+define VolatileFuelRatio 0.98
+
+define PollutantSpecificHeat 24.8
+define PollutantLatentHeat 2000
+
+alias DewPipe d0
+alias DewPump d1
+alias BubblePipe d2
+alias BubblePump d3
+alias DrainPipe d4
+alias DrainPump d5
+
+alias MethaneRatio r1
+div MethaneRatio MethaneFuelRatio VolatileFuelRatio
+alias PollutantRatio r2
+div PollutantRatio PollutantFuelRatio VolatileFuelRatio
+
+s DewPipe On 1
+s DewPipe Lock 1
+s BubblePipe On 1
+s BubblePipe Lock 1
+s DrainPipe On 1
+s DrainPipe Lock 1
+
+main:
+  s DewPump Setting 0
+  s BubblePump On 0
+  s DrainPump On 0
+  yield
+
+  # Load the bubble pipe
+  l r15 BubblePipe RatioMethane
+
+  # Check the drain pipe
+  l r14 DrainPipe TotalMoles
+  l r13 DrainPipe Temperature
+  beqz r14 bubble
+  sle r12 r13 DrainTemperature
+  s DrainPump On r12
+  beqz r15 dew
+  yield
+  j main
+
+bubble:
+  l r14 BubblePipe TotalMoles
+  l r13 BubblePipe RatioLiquidHydrochloricAcid
+  l r12 BubblePipe RatioHydrochloricAcid
+  beqz r14 dew
+  bgtz r13 main
+  bgtz r12 main
+  blt r15 MethaneRatio main
+  s BubblePump On 1
+  yield
+  j main
+
+dew:
+  # Calculate the number of moles
+  l r15 BubblePipe Volume
+  l r14 DewPipe Temperature
+  l r13 DewPipe RatioPollutant
+  div r12 PollutantRatio r13
+  log r12 r12
+  div r12 r12 Period
+  exp r12 r12
+  sub r12 1 r12
+  div r12 r12 0.1 # kappa
+  mul r12 r12 PollutantLatentHeat
+  div r12 r12 PollutantSpecificHeat # (T_dew-T)
+  add r12 r12 r14 # dew point
+  mul r12 r12 DewFactor
+  add r12 r12 DewOffset # dew pressure
+  s db Setting r12
+  mul r12 r12 r15
+  div r12 r12 TargetTemperature
+  div r12 r12 rgas
+  mul r12 r12 MethaneRatio # need: methane moles
+
+  # Check the dew pipe
+  l r15 DewPipe RatioMethane
+  l r14 DewPipe TotalMoles
+  l r13 DewPipe Volume
+
+  mul r11 r15 r14 # has: methane moles
+  div r12 r12 r11
+  select r12 r11 r12 0
+  sle r11 r12 1
+  mul r12 r12 r11
+  mul r12 r12 r13
+  s DewPump Setting r12
+  yield
+  j main

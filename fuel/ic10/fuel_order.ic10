@@ -1,7 +1,8 @@
 define MethaneRatio 0.68
 define OxygenRatio 0.32
-define PollutantMaxRatio 0.03
-define PollutantContentLimit 0.74
+define PollutantContentMin 0.033815
+define PollutantContentMax 0.1179968
+define Period 7200 # ticks (=1 hour)
 
 # Labels
 define FuelPipe HASH("FuelPipe")
@@ -44,6 +45,16 @@ main:
   sub r13 1 r13
   mul r14 r14 r13
   sub r15 r15 r14
+  # Calculate the surplus to maintain flow rate
+  lbn r14 PipeAnalyzer VolatilesPipe Volume Sum
+  mul r13 r14 4
+  mul r13 r14 r15
+  div r13 r13 Period
+  div r12 1 r14
+  add r12 r12 0.01
+  mul r13 r13 r12
+  breqz r14 2
+  add r15 r15 r13
   div r15 r15 100 # Convert to units
   ceil r15 r15
   max r15 r15 0 # Amount to buy
@@ -64,9 +75,7 @@ main:
   # Pollutant to purchase
   lbn r15 PipeAnalyzer VolatilesPipe TotalMoles Sum
   lbn r14 PipeAnalyzer VolatilesPipe RatioPollutant Sum
-  add r13 1 PollutantMaxRatio
-  div r13 PollutantMaxRatio r13
-  sub r12 r13 r14
+  sub r12 PollutantContentMin r14
   sub r11 1 r13
   div r13 r12 r11
   mul r13 r13 r15
@@ -78,7 +87,7 @@ main:
   add r12 r12 r11
   add r11 r15 r11
   div r12 r12 r11
-  sgt r12 r12 PollutantContentLimit
+  sgt r12 r12 PollutantContentMax
   sub r13 r13 r12
   max r13 r13 0 # Amount to buy
   s PollutantOrder Setting r13

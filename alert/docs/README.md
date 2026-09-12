@@ -17,10 +17,11 @@ This directory contains operational documentation for key infrastructure used in
 ### Probes
 
 - **[ARU Probe System Operations Manual](./aru_probe_operations_manual.md)**
-- **[Habitat Probe System Operations Manual](./habitat_probe_operations_manual.md)**
-- **[Water Probe System Operations Manual](./water_probe_operations_manual.md)**
 - **[Grid Probe System Operations Manual](./grid_probe_operations_manual.md)**
+- **[Habitat Probe System Operations Manual](./habitat_probe_operations_manual.md)**
 - **[Trade Probe System Operations Manual](./trade_probe_operations_manual.md)**
+- **[VCU Probe System Operations Manual](./vcu_probe_operations_manual.md)**
+- **[Water Probe System Operations Manual](./water_probe_operations_manual.md)**
 
 ## Readiness Checklist
 
