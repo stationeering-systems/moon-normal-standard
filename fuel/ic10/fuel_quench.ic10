@@ -61,41 +61,40 @@ quench:
   push 0 # QuenchPipe
   jal heat
 
-  # Calculate total moles to extract
-  move r15 0
+  l r15 QuenchPipe TotalMoles
   l r14 QuenchPipe Temperature
   div r14 r14 kN
+
+  # Calculate heat capacity
   sub r13 r14 50
   pow r12 r13 3
   mul r12 r12 EntA
-  add r15 r15 r12
-  pow r12 r13 2
-  mul r12 r12 EntB
-  add r15 r15 r12
-  mul r12 r13 EntC
-  add r15 r15 r12
-  add r15 r15 EntD
-  mul r15 r15 kR
-  add TargetMoles TargetMoles r15
-  sub r12 r14 TargetTemperature
-  mul r12 r12 SpecificHeat
-  add r12 r12 LatentHeat
-  div TargetMoles TargetMoles r12
-  select TargetMoles r12 TargetMoles 0
+  pow r11 r13 2
+  mul r11 r11 EntB
+  add r12 r12 r11
+  mul r11 r13 EntC
+  add r12 r12 r11
+  add r12 r12 EntD
+  add TargetMoles TargetMoles r12
+
+  # Calculate Target Moles
+  sub r13 r14 TargetTemperature
+  mul r13 r13 SpecificHeat
+  add r13 r13 LatentHeat
+  div TargetMoles TargetMoles r13
+  select TargetMoles r13 TargetMoles 0
+  select TargetMoles r15 TargetMoles 0
   s db Setting TargetMoles
-  div r11 MolarFactor r14
-  blt TargetMoles r11 main
 
-  # Update the pump rate
-  l r15 QuenchPipe TotalMoles
-  l r14 QuenchPipe Volume
-  blez r15 main
-  div r13 TargetMoles r15
-  bgt r13 1 main
-  mul r13 r13 r14
-
+  # Update pump rate
+  l r13 QuenchPipe Volume
+  div r12 MolarFactor r14
+  blt TargetMoles r12 main # ensure moles > p_atm
+  div r12 TargetMoles r15
+  bgt r12 1 main
+  mul r12 r12 r13
   s DrainPump On 0
-  s QuenchPump Setting r13
+  s QuenchPump Setting r12
   yield
   j main
 
