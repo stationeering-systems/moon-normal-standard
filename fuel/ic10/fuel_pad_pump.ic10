@@ -1,0 +1,91 @@
+define PumpMax 50
+define Precision 0.000001
+
+# Labels
+define FuelConnector HASH("FuelConnector")
+define VolatilesConnector HASH("VolatilesConnector")
+define OxygenConnector HASH("OxygenConnector")
+
+# Structures
+define GasInput HASH("Landingpad_GasConnectorInwardPiece")
+define GasOutput HASH("Landingpad_GasConnectorOutwardPiece")
+
+# Inputs
+alias Demand d0
+alias Pad d1
+alias FuelPipe d2
+alias PumpDirection d3
+
+# Variables
+alias PumpOn r0
+
+s FuelPipe On 1
+s FuelPipe Lock 1
+# Turn off pumps
+sb GasOutput On 0
+
+s db Setting 0 # 0 = Outward, 1 = Inward
+drain:
+  sb GasInput On 0
+  yield
+fuel:
+  move PumpOn 0
+  l r15 Pad RatioMethane
+  beqz r15 volatiles
+  l r14 Pad RatioOxygen
+  beqz r14 volatiles
+  add r15 r15 r14
+  l r14 Pad RatioPollutant
+  beq r14 1 volatiles
+  add r15 r15 r14
+  sap PumpOn r15 1 Precision
+volatiles:
+  sbn GasOutput FuelConnector On PumpOn
+  move PumpOn 0
+  l r15 Pad RatioMethane
+  beqz r15 pollutant
+  l r14 Pad RatioCarbonDioxide
+  beqz r15 pollutant
+  add r15 r15 r14
+  l r14 Pad RatioHydrochloricAcid
+  beqz r15 pollutant
+  add r15 r15 r14
+  sap PumpOn r15 1 Precision
+pollutant:
+  bgtz PumpOn oxygen
+  l PumpOn Pad RatioPollutant
+  floor PumpOn PumpOn
+oxygen:
+  sbn GasOutput VolatilesConnector On PumpOn
+  l PumpOn Pad RatioOxygen
+  floor PumpOn PumpOn
+  sbn GasOutput OxygenConnector On PumpOn
+  lb PumpOn GasOutput On Maximum
+  bgtz PumpOn drain
+main:
+  # Load the fuel demand
+  l r15 Pad Mode
+  sge r15 r15 2 # Moving, Holding, Landed
+  l r14 Demand Setting
+  mul r15 r15 r14
+  mul r15 r15 100
+  sgtz r14 r15
+  s db Setting r14
+  l r14 PumpDirection Setting
+  beqz r14 drain
+  # pressurize the pad
+  yield
+  l r14 Pad TotalMoles
+  l r13 FuelPipe TotalMoles
+  l r12 FuelPipe Volume
+  sub r15 r15 r14
+  max r15 r15 0 # Amount needed
+  mul r14 r13 PumpMax
+  div r14 r14 r12 # Amount available
+  div r15 r15 r14
+  select r15 r14 r15 0
+  mul r15 r15 PumpMax # Pump setting
+  sgtz r14 r15
+  sbn GasInput FuelConnector Setting r15
+  sbn GasInput FuelConnector On r14
+  j main

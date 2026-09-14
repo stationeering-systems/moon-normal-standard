@@ -7,6 +7,7 @@ This directory contains the IC10 code for normal-tier Fuel Production Systems.  
 For full design rationale, system theory, and detailed guides, visit the Stationeering Systems substack:
 - [Lunar Trade Economics](https://stationeering.substack.com/p/lunar-trade-economics)
 - [Demand Signal Aggregation and Supply Forecasting](https://stationeering.substack.com/p/demand-signal-aggregation)
+- [Fuel Gas Conditioning from Variable Composition Feedstock](https://stationeering.substack.com/p/fuel-gas-conditioning)
 
 ## Getting Started
 

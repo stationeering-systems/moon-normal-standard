@@ -1,0 +1,117 @@
+# Enthalpy formula constants (350-1000 K):
+# a(T-50)^3 + b(T-50)^2 + c(T-50) + d
+define EntA -0.00003527525986
+define EntB 0.07054156799
+define EntC -24.59598895
+define EntD 2329.680819
+
+define Patm 101.325
+define SpecificHeatVolatiles 23.57
+define SpecificHeatPollutant 24.8
+define LatentHeatVolatiles 50
+define LatentHeatHydrochloricAcid 1000
+define LatentHeatPollutant 2000
+
+define TargetTemperature 342
+define PollutantFuelRatio 0.03
+define kR 3.46
+define kN 2
+define V 20
+
+alias QuenchPipe d0
+alias QuenchPump d1
+alias DrainPump d2
+alias DewPipe d3
+
+alias SpecificHeat r0
+alias LatentHeat r1
+alias TargetMoles r2
+
+alias TargetPollutant r3
+add TargetPollutant PollutantFuelRatio 1
+div TargetPollutant PollutantFuelRatio TargetPollutant
+
+alias MolarFactor r4
+mul MolarFactor Patm V
+div MolarFactor MolarFactor rgas
+
+s QuenchPipe On 1
+s QuenchPipe Lock 1
+s DewPipe On 1
+s DewPipe Lock 1
+
+main:
+  s QuenchPump Setting 0
+  s DrainPump On 1
+  yield
+
+  # (Dew) Specific + Latent Heat
+  push 3 # DewPipe
+  jal heat
+  l r15 DewPipe TotalMoles
+  l r14 DewPipe Temperature
+  mul r13 SpecificHeat TargetTemperature
+  sub r13 r13 LatentHeat   # expected E/mol
+  mul r12 r14 SpecificHeat # actual E/mol
+  sub r13 r13 r12
+  mul TargetMoles r13 r15  # (+)cold/(-)hot
+
+quench:
+  # (Quench) Specific + Latent Heat
+  push 0 # QuenchPipe
+  jal heat
+
+  l r15 QuenchPipe TotalMoles
+  l r14 QuenchPipe Temperature
+  div r14 r14 kN
+
+  # Calculate heat capacity
+  sub r13 r14 50
+  pow r12 r13 3
+  mul r12 r12 EntA
+  pow r11 r13 2
+  mul r11 r11 EntB
+  add r12 r12 r11
+  mul r11 r13 EntC
+  add r12 r12 r11
+  add r12 r12 EntD
+  add TargetMoles TargetMoles r12
+
+  # Calculate Target Moles
+  sub r13 r14 TargetTemperature
+  mul r13 r13 SpecificHeat
+  add r13 r13 LatentHeat
+  div TargetMoles TargetMoles r13
+  select TargetMoles r13 TargetMoles 0
+  select TargetMoles r15 TargetMoles 0
+  s db Setting TargetMoles
+
+  # Update pump rate
+  l r13 QuenchPipe Volume
+  div r12 MolarFactor r14
+  blt TargetMoles r12 main # ensure moles > p_atm
+  div r12 TargetMoles r15
+  bgt r12 1 main
+  mul r12 r12 r13
+  s DrainPump On 0
+  s QuenchPump Setting r12
+  yield
+  j main
+
+heat:
+  pop r15 # device index
+  l r14 dr15 RatioPollutant
+  l r13 dr15 RatioLiquidPollutant
+  l r12 dr15 RatioLiquidHydrochloricAcid
+  add r11 r14 r13 # RatioPollutant
+  sub r10 1 r11 # RatioVolatiles
+  mul r9 r11 SpecificHeatPollutant
+  mul r8 r10 SpecificHeatVolatiles
+  add SpecificHeat r9 r8
+  sub r9 r14 TargetPollutant
+  mul r9 r9 LatentHeatPollutant
+  mul r8 r12 LatentHeatHydrochloricAcid
+  mul r7 r10 LatentHeatVolatiles
+  sub LatentHeat r9 r8
+  add LatentHeat LatentHeat r7
+  j ra

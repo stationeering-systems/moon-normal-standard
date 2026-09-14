@@ -1,0 +1,41 @@
+define MinPressureVolume 10132.5 # kPa*L
+define MaxMethanePressure 3080.72 # kPa
+define MinFilterQuantity 15
+
+alias QuenchPump d0
+
+alias FiltMode r0
+alias PumpOn r1
+
+move FiltMode 0
+move PumpOn 0
+main:
+  s db Mode FiltMode
+  s QuenchPump On PumpOn
+  move FiltMode 1
+  move PumpOn 1
+  yield
+
+  # Check filter life
+  ls r15 db 0 Quantity
+  ls r14 db 1 Quantity
+  add r15 r15 r14
+  sgt r14 r15 MinFilterQuantity
+  mul PumpOn PumpOn r14
+  sgtz r14 r15
+  mul FiltMode FiltMode r14
+  mul PumpOn PumpOn r14
+
+  # Check input pressure * volume
+  l r15 db TemperatureInput
+  l r14 db TotalMolesInput
+  mul r15 r15 r14
+  mul r15 r15 rgas
+  sge r15 r15 MinPressureVolume
+  mul FiltMode FiltMode r15
+
+  # Check methane pressure
+  l r15 db PressureOutput2
+  sle r15 r15 MaxMethanePressure
+  mul PumpOn PumpOn r15
+  j main

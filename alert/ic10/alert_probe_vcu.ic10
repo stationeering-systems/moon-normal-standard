@@ -1,0 +1,60 @@
+# Severities
+define OK 0
+define Maintenance 10
+define Warn 20
+define Critical 30
+
+# Category
+define Category 5 # ATMOSPHERE
+define Channel LogicType.Channel5
+
+# Configuration
+define MaxPressure 38908.8
+define MaxPollutantPressure 3080.72
+define LowFilterQuantity 100
+define CriticalFilterQuantity 15
+
+# Labels
+define PipeNetworkFault HASH("PipeNetworkFault")
+define GasPipe HASH("GasPipe")
+define PollutantPipe HASH("PollutantPipe")
+define FilterSlot HASH("FilterSlot")
+define QuenchSensor HASH("QuenchSensor")
+
+# Structures
+define BatchReader HASH("StructureBatchReader")
+define PipeAnalyzer HASH("StructurePipeAnalysizer")
+define BatchSlotReader HASH("StructureLogicBatchSlotReader")
+define LogicReader HASH("StructureLogicReader")
+
+# Variables
+alias Severity r0
+
+sb PipeAnalyzer On 1
+sb PipeAnalyzer Lock 1
+
+move Severity 0
+main:
+  add r15 Severity Category
+  s db Setting r15
+  s db:0 Channel r15
+  yield
+
+  move Severity Critical
+  lbn r15 BatchReader PipeNetworkFault Setting Maximum
+  bgtz r15 main
+  lb r15 PipeAnalyzer NetworkFault Maximum
+  bgtz r15 main
+  move Severity Warn
+  lbn r15 LogicReader QuenchSensor Setting Minimum
+  bltz r15 main
+  lbn r15 PipeAnalyzer GasPipe Pressure Maximum
+  bgt r15 MaxPressure main
+  lbn r15 PipeAnalyzer PollutantPipe Pressure Maximum
+  bgt r15 MaxPollutantPressure main
+  lbn r15 BatchSlotReader FilterSlot Setting Sum
+  blt r15 CriticalFilterQuantity main
+  move Severity Maintenance
+  blt r15 LowFilterQuantity main
+  move Severity OK
+  j main

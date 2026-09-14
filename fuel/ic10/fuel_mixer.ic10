@@ -1,0 +1,44 @@
+# Structures
+define LogicReader HASH("StructureLogicReader")
+
+# Labels
+define OxygenConnector HASH("OxygenConnector")
+
+# Configuration
+define OxygenRatio 0.32
+
+alias Limit d0
+alias GasMixer d1
+alias Filtration d2
+alias OxygenPipe d3
+alias FuelPipe d4
+
+s OxygenPipe On 1
+s OxygenPipe Lock 1
+s FuelPipe On 1
+s FuelPipe Lock 1
+main:
+  yield
+  l r15 OxygenPipe Temperature
+  l r14 Filtration TemperatureOutput2 # Methane Pipe
+  sub r13 1 OxygenRatio
+  mul r14 r14 r13
+  mul r15 r15 OxygenRatio
+  add r14 r14 r15
+  div r15 r15 r14
+  mul r15 r15 100
+  s GasMixer Setting r15
+
+  l r15 Limit Setting
+  l r14 FuelPipe TotalMoles
+  l r13 OxygenPipe TotalMoles
+  l r12 Filtration TotalMolesOutput2 # Methane Pipe
+  l r11 Filtration Mode
+  lbn r10 LogicReader OxygenConnector Setting Maximum
+  slt r15 r14 r15
+  select r15 r13 r15 0
+  select r15 r12 r15 0
+  select r15 r11 0 r15
+  select r15 r10 0 r15
+  s GasMixer On r15
+  j main
