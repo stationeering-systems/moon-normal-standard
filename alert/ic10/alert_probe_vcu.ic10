@@ -47,7 +47,7 @@ main:
   bgtz r15 main
   move Severity Warn
   lbn r15 LogicReader QuenchSensor Setting Minimum
-  blez r15 main
+  bltz r15 main
   lbn r15 PipeAnalyzer GasPipe Pressure Maximum
   bgt r15 MaxPressure main
   lbn r15 PipeAnalyzer PollutantPipe Pressure Maximum
