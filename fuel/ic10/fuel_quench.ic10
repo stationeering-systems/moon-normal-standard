@@ -26,12 +26,16 @@ alias DewPipe d3
 alias SpecificHeat r0
 alias LatentHeat r1
 alias TargetMoles r2
+alias QT r3
+alias Er r4
+alias Edelta r5
+alias MaxMoles r6
 
-alias TargetPollutant r3
+alias TargetPollutant r7
 add TargetPollutant PollutantFuelRatio 1
 div TargetPollutant PollutantFuelRatio TargetPollutant
 
-alias MolarFactor r4
+alias MolarFactor r8
 mul MolarFactor Patm V
 div MolarFactor MolarFactor rgas
 
@@ -44,7 +48,6 @@ main:
   s QuenchPump Setting 0
   s DrainPump On 1
   yield
-
   # (Dew) Specific + Latent Heat
   push 3 # DewPipe
   jal heat
@@ -54,50 +57,54 @@ main:
   sub r13 r13 LatentHeat   # expected E/mol
   mul r12 r14 SpecificHeat # actual E/mol
   sub r13 r13 r12
-  mul TargetMoles r13 r15  # (+)cold/(-)hot
-
+  mul Edelta r13 r15  # (+)cold/(-)hot
 quench:
   # (Quench) Specific + Latent Heat
   push 0 # QuenchPipe
   jal heat
-
+  l QT QuenchPipe Temperature
+  div QT QT kN
+  # Get max moles
+  mul QT QT 2
+  jal er
+  div QT QT 2
+  mul r15 QT SpecificHeat
+  div MaxMoles Er r15
+  # Get target moles
+  jal er
+  add r15 Er Edelta
+  sub r14 QT TargetTemperature
+  mul r14 r14 SpecificHeat
+  add r14 r14 LatentHeat
+  div TargetMoles r15 r14
+  select TargetMoles r14 TargetMoles 0
+  min TargetMoles TargetMoles MaxMoles
   l r15 QuenchPipe TotalMoles
-  l r14 QuenchPipe Temperature
-  div r14 r14 kN
-
-  # Calculate heat capacity
-  sub r13 r14 50
-  pow r12 r13 3
-  mul r12 r12 EntA
-  pow r11 r13 2
-  mul r11 r11 EntB
-  add r12 r12 r11
-  mul r11 r13 EntC
-  add r12 r12 r11
-  add r12 r12 EntD
-  add TargetMoles TargetMoles r12
-
-  # Calculate Target Moles
-  sub r13 r14 TargetTemperature
-  mul r13 r13 SpecificHeat
-  add r13 r13 LatentHeat
-  div TargetMoles TargetMoles r13
-  select TargetMoles r13 TargetMoles 0
+  l r14 QuenchPipe Volume
   select TargetMoles r15 TargetMoles 0
   s db Setting TargetMoles
-
-  # Update pump rate
-  l r13 QuenchPipe Volume
-  div r12 MolarFactor r14
-  blt TargetMoles r12 main # ensure moles > p_atm
-  div r12 TargetMoles r15
-  bgt r12 1 main
-  mul r12 r12 r13
+  # Update the pump rate
+  div r13 MolarFactor QT
+  blt TargetMoles r13 main # ensure moles > p_atm
+  div r13 TargetMoles r15
+  bgt r13 1 main
+  mul r13 r13 r14
   s DrainPump On 0
-  s QuenchPump Setting r12
+  s QuenchPump Setting r13
   yield
   j main
-
+er:
+  sub r15 QT 50
+  pow r14 r15 3
+  mul r14 r14 EntA
+  pow r13 r15 2
+  mul r13 r13 EntB
+  add r14 r14 r13
+  mul r13 r15 EntC
+  add r14 r14 r13
+  add r14 r14 EntD
+  mul Er r14 kR
+  j ra
 heat:
   pop r15 # device index
   l r14 dr15 RatioPollutant
@@ -105,13 +112,13 @@ heat:
   l r12 dr15 RatioLiquidHydrochloricAcid
   add r11 r14 r13 # RatioPollutant
   sub r10 1 r11 # RatioVolatiles
-  mul r9 r11 SpecificHeatPollutant
-  mul r8 r10 SpecificHeatVolatiles
-  add SpecificHeat r9 r8
+  mul SpecificHeat r11 SpecificHeatPollutant
+  mul r9 r10 SpecificHeatVolatiles
+  add SpecificHeat SpecificHeat r9
   sub r9 r14 TargetPollutant
-  mul r9 r9 LatentHeatPollutant
-  mul r8 r12 LatentHeatHydrochloricAcid
-  mul r7 r10 LatentHeatVolatiles
-  sub LatentHeat r9 r8
-  add LatentHeat LatentHeat r7
+  mul LatentHeat r9 LatentHeatPollutant
+  mul r9 r12 LatentHeatHydrochloricAcid
+  sub LatentHeat LatentHeat r9
+  mul r9 r10 LatentHeatVolatiles
+  add LatentHeat LatentHeat r9
   j ra
